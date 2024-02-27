@@ -30,7 +30,7 @@ Oltre al modello relazionale abbiamo:
 
 ## Schemi e Istanze
 
-Nelle basi di dati esiste una parte invariante nel tempo, detta *schema* della base di dati, costituita dalle caratteristiche dei dati, e una parte variabile nel tempo detta istanza della base di dati. Nella foto precedente, le relazioni hanno una struttura fissa: la relazione DOCENZA ha due colonne (**attributi**), che si riferiscono rispettivamente a corsi e docenti.
+>Nelle basi di dati esiste una parte invariante nel tempo, detta *schema* della base di dati, costituita dalle caratteristiche dei dati, e una parte variabile nel tempo detta istanza della base di dati. Nella foto precedente, le relazioni hanno una struttura fissa: la relazione DOCENZA ha due colonne (**attributi**), che si riferiscono rispettivamente a corsi e docenti.
 *Lo schema di una relazione* è costituito dalla sua intestazione, cioè dal nome della relazione seguito dai nomi dei suoi attributi ad esempio:
 
 <p style="text-align:center"> 
@@ -41,14 +41,15 @@ Nelle basi di dati esiste una parte invariante nel tempo, detta *schema* della b
   <span style="font-weight:bold">NomeDocente</span>)
 </p>
 
-Viceversa, le righe della tabella variano nel tempo, e corrispondono ai corsi attualmente offerti e ai relativi docenti.
+>Viceversa, le righe della tabella variano nel tempo, e corrispondono ai corsi attualmente offerti e ai relativi docenti.
 Durante la vita della base di dati, docenti e corsi vengono aggiunti, tolti o modificati. *L'istanza di una relazione* è costituita dall'insieme, variante nel tempo, delle sue righe. Ad esempio: 
 <p style="text-align:center">
   Basi di Dati Rossi <br>
   Reti Neri <br>
   Linguaggi Verdi
 </p>
-Le tre righe fanno riferimento allo schema e solo attarverso di esso possono essere interpretate.
+
+> Le tre righe fanno riferimento allo schema e solo attarverso di esso possono essere interpretate.
 Si dice che lo schema è la componente intensionale della base di dati e l'istanza la componente estensionale.
 
 ## Livelli di astrazione nei DBMS
@@ -62,3 +63,45 @@ Si dice che lo schema è la componente intensionale della base di dati e l'istan
 >![Esempio di vista](./Screen/vista.png)
 > Uno studente potrebbe essere interessato solo ai corsi offerti dal manifesto del suo corso di laurea; questa indormazione è presente nella relazione *ELETTRONICA*, ottenuta come vista a partire dalla relazione *MANIFESTO*.  
 Inoltre tramite- il meccanismo delle *autorizzazioni di accesso*, è possibile disciplinare gli accessi degli utenti alla base di dati
+## Indipendenza dei dati 
+> L'architettura a livelli così definita garantisce l'indipendenza dei dati, la principale proprietà dei DBMS. L'indipendenza dei dati può essere classificata:
+> - *Indipendenza fisica*, consente di interagire con il DBMS in modo indipendente dalla struttura fisica dei dati.
+> - Indipendenza logica, consente di interagire con il livello esterno della base di dati in modo indipendente dal livello logico.
+
+# Linguaggi e utenti delle base di dati 
+> I linguaggi sono caratterizzati , da un lato dalla presenza di molteplici linguaggi per la gestione di dati, dall'altro dalla presenza di molteplici tipologie di utenti.
+
+## Linguaggi per basi di dati 
+>  - *Linguaggi di definizione dei dati* utilizzati per definire gli schemi logici, esterni, fisici e le autorizzazioni per l'accesso
+> - *Linguaggi di manipolazione dei dati* utilizzati per l'interrogazione e l'aggiornamento delle istanze di basi  
+> Linguaggi come **SQL** presentano in forma integrata le funzionalità di entrambe le categorie.
+L'accesso ai dati può essere effettuato con varie modalità:
+> - tramite linguaggi testuali interattivi, come SQL. ad esempio:
+>```SQL
+>create table Docenza(
+>  Corso character(20),
+>  NomeDocente character(30)
+>) 
+>```
+> La seguente istruzione permette invece di visualizzare i corsi di Ing.Informatica del secondo anno con i relativi docenti:
+>```SQL
+>  select Corso,NomeDocente
+>  from Docenza, Manifesto 
+>  where Corso=Materia
+>  and Anno=2 
+>  and Cdl = 'IngInf'
+>```
+> - tramite comandi simili a quelli interattivi immersi in linguaggi come C, JAVA, COBOL. 
+> - tramite interfacce amichevoli che permettono di sintetizzare interrogazioni senza usare un linguaggio testuale.
+
+# Vantaggi e Svantaggi dei DBMS
+> **Vantaggi:**
+> - I DBMS permettono di considerare i dati come risorsa comune
+> - La base di dati fornisce un modello unificato e preciso della parte del mondo reale di interesse 
+> - Con i DBMS è possibile un controllo centralizzato dei dati 
+> - La condivisione permette di ridurre ridondanze e inconsistenze
+> - L'indipendenza dei dati favorisce lo sviluppo di applicazioni più flessibili e facilmente modificabili  
+>
+> **Svantaggi:**
+> - I DBMS sono prodotti spesso costosi e complessi.
+> - I DBMS forniscono una serie di servizi che sono necessariamente associati a un costo.
