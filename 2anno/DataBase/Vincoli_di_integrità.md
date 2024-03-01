@@ -22,5 +22,24 @@ I valori delle varie tuple sono diversi l'uno dall'altro. Ad *identificare univo
 Intuitivamente una chivae è un insieme di attributi utilizzato per identificare univocamente le tuple di una relazione.  
 Formalmente:  
 + Un insieme $K$ di attributi è *superchiave* di una relazione *r* se *r* non contiene due tuple distinte $t_1$ e$t_2$ con $t_1[K]=t_2[K]$;
-+ $K$ è *chiave* di *r* se è una superchiave minimale di *r* (cioè non esiste un'altra superchiave $K'$ di *r* che sia contenuta in $K$ come sottoinsieme proprio).
++ $K$ è *chiave* di *r* se è una superchiave minimale di *r* (cioè non esiste un'altra superchiave $K'$ di *r* che sia contenuta in $K$ come sottoinsieme proprio).  
+
+Nell'esempio:
++ l'insieme {**Matricola**} è superchiave; è anche una superchiave minimale, in quanto contiene un solo attributo, quidni l'insieme è una chiave;
++ l'insieme {**Cognome, Nome, Nascita**} è superchiave; inoltre, nessuno dei suoi sottoinsiemi è superchiave: infatti esistono due tuple (prima e seconda) uguali su **Cognome** e **Nascita**, due (le ultime) uguali su **Cognome** e **Nome** e due uguali su **Nome** e **Nascita**; quindi {**Cognome, Nome, Nascita**} è un'altra chiave;
++ l'insieme {**Matricola, Corso**} è superchiave, ma non è una superchiave minimale, perché esiste un sottoinsieme proprio {**Matricola**}, esso stesso superchiave minimale e quindi {**Matricola,Corso**} non è una chiave.  
+Non ci sono tuple uguali su <span style="color:red">**Cognome e Corso**</span>, Cognome e Corso  formano una chiave ma è sempre così?  
+I vincoli corrispondono a proprietà del mondo reale modellato dalla base di dati. Interessano a livello di schema. Ad uno schema associamo un insieme di vincoli e consideriamo **corrette** le istanze che soddisfano tutti i vincoli. Alcune sono chiavi per "caso".  
+Per esempio, a uno schema:  
+<p style="text-align:center"><i>STUDENTI</i>(<b>Matricola,Cognome,Nome,Nascita,Corso</b>)</p>  
+vanno associati i vincoli che impongono come chiavi i due insiemi di attributi sopra discussi:
+<p style="text-align:center">
+  {<b>Matricola</b>}<br>
+  {<b>Cognome,Nome,Nascita</b>}
+</p>
+Entrambe le relazioni nelle figure precedenti soddisfano tutti e due i vincoli.  
+l'esistenza delle chiavi garantisce l'accessibilità a ciascun dato dlla base di dati. Le chiavi permettono di correrlare i dati in relazioni diverse: il modello relazionale è basato su valori.  
+
+## Chiavi e valori NULL
+
 
