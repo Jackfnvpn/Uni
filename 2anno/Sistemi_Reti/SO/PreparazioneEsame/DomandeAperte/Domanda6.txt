@@ -1,0 +1,20 @@
+Discutere almeno 3 algoritmi di paginazione, specificando vantaggi e funzionamento.
+
+Un primo algoritmo di sostituzione delle pagine è l' NRU, questo algorritmo usa i due bit di riferimento e di modifica per effettuare le proprie scelte
+ad ogni interrupt del clock il bit R viene azzerato per avere statistiche sempre recenti. 
+Le pagine vengono classificate in 4 classi:
+
+- Classe 0: bit R = 0, bit M = 0;
+  Classe 1: bit R = 0, bit M = 1;
+  Classe 2: bit R = 1, bit M = 0;
+  Classe 3: bit R = 1, bit M = 1.
+
+Viene scelta una pagina appartenere alla classe non vuota con numero più basso.
+
+Un secondo algoritmo è il FIRST-IN FIRST-OUT viene mantenuta una lista delle con in testa la pagina più vecchia ed in coda la pagina entrata in memoria
+più recentemente. Viene scelta per la sostituzione la pagina in coda. Questo algorritmo non è ottimale, siccome la pagina pià vecchia potrebbe essere 
+scelta a breve termine.
+
+Un terzo algoritmo è il Seconda Chance, semplicemente è una miglioria del FIRST IN FIRST OUT. Quando viene scelta la prima pagina viene controllato
+il bit R se uguale 0 , questa viene sostituita se invece uguale ad 1 il bit viene azzerato e la pagina viene messa in coda. Per via dei continui 
+aggiornamenti della lista dovuti agli spostamenti delle pagine dalla testa alla coda della lista.

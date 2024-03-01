@@ -1,0 +1,59 @@
+Discutere dell'importanza dei file, delle tipologie di file e della loro implementazione
+
+Per avere la capcità di salvare grandi quantità di dati, in modo persistente e gestire l'accesso concorente di più processi a questi nascono i file.
+La parte del SO che gestisce i file, è il File System.
+
+I file possono essere strutturati in diversi modi, come sequenza di byte. Il SO non sa effettivamente che messaggio sia contenuto in questa sequenza
+e il SO in questo caso non pone vincoli all'utente. Dunque offre una maggiore flessibilità.
+Un secondo schema sta nell'avere un insieme di record ogniuno con una propria struttura interna. 
+Operazioni di scrittura modificano o creano un nuovo record , operazioni di lettura ne restituiscono uno.
+Un ultimo schema sta nell'avere una struttura di record ad albero. Ogni record ha una una chiave. L'insieme delle chaivi è ordinata per velocizzare
+le operazioni di ricerca.
+
+Fino ai tempi dei nastri magnetici l'accesso ad un file era sequenziale, ovverò un file veniva letto o scritto a partire dall'inizio.
+Con l'arrivo dei dischi magnetici nasce la necessità d effettuare operazioni da qualsiasi punto del file. 
+I file di questo tipo sono detti ad accesso casuale. E' possibile fare ciò con una chiamata seek specificando un offset da una certa posizione,
+ovvero quella iniziale, finale o corrente.
+I file possono essere speciali o normali.
+I file speciali sono usati per rappresentare dispositivi di I/O:
+
+- File per Dispositivi a carattere come tastiere, stampanti, scanner, ecc..
+- File per Dispositivi a blocchi come dischi e SSD.
+
+I file normali si dividono in file ASCII o binari. I primi sono file contenti sequenze di caratteri ascii, questi solitamente hanno anche caratteri
+speciali come caratteri di "capo a linea". Questi sono visualizzabili da un editor e stampabili da una stampante. 
+I file binari invece non sono stampabili e visualizzabili da un semplice editor.
+
+Per l'implementazione dei file bisogna prima allocare spazio su memoria non volatile, ovvero allocare blocchi ad un file.
+Esistono diverse tecniche:
+
+- Allocazione contigua: Vengono allocati blocchi contigui ad un file. Con un disco che contiene blocchi da 1KB e un file da 50KB verranno
+  allocati per questo 50 blocchi consecutivi.
+  Questo schema è molto semplice poiché basta avere l'indirizzo del primo blocco e la lunghezza del file. Le prestazioni di lettura sono eccelenti 
+  perché occorre ricercare solamente l'indirizzo del primo blocco,non ne serviranno ulteriori.
+  Lo svantaggio oltre alla frammentazione interna nell'ultimo blocco non totalmente colmato, ma anche la frammentazione esterna, poiché un file 
+  quando viene eliminato potrebbe lasciare uno spazio che potrebbe non essere riempito.
+
+- Lista concatenata di blocchi: viene mantenuta una lista concatenata di blocchi associata ad un file. 
+  Ogni nodo contiene il puntatore successivo e i dati effettivi. Dunque viene risolto il problema relativo alla frammentazione esterna ma non quella 
+  interna nell'ultimo blocco. Ma l'accesso casuale ad un file non è efficiente, poiché per leggere il blocco n bisogna passare per tutti gli n-1 blocchi
+  Un altro problema è che siccome una parte del blocco è riservata al puntatore al blocco successivo, 
+  l'intero blocco dei dati non è pari a una potenza di due.
+  Siccome i processi effettuano operazioni di lettura e scrittura su dati di dimensione a potenze di due potrebbe capitare
+  operazioni su un blocco potrebbero portare all'acquisizione di due blocchi.
+
+- FAT (File Allocation Table): per risolvere questo problema può essere usata una tabella in memoria, che tiene conto dei puntatori dei blocchi ad ogni file, in 
+  questo modo l'intero blocco di una lista è riservato ai dati. Anche l'accesso casuale è più efficiente: anche se bisogan effettuare una 
+  scansione lineare su n-1 della tabella per leggere il blocco n, la tabella è in memoria e le operazioni in memoria RAM sono più veloci di quella
+  su DISCO o SSD.
+  Lo svantaggio qui è che questa tabella ha una voce per ogni blocco, con 1 TB di disco e blocchi da 1 KB la tabella ha circa 1 miliardo di voci 
+  se ogni voce pesa 4 byte, la tabella necessiterebbe di 4 GB di memoria.
+
+- I-node: Gli I-node sono delle strutture che contengono al loro interno gli attributi del file, e gli indirizzi ad ogni blocco del file.
+  ogni volta che viene aperto un file viene caricato in memoria il suo I-node. E' un grande miglioramento in termini di spazio rispetto alla FAT perché
+  invece dell'avere un'intera tabella con una voce per ogni blocco in memoria, viene caricato solo l'i-node del file aperto. Con n file aperti e k byte
+  occupati da questo sono necessari sono n*k byte di memoria.
+
+
+
+

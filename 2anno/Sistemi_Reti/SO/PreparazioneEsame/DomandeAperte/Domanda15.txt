@@ -1,0 +1,19 @@
+Discutere l'importanza del DMA e il suo funzionamento.
+
+Il DMA sostiuisce la CPU durante l'operazione di I/O, esso contiene diversi registri di controllo, tra cui un registro degli indirizzi di memoria,
+registro di conteggio dei byte ed altri registri di controllo che contengono altre informazioni tra cui direzione del trasferimento, unità di misura
+(byte o parola), e numero di byte da leggere la volta.
+
+Il tutto funziona in questo modo, inizialmente i registri di controllo vengono impostati dalla CPU, successivamente la CPU richiede al controller
+del dispositivo di leggere i dati che partono dal dispositivo e di effettuare eventuali operazioni di correzione degli errori nel suo buffer interno.
+Una volta che i dati sono validi parte il DMA. Esso richiede la scrittura dei dati nel buffer del controller in memoria, una volta ciò è stato fatto il controller
+del dispositivo manda una conferma al DMA , il che incrementa il registro degli indirizzi di memoria e decrementa il conteggio dei byte. Finché
+il conteggio non arriva a 0, le operazioni verranno ripetute. Una volta che il trasferimento è stato completato, il DMA genera un interrupt alla CPU.
+il trasferimento dei dati avviene in due modi.
+Nella prima modalità il DMA richiede il bus, una volta che lo acquisisce inizia il trasferimento dei dati una parola la volta. Se la CPU richiede il bus
+questo dovrà attendere.
+Siccome in questa modalità il DMA ruba un ciclo di bus alla CPU , essa è chiamata cycle stealing. Portando ad un rallentamento delle prestazioni.
+
+Altrimenti vi è la modalità burst dove il DMA una volta acquisito il bus effettua il trasferimento di grandi sequenze di dati. Nel caso però la 
+dimensione delle entità siano troppo grandi, potrebbe rallentare la CPU e gli altri dispositivi.
+

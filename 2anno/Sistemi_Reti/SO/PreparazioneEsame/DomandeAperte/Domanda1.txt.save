@@ -1,0 +1,28 @@
+Il candidato discuta l'importanza dello scheduling nei sistemi batch, 
+con particolare attenzione ai parametri che si cercano di ottimizzare in questi sistemi. Si chiede di presentare 
+e descrivere almeno tre metodi di scheduling differenti applicati nei sistemi batch, specificando
+quali aspetti di performance ciascuno di essi mira a migliorare
+gli eventuali limiti
+
+I sistemi batch sono molto utilizzati nelle aziende in ambiti di contabilità. Siccome non vi è un particolare utente esigente davanti al teriminale non è
+necessaria la prelazione negli algoritmi di scheduling in questo ambiente.
+Gli obiettivi degli algoritmi che si cerca di raggiungere in questo tipo di algoritmi sono la minimizzazione del turnarounr, overo il tempo in cui una
+job viene sottoposta al sistema a quando termina, e massimizzare il throughput ovvero il numero di job eseguiti in un'ora e come ultimo il tener sempre 
+impegnata la CPU.
+
+Tre algoritmi di scheduling in questo ambiente sono:
+
+- First-Come First-Served: Il concetto è semplice il primo processo tra quelli pronti che richiede la CPU è il primo a riceverla. Ha come vantaggi la 
+semplicità di implementazione siccome basta tenere semplicemente una lista dei processi pronti ed eseguire quello in testa e poi i successivi. 
+Ma nel caso in cui vi sia un processo CPU bound che viene eseguito da una serie di processi I/O bound senza prelazione verrebbe eseguito per tutto il 
+tempo il processo CPU bound e poi i successivi processi I/O che potrebbero impiegare molto a terminare.
+
+-Shortest-job-first: Questo algoritmo esegue per primo il job con il tempo di esecuzione minore.
+Dati ad esempio 4 job con il primo che dura 8 s, e i restanti tre in 4 s. Se eseguiti in ordine avrei che il tempo medio di turnaround sarebbe 
+(8+12+16+20)/4=14s se invece vengono eseguiti in base ai tempi di esecuzione avrei che il tempo medio di turnaround è (4+8+12+20)/4=11s. 
+Questo algoritmo è ottimale solo quando i job sono tutti presenti contemporanemente. In caso arrivino ulteriori job con tempi di esecuzione minori rispetto
+a quello in esecuzione l'algoritmo perde di efficacia
+
+-Shortest remaining time next: Funziona come lo Shortest job first solo che in questo caso viene usata la prelazione, appena arriva un processo con un 
+tempo di escuzione minore a quello correntemente in esecuzione, viene tolta la CPU al processo corrente è assegnata al nuovo job.     
+

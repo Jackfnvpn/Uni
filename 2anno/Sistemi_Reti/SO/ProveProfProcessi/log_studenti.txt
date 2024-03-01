@@ -1,0 +1,50 @@
+  297  ls
+  298  cd..
+  299  cd
+  300  ls
+  301  cat foo.txt
+  302  clear
+  303  cat foo.txt
+  304  cat foo.txt | tail -n 2
+  305  mv foo.txt foo.tsv
+  306  ls
+  307  ls *tsv
+  308  cp foo.tsv foo2.tsv
+  309  ls *tsv
+  310  cat foo2.tsv
+  311  man cp
+  312  clear
+  313  cat foo.txt | tail -n 2
+  314  cd
+  315  cd
+  316  cat foo.txt | tail -n 2
+  317  cat foo.tsv | tail -n 2
+  318  cat foo.tsv | tail -n 2 | head -n 1
+  319  cat foo.tsv
+  320  cat foo.tsv | tail -n 2 | head -n 1
+  321  cat foo.tsv | tail -n 2
+  322  wc foo.tsv
+  323  clear
+  324  cat foo.tsv
+  325  cat foo.tsv
+  326  clear
+  327  clear
+  328  cat foo.tsv
+  329  cat foo.tsv | awk {'print $3'}
+  330  cat foo.tsv | awk {'print $3'}|sort
+  331  cat foo.tsv | awk {'print $3'}|sort|uniq
+  332  cat foo.tsv | awk {'print $3'}|sort|uniq -c
+  333  less foo.tsv
+  334  less foo.tsv
+  335  man less
+  336  cat foo.tsv | awk {'print $3'}|sort|uniq -c > log_stdout.txt
+  337  cat log_stdout.txt
+  338  cat foo.tsv | awk {'print $3'}|sort|uniq -c 2> log_stderr.txt
+  339  cat log_stderr.txt
+  340  cat foo.tsv | awk {'print $3'}|sort|uniq -c 2> log_stderr.txt
+  341  cat foo.tsv | awk {'print $3'}|sort|uniq -c 2> log_stderr.txt 1>log_stdout.txt
+  342  history
+  343  history | awk'{if($1 > 296) print}'
+  344  history | awk'{if($1>296) print}'
+  345  history | awk '{if($1>296) print}'
+  346  history | awk '{if($1>296) print}' > log_studenti.txt

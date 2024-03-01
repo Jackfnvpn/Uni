@@ -1,0 +1,35 @@
+Discutere l'importanza del backup all'interno del file system, 
+fornire una breve descrizione di come è possibile eseguire il backup e perché è importanza il journaling nel file system.
+
+L'integrità dei dati in un FS è un concetto fondamentale.
+Supponiamo che per fenomeni naturali (incendi, terremoti o quant'altro) o per un errore di un utente (eliminazione errata di un file), alcuni
+dati potrebbero andar persi, portando ad, eventuali, conseguenze disastrose.
+Il backup (salvataggio di dati su un secondo supporto di memorizzazione) dunque risulta fondamentale per la salvaguardia dei dati.
+
+Si può eseguire il backup attraverso due strategie:
+
+-backup fisico: viene effettuato il backup a partire dal blocco 0 fino alla fine. Alcune considerazioni da fare sono che blocchi liberi e/o danneggiati
+non andrebbero salvati. Ha il vantaggio che è molto semplice da implementare e anche veloce, ma non permette backup incrementali (backup dei soli
+dati modificati dall'ultimo backup) e non permette di effettuare il backup a partire da una determinata directory.
+
+-backup logico: utilizzato da molti sistemi tra cui Windows e UNIX, la ricerca parte da una directory e prosegue ricorsivamente per tutte le sue 
+sotto directory e sotto file, a partire da una determinata data di modifica. Se si vorrà fare backup completo si inserirà come data l'inizializzazione
+del sistema, se incrementale la data dell'ultimo backup.
+
+Viene usata una bitmap indicizzata per i-node, i cui bit verranno impostati o azzerati durante l'algoritmo che si divide in 4 fasi:
+
+- 1 FASE: Viene avviata la ricerca a partire da una determinata directory, e vengono impostati i valori delle sue sotto directory e sotto file
+- 2 FASE: Viene riavviata la ricerca e vengono contrassegnati le sole directory e file che sono state modificate
+Una volta che la tabella è stata inizializzata avvengono le fasi 3 e 4
+- 3 FASE: Viene effettuata una scansione per questa tabella, e viene effettuato il backup prima delle directory contrassegnate
+- 4 FASE: Viene effettuata una seconda scansione sulla tabella e viene effettuato il backup dei file contrassegnati
+
+Il journaling nei SO è un'altro concetto fondamentale per la coerenza del sistema in caso di crash.
+Viene utilizzato un log dove vengono segnati tutte le operazioni che il SO sta per fare ancor prima che le faccia, ogni volta che una operazione è
+stata completata viene tolta dal file di log.
+In tal modo, al ripristino della macchina, il SO leggerà le operazioni che non sono state completate e le andrà ad effettuare.
+Le operazioni sul log devono essere idempotenti, ovvero devono essere operazioni che se ripetute non porteranno danni. E' per aggiungere garanzie
+di affidabilità si può aggiungere il concetto di transazione atomica, ovvero dato un set di operazion, queste o vengono eseguite tutte insieme o non
+ne deve essere eseguita alcuna.
+
+

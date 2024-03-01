@@ -1,0 +1,16 @@
+Come si può gestire la memoria libera su disco? Quali metodi sono utilizzati.
+
+Ci sono due tecniche per la gestione dello spazio libero.
+Uno è l'usare una lista di blocchi liberi e un'altra una bitmap.
+La prima contiene una lista di blocchi sui quali è possibile scrivere 32 bit.
+con blocchi da 1KB ogni blocco della lista può contenere 255 numeri di blocchi liberi e uno verrà usato per il puntatore al blocco successivo
+Questo schema consuma meno spazio se vi è meno spazio sul disco. 
+Altrimenti una bitmap con un bit per ogni blocco (0 libero, 1 occupato o viceversa). 
+Siccome la bitmap utilizza un solo bit anziché 32 della lista occuperà meno spazio.
+Se vi sono lunghi tratti liberi, le lista collegate possono essere modificate per rappresentare sequenze di blocchi liberi ma in caso 
+di frammentazione questo metodo perde di efficacia.
+
+Se sono usate le liste bisogna tenere in memoria un blocco di puntatori. Quando verranno creati nuovi file verranno usati questi puntatori, 
+quando verranno eliminati la tabella verrà riempita dai puntatori del vecchio file. Ciò può portare a frequenti operazioni di I/O in caso di molti
+file temporanei. Quello che può essere fatto è tenere in memoria un blocco di puntatori sempre mezzo pieno.
+

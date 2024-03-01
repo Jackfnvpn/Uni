@@ -1,0 +1,21 @@
+Cosa è un thread? Discutere l'importanza della sincronizzazione e fornire 2 metodi usati per la sincronizzazione.
+
+Un thread è un sottoprocesso, che permette l'esecuzione di più funzionalità in contemporanea in un unico ambiente. In più essendo più leggeri
+dei processi sono più facili da creare e distruggere.
+Ogni thread ha un suo stack e,  siccome questi condividono lo stesso spazio degli indirizzi e non vi è alcuna protezione tra di loro, questo può essere
+letto e/o eliminato da un altro. I thread come i processi assumono 3 diversi stati: pronto, bloccato ed esecuzione.
+
+La sincronizzazione tra thread è essenziale. L'output di un area di memoria condivisa da due o più thread potrebbe dipendere dai tempi di esecuzione
+di questi e dunque le operazioni di lettura e scrittura potrebbero essere incoerenti. Questa situazione è detta corsa critica. Per attuare la mutua
+esclusione possono essere usati semafori, che non sono altri che delle variabili contatori che vanno da 0 a un certo massimo, essi tengono conto dei risegli
+dei processi.
+
+Su questi sono possibili due operazioni atomiche up, down. La down decrementa il valore del semaforo, se il thread non riesce a completare l'operazione
+poiché il semaforo ha un valore pari a 0 si blocca altrimenti prosegue verso la regione critica.
+
+la up invece incrementa il valore del semaforo permettendo ad un altro thread di completare il down.
+
+Un altro metodo sono i mutex, che non sono altro che semafori binari, che appunto assumono due valori 0 (che corrisponde allo stato di locked, acquisito)
+oppure un qualsiasi altro intero (che corrisponde allo stato di unlocked,libero). La libreria pthread contiene chiamate anche per la gestione del mutex.
+
+

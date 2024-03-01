@@ -1,0 +1,16 @@
+Discutere l'importanza degli interrupt e di come vengono gestiti dal sistema operativo.
+
+Gli interrupt sono essenziali per le operazioni di I/O. Quando un processo richiede ad esempio la lettura di un file si mette in attesa  
+che il disco completi l'operazione e la CPU esegue un altro processo. Una volta che l'operazione sarà terminata il disco lancerà un interrupt risvegliando
+il processo e permttendogli la lettura.
+
+Il tutto avviene in questo modo. Quando avviene un interrupt vengono salvate le informazioni del processo in uno stack dell'hardware.
+Il contatore di programma viene aggiornato con l'indirizzo presente nel vettore del'interrupt. Viene impostato un contesto per la ISR e dunque impostati
+la MMU ed eventualmente la TLB.
+Viene assegnato uno stack temporaneo alla procedura dell ISR. Questo manda una conferma al controller degli interrupt per evitare corse critiche.
+Una procedura in ASSEMBLY salva i registri e le informazioni volatili del processo nella tabella dei processi e svuota lo stack hardware.
+Viene eseguita la procedura in C per la gestione dell'interrupt.
+Viene eseguito lo scheduler che sceglie un nuovo processo. Viene impostato un contesto per questo nuovo processo (MMU ed eventualmente TLB).
+La procedura in Assembly carica i registri con le informazioni del nuovo processo.
+Infine questo viene avviato.
+

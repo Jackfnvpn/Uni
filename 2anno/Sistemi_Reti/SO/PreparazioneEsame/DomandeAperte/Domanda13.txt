@@ -1,0 +1,11 @@
+Cosa è un processo? Quali sono i stati di un processo?
+
+Un processo non è altra che l'istanza di un programma in esecuzione, ogniuno con i propri registri (tra cui program counter e stack pointer), variabili
+, un proprio stack e la propria CPU "virtuale". La CPU è trattenuta da un processo per qualche centinaia di ms, per cui in realtà viene eseguito un processo
+la volta ma in un secondo vengono eseguiti parecchi processi. 
+
+Gli stati che può assumere un processo sono:
+- Esecuzione: al processo è assegnata la CPU e quindi viene eseguito.
+- Pronto: il processo è in attesa che gli venga assegnata la CPU per andare in esecuzione 
+- Bloccato: il processo è in attesa di un evento esterno (ad esempio sblocco da parte di un altro processo, o un interrupt da un dispositivo)
+  per andare in stato di pronto.

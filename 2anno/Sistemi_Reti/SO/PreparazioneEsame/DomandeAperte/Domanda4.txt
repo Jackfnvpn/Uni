@@ -1,0 +1,19 @@
+Discutere dell'importanza e del ruolo delle directory, come sono strutturate e come sono implementate.
+
+Per raggruppare i file vengono usate le directory che non sono altro che dei file speciali.
+
+Con le directory è possibile raggruppare tutti i file in unica directory chiamata root, in questo caso è facile capire dove si trovi un file 
+ma la ricerca di un file in mezzo a migliaia di file può essere scomoda.
+Viene dunque usato una gearchia di directory. Ogni directory contiene dei file e delle directory correlate ad essa.
+Le directory sono delle strutture il quale compito è mappare i nomi dei file alle sue informazioni necessarie ad localizzarlo.
+Ogni voce della directory contiene il nome dei file ed solitamente il numero di I-NODE dove vengono salvati gli attributi.
+Per gestire nomi lunghi è possibile avere spazi fissi per dimensione del file e attributi e successuvamente uno spazio variabile con i caratteri
+ASCII che compongono il nome del file. Vengono eventualmente usati caratteri di riempimento per arrivare ad un numero intero di parole (siccome Ogni
+voce della directory parte ai confini delle parole). Lo svantaggio di questo schema è che se viene eliminato un file potrebbe lasciare uno spazio 
+variabile che potrebbe non essere colmato. Un secondo schema che risolve questo sta nell'avere sempre spazi fissi per dimensione e attributi
+è alla fine della directory avere un heap per il nome dei file. In questo modo non sono più necessari caratteri di riempimento 
+siccome i nomi dei file si trovano alla fine del file, e se un file viene eliminato un altro ci starà sempre.
+Per velocizzare la ricerca in una directory può essere usata una funzione hash sul nome del file, è indicizzare una tabella hash.
+Se il campo della tabella è libero viene fatto puntare da questo il nome del file, altrimenti il file viene inserito in una lista collegata.
+Le ricerche del file verranno fatte su questa lista. Altrimenti si può usare una cache.
+

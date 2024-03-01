@@ -1,0 +1,31 @@
+Il candidato discuta l'importanza dello scheduling nei sistemi interattivi, 
+con particolare attenzione ai parametri che si cercano di ottimizzare in questi sistemi. 
+Si chiede di presentare e descrivere almeno tre metodi di scheduling differenti applicati nei sistemi interattivi, 
+specificando quali aspetti di performance ciascuno di essi mira a migliorare gli eventuali limiti
+
+Nei sistemi interattivi la schedulazione con prelazione è fondamentale per evitare che un processo monopolizzi la CPU.
+Gli obiettivi in questo sistema sono: i tempi di risposta che devono essere rapidi e l'adeguatezza delle risposte cioè rispettare le aspettative
+dell'utente.
+Un primo algoritmo è il ROUND ROBIN viene assegnato un quanto di tempo ad ogni processo allo scadere di questo 
+la CPU viene tolta al processo in esecuzione ed assegnata al successivo. E' molto semplice da implementare basta tenere una lista dei processi pronti
+appena un processo consuma il quanto viene eseguito il successivo. Il problema sta nella scelta del quanto. Se ne viene scelto uno troppo piccolo come 
+5 ms , 1 ms verrà usato per il cambio contesto dunque il 20% del quanto, se viene scelto ad esempio 100 ms solo l'1%.
+Ma in un server con 50 processi e un quanto di tempo di 100 ms, l'ulitmo verrebbe eseguito dopo 5 secondi, il che potrebbe risultare troppo per l'esecuzione
+di un semplice comando.
+In più se il quanto di tempo è più grande del burst medio la prelazione non avviene spesso. Dunque la scelta del quanto varia da situazione a situazione
+ma 20-50 ms sono considerati un buon compromesso.
+
+Un secondo algoritmo è quello a priorità. Viene assegnata una priorità ad ogni processo e viene eseguito quello con priorità maggiore , ad ogni 
+interrupt del clock questa viene abbassata , appena la priorità del processo diventa più bassa di quello successivo, quest'ultimo viene eseguito.
+Le priorità vanno periodicamente annullate e aumentate per evitare che vadano a 0.
+
+Le priorità possono essere assegnate staticamente e dinamicamente.
+staticamente come in un computer militare (generale 90, tenente 60), dinamicamente come ad esempio in un sistema dove devono essere gestiti processi 
+I/O. Con un quanto di tempo f può essere assegnata ad ogni processo una priorità pari 1/f. Con un quanto di tempo pari a 50 ms se un processo usa 
+1/50 ms del suo quanto avrà priorità 50,se usa tutto il suo quanto di tempo avrà priorità 50. Può essere utile classificare i processi in classi di priorità
+e gestire quelli con priorità comune attraverso ROUND ROBIN
+
+Un terzo algoritmo può essere il FAIRING SHARE che tiene conto anche di quanti utenti vi siano sul sistema. In un sistema con due utenti ad ogniuno verrà
+assegnata il 50 % di tempo CPU. 
+
+

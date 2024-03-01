@@ -1,0 +1,40 @@
+Il candidato spieghi il concetto di memoria virtuale e il suo ruolo nella gestione della memoria RAM da 
+parte di un sistema operativo moderno. Si discuta come la memoria virtuale permetta di gestire programmi 
+che superano la capacità della memoria fisica disponibile. Si descrivano inoltre le tecniche di paging e segmentazione, 
+evidenziando come queste tecniche abbiano migliorato l'efficienza e la gestione della memoria nei computer.
+
+
+Col passare del tempo i programmi crescono di dimensione superando , potenzialmente, la quantità di RAM che effettivamente una macchina dispone.
+Per gestire questa situazione nasce la MEMORIA VIRTUALE, dove un programma viene eseguito senza caricare il suo intero spazio degli indirizzi in memoria
+ma una sola parte a cui fa riferimento il processo in un determinato istante lasciando le restanti in memoria non volatile.
+
+Alla base della memoria virtuale vi sono due tipo di tecniche: paginazione e segmentazione.
+La prima suddivide l'intero spazio degli indirizzi di un processo in pagine, ovvero intervalli contigui di indirizzi, di dimensione fissa.
+La memoria è suddivisa in frame di dimensione uguale alle pagine.
+Quando un processo fa riferimento a un suo indirizzo virtuale questo invece di passare direttamente per il bus memoria , 
+passa prima per una circuteria hardware chiamata MMU (Memory Mangement Unity), dove l'indirizzo virtuale, a cui fa riferimento il processo,
+verrà convertito in indirizzo fisico.
+La conversione avviene in questo modo. L'indirizzo viene suddiviso in due parti, numero di pagina e 
+offset (utilizzato per trovare l'indirizzo all'interno della pagina)
+Supponiamo per semplicità di avere una macchina con un architettura a 16 bit 
+e che i progettisti del SO abbiano scelto come dimensione di una pagina 4KB (2^12 byte), 12 bit verranno dunque usati per l'offset
+i restanti 4 bit più significativi come numero di pagina. 
+Il numero di pagina verrà usato come indice in una tabella delle pagine che contiene una voce per ogni pagina.
+Questa voce conterrà diverse informazioni tra cui l'eventuale numero di frame (quindi di memoria fisica) e un bit per la presenza/assenza 
+della pagina in memoria.
+Se la pagina è in memoria viene sostituito al numero di pagina , il numero di frame e l'indirizzo viene mandato al bus fisico. 
+Se questa non è presente verrà generato un PAGE FAULT, il SO dovrà andare a recuperare eventualmente la pagina in memoria non volatile e inserirla
+in memoria.
+
+La tecnica della paginazione prevede un solo spazio degli indirizzi lineari, questo spazio potrebbe non essere sufficiente. Supponiamo di aver 
+un compilatore che contiene molte tabelle interne che crescono di dimensione. Con un unico spazio per tutte le tabelle. Lo spazio di una di queste 
+potrebbe crescere così tanto da andarsi a sovrapporre con lo spazio di un'altra. Per gestire situazioni del genere, veniva usata una tecnuca 
+chiamata segmentazione ovvero invece di fornire ad un processo un unico spazio degli indirizzi lineari, gliene venivano forniti ulteriori spazi, 
+chiamati segmenti.
+I segmenti, rispetto alle pagine, sono di dimensione variabile e come nell'esempio del compilatore ogni tabella può crescere quanto vuole senza 
+il rischio che vada a sovrapporsi con lo spazio di un altro dunque offrono una maggiore flessibilità. Un segmento poteva essere riempito, 
+ma era raro che ciò accadesse poiché erano molto grandi.
+Il linking era semplificato siccome ogni procedura aveva uno spazio indipendente.
+Dunque era facilitata anche la condivisione dei segmenti dei processi.
+
+

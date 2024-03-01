@@ -1,0 +1,14 @@
+Discutere le differenze tra MBR e UEFI.
+
+Nei computer più datati è possibile che la fase di boot di un computer avvenga con Master Boot Record.
+Quello che viene fatto dal BIOS è leggere il blocco 0 del disco dove vi si trova il MBR, e andare a selezionare la partizione contrassegnata
+come attiva in una tabella delle partizioni nel blocco successivo. Questa partizione contiene il blocco di boot (che contiene il SO),
+successivamente contiene un superblocco, che contiene tutte le informazioni chiave del File System, successivamente vi sono i blocchi per la gestione
+dello spazio libero, i blocchi degli I-node e infine la root e le restanti directory e file.
+
+Con questo schema l'avvio risulta parecchio lento dunque nasce UEFI che sostituisce MBR.
+con UEFI il blocco 0 viene marcato in modo tale che il software venga informato dell'assenza del MBR. nel secondo blocco vi è la GPT (Guid Partition Table)
+una tabella che contiene l'indirizzo di inizio e di fine di ogni partizione (nell'ultimo blocco vi si trova un backup della GPT). Una volta nota la 
+partizione , il firmware ha tutte le funzionalità necessarie per l'avvio. Esso supporta file system quanto meno FAT, e file di tipo PE.
+a differenza del precedente modello, per l'avvio non vi sarà messo a disposizione solamente un magico blocco , ma un intero file system con programmi
+per l'avvio della macchina.

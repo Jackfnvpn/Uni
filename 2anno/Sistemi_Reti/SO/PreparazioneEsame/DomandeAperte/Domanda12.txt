@@ -1,0 +1,31 @@
+Cos'è un driver e un controller di un dispositivi di I/O?
+
+Un driver di un dispositivo è un codice software fornito dal produttore del dispositivo, hanno come compito principale quello di gestire i dispositivi
+di I/O attarverso registri di dispositivi specifici.
+Possono far riferimento ad un singolo dispositivo di I/O o ad una classe di dispositivi correlati tra loro.
+
+Alcune volte capita che driver diversi tra di loro siano basati sulle stesse tecnolgie, un esempio USB.
+per permettere ciò viene usato uno stack dove vengono disposti i driver USB.
+
+al livello pià basso vi è l'interfacciamento hardware con i dispositivi, questo livello comunica con quello più alto dove vengono trattati i pacchetti
+dati e le funzionalità comuni dei vari driver USB, e infine vi sono le API ad alto di livello che forniscono un interfaccia con le diverse 
+categorie di dispositivo. 
+
+Per poter accedere ai registri di controllo, i driver devono essere parte del KERNEL. E'possibile anche averli nello spazio utente, con minor rischi
+di guasti del sistema in caso di driver difettoso, ma con prestazioni rallentate dovute a ripetute trap.
+
+Il SO deve supportare anche driver scritti da terzi per permettere ciò i driver di dispsoitivo vengono messi al livello più basso del SO.
+Quando un driver veniva caricato nel SO bisognava ricompilare tutto il kernel, oggi le attuali macchine permettono caricamenti dinamici.
+
+I driver hanno come funzionalità oltre all'inizializzazione del dispositivo e delle operazioni di lettura e scrittura
+, la gestione dell'alimentazione e del registro degli eventi, anche quello della validazione dei parametri. In più devono controllare il dispositivo,
+ovvero una volta che è nota la sequenza di comandi da inviare inizia a scriverli nei registri di controllo e verifica se questo sia pronto ad accettarne
+altri. I driver per far ciò devono essere anche rientranti, ovvero se sono in esecuzione è stanno gestendo una particolare operazione devono aspettarsi
+l'arrivo di una successiva richiesta ed essere pronti a gestirla.
+In un sistema attivo può capitare che vengono inseriti o rimossi dispositivi di I/O. In caso vengano rimossi ad esempio, il SO deve eliminare ogni traccia
+del vecchio del dispositivo ed eliminare tutte le richieste che i processi avevano fatto, correlati a quel dispositivo.
+
+Un controller è la componente elettrica di un dispositivo di I/O, questo leggete bit per bit i dati che escono dal dispositivo, li assembla 
+in un blocco all'interno del suo buffer, effettua eventuali operazioni di correzzione in base alla checksum. Una volta che i dati sono validi avvia 
+le operazioni di scrittura in memoria.
+
