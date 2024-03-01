@@ -42,4 +42,9 @@ l'esistenza delle chiavi garantisce l'accessibilità a ciascun dato dlla base di
 
 ## Chiavi e valori NULL
 
+![Una relazione con valori nulli](./Screen/chiavi_null.png)  
+In questa figura notiamo problemi di due tipi.  
+La prima tupa ha valori nulli su **Matricola** e **Nascita** e perciò su almeno un attributo di ciascuna chiave: questa tupla non è identificabile in alcun modo. Non è possibile, inoltre, in altre relazioni della base di dati, fare riferimento a questa tupla, visto che ciò andrebbe fatto con una chiave.  
+L'esempio ci suggerisce dunque di porre limiti alla presenza di valori nulli nelle chiavi delle relazioni. Come soluzione, su una delle chiavi (detta *chiave primaria*) si vieta la presenza di valori nulli; sulle altre sono ammessi.  
+## Vincoli di integrità referenziale  
 
