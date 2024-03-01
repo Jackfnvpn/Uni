@@ -19,7 +19,7 @@ Una possibile sintassi per esprimere vincoli di questo tipo è quella che permet
 ## Chiavi 
 ![Una relazione per le chiavi come esempio](./Screen/chiavi.png)  
 I valori delle varie tuple sono diversi l'uno dall'altro. Ad *identificare univocamente* gli studenti ci pensa il numero di matricola.  
-Intuitivamente una chivae è un insieme di attributi utilizzato per identificare univocamente le tuple di una relazione.  
+Intuitivamente una chiave è un insieme di attributi utilizzato per identificare univocamente le tuple di una relazione.  
 Formalmente:  
 + Un insieme $K$ di attributi è *superchiave* di una relazione *r* se *r* non contiene due tuple distinte $t_1$ e$t_2$ con $t_1[K]=t_2[K]$;
 + $K$ è *chiave* di *r* se è una superchiave minimale di *r* (cioè non esiste un'altra superchiave $K'$ di *r* che sia contenuta in $K$ come sottoinsieme proprio).  
