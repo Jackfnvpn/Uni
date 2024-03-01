@@ -47,4 +47,11 @@ In questa figura notiamo problemi di due tipi.
 La prima tupa ha valori nulli su **Matricola** e **Nascita** e perciò su almeno un attributo di ciascuna chiave: questa tupla non è identificabile in alcun modo. Non è possibile, inoltre, in altre relazioni della base di dati, fare riferimento a questa tupla, visto che ciò andrebbe fatto con una chiave.  
 L'esempio ci suggerisce dunque di porre limiti alla presenza di valori nulli nelle chiavi delle relazioni. Come soluzione, su una delle chiavi (detta *chiave primaria*) si vieta la presenza di valori nulli; sulle altre sono ammessi.  
 ## Vincoli di integrità referenziale  
+![Una base di dati con vincoli di integrità referenziale](./Screen/base_con_vincoli_int_ref.png)  
+Un vincolo di integrità referenziale (*foreign key*) fra un insieme di attributi $X$ di una relazione $R_{1}$ e un'altra relazione $R_{2}$ è soddisfatto se i valori su $X$ di ciascuna tupla dell'istanza $R_{1}$ compaiono come valori della chiave (primaria) dell'istanza di $R_{2}$.
+Vi sono vincoli di integrità referenziale fra:
++ l'attributo Agente della relazione Infrazioni e la relazione Agenti;
++ gli attributi Prov e Numero di Infrazioni e la relazione Auto.  
 
+![Una base di dati che viola vincoli di integrità referenziale](./Screen/violare_vincoli.png)  
+La base di dati nella figura viola i vincoli: il primo perchè Agenti non contiene nessuna tupla con valore di Matricola pari a 456, e il secondo perchè Auto non contiene nessuna tupla con valore "RM" su Prov e un'altra con valore "2F7643" su Numero, ma questo non è sufficiente, perché è richiesto che ci sia una tupla su entrambi i valori.
