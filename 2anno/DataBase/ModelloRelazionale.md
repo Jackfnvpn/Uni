@@ -40,7 +40,7 @@ Essa è definita con riferimento a due domini *intero* e *stringa*, ogniuno dei 
 In base alla definizione, una relazione matematica è un *insieme* di 
 $\mathcal{n}$-uple *ordinate* ($\mathcal{v}_\mathcal{1}$,...,$\mathcal{v}_\mathcal{n}$), con $\mathcal{v}_\mathcal{i}$ $\in$ $\mathcal{D}_\mathcal{i}$ con $\mathcal{i}$=$\mathcal{1},...,\mathcal{n}$.  
 Con riferimento all'uso che facciamo delle relazioni per organizzare i dati nelle nostre base di dati, possiamo dire che ciascuna n-upla contiene dati fra loro collegati, stabilendo un legame fra loro.  
-![Relazione con partite di calcio](./Screen/relazione_calcio.png)
+![Relazione con partite di calcio](./Screen/relazione_calcio.png)  
 Per esempio la prima n-upla della relazione nella figura stabilisce un legame fra i valori "Juventus", "Lazio", "3", "1". A indicare che il risultato della partita fra Juventus e Lazio è 3 a 1. Possiamo poi ricordare che una relazione è un insieme:
 + non è definito un ordinamento fra le n-uple;
 + le n-uple sono distinte tra loro.  
@@ -49,7 +49,7 @@ Al tempo stesso ciascuna n-upla è, al proprio interno, *ordinata*: l'$\mathcal{
 Una relazione è sostanzialmente un insieme di record omogenei, definiti sugli stessi campi.  
 Nel caso dei recordy, a ogni campo è associato un nome, detto attributo, che descrive il "ruolo" giocato dal dominio stesso.  
 Ad esempio per la relazione relativa alle partite, possiamo usare nomi quali **SquadraDiCasa**, **SquadraOspitata**, **RetiCasa**, **RetiOspitata**.  
-![Relazione con attributi](./Screen/squadre.png)
+![Relazione con attributi](./Screen/squadre.png)  
 Nella rappresentazione tabellare, utilizziamo gli attributi come intestazioni per le colonne, che devono essere diversi l'uno dall'altro.
 Modificando la definizione di relazione con l'introduzione degli attributi, possiamo vedere che l'ordinamento degli attributi risulta irrilevante: non è più necessario parlare di primo dominio, secondo dominio e così via, è sufficiente fare riferimento agli attributi.  
 Per formalizzare i concetti, indichiamo con $\mathcal{D}$ l'insieme dei domini e specifichiamo la corrispondenza fra attributi e domini, nell'ambito di una relazione, per mezzo di una funzione *dom* : $\mathcal{X} \rightarrow \mathcal{D}$ che associa a ciascun attributo A $\in \mathcal{X}$. Poi diciamo che una *tupla* su un insieme di attributi $\mathcal{X}$ è una funzione *t* che associa a ciascun attributo A $\in \mathcal{X}$ un valore del dominio *dom*(A).
@@ -90,7 +90,7 @@ E' possibile avere relazioni con un solo attributo:
 ![Una relazione su un solo attributo](./Screen/one_attribute.png)  
   
 Successivamente un ulteriore esempio che mostra come il modello relazionale permetta di rappresentare informazione strutturata in modo articolato.  
-[Ricevute fiscali](./Screen/ricevute.png)  
+![Ricevuascii 96te fiscali](./Screen/ricevute.png)  
 Esse hanno una struttura fissa che prevede alcune informazioni fisse (numero, data, totale) e un numero di righe variabile, ogniuna relativa ad un insieme di portate omogenee (Qta, Descrizione, importo).  
 Poiché le nostre relazioni hanno una  struttura fissa, non è possibile rappresentare l'insieme delle ricevute con un'unica relazione, in quanto le ricevute non hanno un numero di righe prefissato.  
 Rappresentiamo le informazioni per messo di due relazioni:  
