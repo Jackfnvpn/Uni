@@ -74,6 +74,42 @@ Questo modello presenta i seguenti vantaggi:
 + essendo tutta l'informazione contenuta nei valori, è relativamente semplice trasferire i dati da un contesto a un altro.  
 
 Possiamo ora riassuemere le definizioni relative al modello relazionale con un po' di precisione:
-+ Uno *schema di relazione* è costituito da un simbolo $\mathcal{R}$, detto *nome della relazione*, e da un insieme di *attributi* $\mathcal{X}$ = {$\mathcal{A}_\mathcal{1},...,\mathcal{A}_\mathcal{n}$}, il tutto indiciato di solito con $\mathcal{R}$($\mathcal{X}$)
++ Uno *schema di relazione* è costituito da un simbolo $\mathcal{R}$, detto *nome della relazione*, e da un insieme di *attributi* $X$ = {$\mathcal{A}_\mathcal{1},...,\mathcal{A}_\mathcal{n}$}, il tutto indiciato di solito con $\mathcal{R}(X)$
 + Uno *schema di base di dati* è un insieme di schemi di relazione con nomi diversi:
-***R*** = { $\mathcal{R}_{1},...,\mathcal{R}_{\mathcal{n}}$ }
+***R*** = { $\mathcal{R}_{1}(X_1),...,\mathcal{R}_{\mathcal{n}}(X_n)$  }  
+I nomi di relazione hanno come scopo principale quello di distinguere le varie relazioni nella base di dati.  
++ Una *istanza di relazione* su uno schema $\mathcal{R}(X)$ è un insieme di *r* tuple su $X$. Talvolta si usa la notazione *r*$(X)$ per indicare una relazione sull'insieme di attributi $X$, descrivendo così al tempo stesso lo schema e l'istanza.  
++ Una *istanza di base di dati* (o *base di dati*) su uno schema  
+***R*** = {  
+*STUDENTI*(**Matricola,Cognome,Nome,Data di nascita**),  
+              *ESAMI*(**Studente,Voto,Corso**),  
+              *CORSI*(**Codice,Titolo,Docente**)  
+}  
+
+E' possibile avere relazioni con un solo attributo:  
+![Una relazione su un solo attributo](./Screen/one_attribute.png)  
+  
+Successivamente un ulteriore esempio che mostra come il modello relazionale permetta di rappresentare informazione strutturata in modo articolato.  
+[Ricevute fiscali](./Screen/ricevute.png)  
+Esse hanno una struttura fissa che prevede alcune informazioni fisse (numero, data, totale) e un numero di righe variabile, ogniuna relativa ad un insieme di portate omogenee (Qta, Descrizione, importo).  
+Poiché le nostre relazioni hanno una  struttura fissa, non è possibile rappresentare l'insieme delle ricevute con un'unica relazione, in quanto le ricevute non hanno un numero di righe prefissato.  
+Rappresentiamo le informazioni per messo di due relazioni:  
+![Base di dati per ricevute](./Screen/relazioni_ricevute.png)  
+E'opportuno notare che la base di dati nella figura rappresenta correttamente le informazioni solo se vale:  
++ non interessa mantener traccia dell'ordine con cui le righe compaiono in ciascuna ricevuta;
++ in una ricevuta non compaiono due righe uguali.  
+
+Altrimenti è possibile risolvere il problema aggiungendo un attributo, che indica la posizione della riga:  
+![Alternativa per ricevute](./Screen/attributo_riga.png)  
+### Informazione incompleta e valori NULL
+Il modello relazione impone ai dati una struttura rigida, in quanto le informazioni devono essere rappresentate per mezzo di tuple di dati omogenee: in particolare, in ogni relazione possiamo rappresnetare solo tuple corrispondenti allo schema della relazione stessa. In molti casi i dati disponibili possono non corrispondere al formato previsto.  
+Per rappresentare in modo semplice e comodamente l'assenza di valori, il concetto di relazione viene esteso prevedendo che una tupla possa assumere, su ciascun attributo o un valore del dominio, oppure un valore speciale detto *valore nullo* che denota l'assenza di un informazione ma è un valore aggiunto rispetto a quelli del dominio.  
+![Una relazione con valori nulli](./Screen/NULL.png)  
+I tre valori NULL nella figura compaiono per motivi diversi:
++ Firenze ha certamente una prefettura ma non è noto l'indirizzo. Il valore nullo sostituisce un valore ordinario. Valore **Sconosciuto**;
++ Tivoli non ha prefattura, quindi l'attributo IndirizzoPrefattura non può avere un valore per questa tupla. Valore **Inesistente**;
++ Non sappiamo se la provincia di OLbia-Tempio abbia prefettura. Non sappiamo se il valore esista o meno. Questo tipo di valore nullo viene chiamato dunque valore **Senza Informazione**.  
+
+![Una base di dati con molti valori NULL](./Screen/molti_null.png)  
+
+E' possibile specificare che i nulli sono ammessi solo su alcuni attributi e non su altri.
