@@ -36,3 +36,20 @@ Come nella figura precedente (parte destra), per prima cosa il computer invierà
 
 *Un* ***protocollo*** *definisce il formato e l'ordine dei messaggi scambiati tra due o più entità in comunicazione, così come le azioni intraprese in fase di trasmissione e/O di ricezione di un messaggio o di un altro evento*.
 
+## Ai confini della rete  
+
+![Interazione tra sistemi periferici](./Screen/interazione.png)  
+
+Gli host sono spesso suddivisi in due categorie: **client** e **server** in modo informale, i client sono host che richiedono dei servizi e tendono a essere PC, laptop, smartphone e via dicendo, mentre i server si occupano di erogare dei servizi e sono sostanzialmente macchine più potenti che memorizzano e distribuiscono pagine Web o flussi video, ecc...  
+Oggigiorno la maggior parte dei server è collocata in grandi **data center**  
+### Le reti di accesso  
+Finora abbiamo considerato le applicazioni e i sistemi periferici ai confini della rete; esaminiamo ora le **reti di accesso**, cioè la rete che connette fisicamente un sistema al suo **edge router**, che è il primo router sul percorso dal sistema d'origine a un qualsiasi altro sistema di destinazione collocato al di fuori della stessa rete di accesso  
+
+![Reti accesso](./Screen/reti_accesso.png)  
+
+**Accesso residenziale: DSL, via cavo, FTTH e 5G fixed wirless**
+Oggigiorno i due accessi residenziali a larga banda più diffusi sono il **digital subscriber line** (**DSL**) e quello via cavo.  
+
+![Accesso a Internet tramite DSL](./Screen/dsl.png)  
+
+Come in figura il model DSL dell'utente usa la linea telefonica esistente per scambiare dati con un *digital subscriber line access multiplex*(DSLAM) che si trova nella **centrale locale**. Il modem DSL residenziale converte i dati digitali in toni ad alta frequenza per poterli trasmettere alla centrale locale sul cavo telefonico; tutti i segnali analogici in arrivo dalle abitazioni vengono riconvertiti in formato digitale nel DSLAM,

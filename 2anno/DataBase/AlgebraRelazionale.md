@@ -57,4 +57,30 @@ $r_{1}\bowtie r_{2}$ = {$t$ su $X_{1}X_{2}$ | esistono $t_{1} \in r_{1}$ e $t_{2
 
 ![Relazioni Infrazioni Auto Join](./Screen/inf_auto_join.png)  
 
+Consideriamo le relazioni *INFRAZIONI* e *AUTO* insieme al join di esse.Notiamo che ciascuna delle tuple di *INFRAZIONI* è stata combinata con una e una sola delle tuple di *AUTO*: $(i)$ una sola perché **Prov** e **Numero** formano una chiave di *AUTO* $(ii)$ almeno una perché è definitio il vincolo di integrità referenziale fra *Prov* e *Numero* in *INFRAZIONI* e (la chiave primaria di) *AUTO*. Il join, quindi, ha esattamente tante tuple quante la relazione *INFRAZIONI*.  
 
+![Figli con entrambi i genitori](./Screen/figli_con_gen.png)  
+
+La figura mostra un altro esempio di join. Qui combiniamo i dati nelle due relazioni sulla base del valore del figlio ottendendo la coppia di genitori, per ogni persona per cui entrambi siano indicati nella base di dati.  
+## Join completi e incompleti
+![Join con tuple dangling](./Screen/join_dangling.png)  
+
+Nella figura che raffigura un join naturale tra le relazioni con attributi **Impiegato**, **Reparto**, **Capo** possiamo dire che ciascuna tupla di ciascuno degli operandi contribuisce ad almeno una tupla contribuisce ad almeno una tupla del risultato (il join si dice *completo*): per ogni tupla $t_{1}$ di $r_{1}$, esiste una tupla $t$ in $r_{1}\bowtie r_{2}$ tale che $t[X_{1}]=t_{1}$ (e analogamente per $r_{2}$). Questa proprietà non è sempre verificata, perché richiede una corrispondenza fra le tuple delle due relazioni.  
+
+La figura precedente a quanto scritto mostra un join in cui alcune tuple degli operandi non contribuiscono al risultato, perché l'altra tupla non contiene tuple con gli stessi valori sull'attributo comune. Queste tuple vengono chiamati *dangling*.  
+Come caso limite è ovviamente possibile che nessuna delle tuple degli operandi sia combinabile, e allora il risultato del join è la relazione vuota:  
+
+![Join Vuoto](./Screen/join_vuoto.png)  
+
+All'estremo opposto, è possibile che ciascuna delle tuple di ciascuno degli operandi sia combinabile con tutte le tuple dell'altro:  
+
+![Un join con $|r_{1}| x |r_{2}|$](./Screen/join_cartesiano.png)  
+
+All'estremo opposto, è possibile che ciascuna dele tuple di ciascuno degli operandi sia combinabile con tutte le tuple dell'altro.  
+In tal caso, il risultato contiene un numero di tuple pari al prodotto delle cardinalità degli operandi e cioè $|r_{1}| x |r_{2}|$.  
+
+Ricapitolando, possiamo dire che il join $r_{1}$ e $r_{2}$ contiene un numero di tuple compreso fra 0 e $|r_{1}| x |r_{2}|$.  
+Inoltre:
++ se il join di $r_{1}$ e $r_{2}$ è completo, allora contiene almeno un numero di tuple pari al massimo fra $|r_{1}| |r_{2}|$  
++ se $X_{1} \cap X_{2}$ contiene una chiave per $r_{2}$, allora il join di $r_{1}(X_{1})$ e $r_{2}(X_{2})$ contiene al più $|r_{1}|$ tuple;
++  se $X_{1} \cap X_{2}$ coincide con una chiave per $r_{2}$ e sussiste il vincolo di riferimento fra  se $X_{1} \cap X_{2}$ in $r_{1}$ e la chiave di $r_{2}$, allora il join di $r_{1}(X_{1})$ e $r_{2}(X_{2})$ contiene esattamente $|r_{1}|$ tuple.
