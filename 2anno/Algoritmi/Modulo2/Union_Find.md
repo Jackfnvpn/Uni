@@ -148,7 +148,7 @@ Vogliamo dimostrare che se eseguiamo m find n makeSet, e le al più n-1union, il
 E' facile vedere che find e makeSet richiedono tempo $\Theta(m+n)$  
 Per analizzare le operazioni di union, ci concentriamo su un singolo nodo/elemento e dimostriamo che il tempo speso per tale nodo è $O(logn)$ $\implies$ in totale $O(n logn)$  
 
-Quando eseguiamo una union, per ogni che cambia padre pagheremo tempo costante  
+Quando eseguiamo una union, per ogni nodo che cambia padre pagheremo tempo costante  
 Osseriviamo ora che ogni nodo può cambiare al più $O(logn)$ padri, poiché ogni volta che un nodo cambia padre la cardinalità dell'insieme al quale apparterrà è almeno doppia riespetto all'insieme a cui apparteneva!  
 + All'inizio un nodo è un insieme di dimensione $1$,  
 + poi se cambia padre in un insieme di dimensione $2$,  
@@ -157,4 +157,42 @@ Osseriviamo ora che ogni nodo può cambiare al più $O(logn)$ padri, poiché ogn
 $\implies$ il tempo speso per un singolo nodo sull'intera sequenza di n union è $O(logn)$.  
 $\implies$ L'intera sequenza costa:
   $O(m+n+nlogn)=O(m+nlogn)$  
+## Alberi QuickUnion
+
+Usiamo una foresta di alberi di altezza anche maggiore di 1 per rappresentare gli insiemi disgiunti. In ogni albero:
++ Radice = elemento rappresentativo dell'insieme  
++ Rimanenti nodi = altri elementi (escluso l'elemento nella radice)  
+
+![QuickUnion](./Screen/qu.png)  
+
+e se eseguo una sequenza arbitraria di operazioni?  
+
+particolari sequenze di union possono generare un albero di altezza lineare, e quindi la find è molto inefficiente ( costa n-1 nel caso peggiore)  
+
+![Costo find qu](./Screen/find_qu.png)  
+
+Se esegiamo n makeSet, n-1 union seguite da m find il tempo richiesto dall'intera sequenza di operazioni è $O(n+n-1+mn) = O(mn)$  
+
+### Migliorare la struttura QuickUnion: euristica *union by size*  
+
+<span style="color:red">Idea: </span> fare in modo che per ogni insieme l'albero corrispondente abbia altezza piccola  
+
+**Union by size**: nell'unione degli insiemi A e B rendiamo la radice dell'albero con meno nodi figlia della radice con l'albero con più nodi  
+
+![Bilanciamento](./Screen/eu_find_qu.png)  
+
+![Es Bilanciamento1](./Screen/es1_eu_find_qu.png)  
+![Es Bilanciamento2](./Screen/es2_eu_find_qu.png)  
+![Es Bilanciamento3](./Screen/es3_eu_find_qu.png)  
+
+**Lemma**: Con la union by size, dato un albero QuickUnion con size (numero di nodi) s e altezza h vale che $s\geq 2^h$.  
+
+L'operazione find richiede tempo $O(logn)$  
+L'intera sequenza di operazioni costa $O(n+mlogn)$
+
+
+
+
+
+
 
