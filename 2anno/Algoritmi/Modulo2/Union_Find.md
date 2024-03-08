@@ -90,24 +90,13 @@ operazioni:
 > [!NOTE]    
 > **e se eseguo una squenza arbitraria di operazioni?**
 > find e makeSet richiedono solo tempo $O(1)$ ma particolari sequenze di union possono essere molto inefficienti  
-> <div class="container">
-> <div class="image2">
->    <img src="./Screen/cs_op_un.png">
-> </div>
-> <div class="paragraph2">
->   <p>
->     1 cambio puntatore <br>
->      2 cambio puntatori <br>
->      . <br>
->      . <br>
->      n-2 cambi puntatori <br>
->      n-1 cambi puntatori
->    </p>
->  </div>
->   <div class="paragraph2">
->     <span style="font-size:30px">$\Theta(n^2)$</span>
->   </div>
-></div>  
->  
->  
+> <img src="./Screen/cs_op_un.png">  
+>
+> 1 cambio puntatore  
+> 2 cambio puntatori   
+> .  
+> .  
+> n-2 cambi puntatori  
+> n-1 cambi puntatori  
 > 
+> <span style="font-size:30px">$\Theta(n^2)$</span>
