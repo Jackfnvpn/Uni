@@ -1,34 +1,3 @@
-<style>
-.container{
-  display: flex; 
-}
-.image {
-  float: left;
-  width:70%;
-}
-
-.image2 {
-  float: left;
-  width:30%;
-}
-
-
-.paragraph {
-  float:right;
-  width: 30%;   
-  margin-left: 5%;
-  font-size:30px;
-}
-
-.paragraph2 {
-  float:right;
-  width: 30%;   
-  font-size:20px;
-}
-
-
-</style>
-
 # Il problema della gestione di insiemi disgiunti (UNION_FIND)
 ## Il problema
 Mantenere una **collezione di insiemi disgiunti** contenenti elementi distinti (ad esempio, interi da $1,...,n$) durante l'esecuzione di una sequenza di operazioni del seguente tipo:  
@@ -90,7 +59,7 @@ operazioni:
 > [!NOTE]    
 > **e se eseguo una squenza arbitraria di operazioni?**
 > find e makeSet richiedono solo tempo $O(1)$ ma particolari sequenze di union possono essere molto inefficienti  
-> <img src="./Screen/cs_op_un.png">  
+> ![CS op](./Screen/cs_op_un.png)  
 >
 > 1 cambio puntatore  
 > 2 cambio puntatori   
