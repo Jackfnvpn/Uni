@@ -46,3 +46,22 @@ In Internet ogni host ha un indirizzo chiamato indirizzo IP.
 Ogni pacchetto che percorre la rete contiene nella propria intestazione l'indirizzo della sua destinazione. Quando un pacchetto giunge a un router della rete, questo esamina una parte dell'indirizzo di destinazione e lo inoltra a un router adiacente. Ogni router ha una **tabella di inoltro** che mette in relazione gli indirizzi di destinazione con i collegamenti di uscità. Quando un pacchetto giunge a un router, questo esamina l'indirizzo e consulta la propria tabella per determinare un collegamento uscente appropriato. Il router dirige il pacchetto verso quel collegamento di uscità.  
 Abbiamo appena appreso che un router usa l'indirizzo di destinazione del pacchetto per consultare una tabella di inoltro e determinare il collegamento di uscita corretto. Per impostare le tabelle di inoltro, Internet ha parecchi **protocolli di instradamento**. Questo può ad esempio determinare il percorso più corto da ciascun router verso ciascuna destinazione e usare questo risultato per configurare le tabelle.  
 
+### Commutazione di circuito
+Per spostare i dati in una rete di collegamenti e commutatori esistono due approcci fondamentali: la **commutazione di circuito** e la **commutazione di pacchetto**. Esaminiamo ora le prime.  
+Nelle reti a commutazione di circuito le risorse richieste lungo un percorso, per consentire la comunicazione tra host, sono riservate per l'intera durata della sessione di comunicazione. Nelle reti a commutazione di pacchetto, tali risorse non sono riservate; i messaggi di una sessione utilizzano le risorse e di conseguenza potrebbero dover attendere per accedere a un collegamento.  
+Le reti telefoniche sono esempi di reti a commutazione di circuito. Quando una persona vuole inviare informazioni ad un altro, prima che possa inizare l'invio, la rete deve stabilire una connessione tra mittente e destinatario. Questa connessione nel gergo della telefonia è detta **circuito**. Quando la rete stabilisce un circuito riserva una velocità di trasmissione costante nei collegamenti per la durata della comunicazione.  
+
+![Commutazione Circuito](./Screen/commutazionecircuito.png)  
+
+La figura mostra una rete a commutazione di circuito in cui i quattro commutatori sono interconessi tramite quattro collegamenti. Ciascuno di questi ultimi dispone di quattro circuiti, in modo che ogni collegamento possa supportare quattro connessioni simultanee. Gli host sono tutti direttamente connessi a uno dei commutatori. Quando due host desiderano comunicare la rete stabilisce una **connessione end-to-end** (**punto a punto**) dedicata a loro.  
+Affinché A invii messaggi a B, la rete deve prima riservare un circuitosu ciascuno dei due collegamenti. Nell'esempio la connessione punto a punto usa iil secondo circuito del primo collegamento e il quarto circuito del secondo. Poiché ogni collegamento ospita quattro circuiti, per ogni collegamento utilizzato dalla connessione punto a punto la connessione ottiene un quarto della capacità trasmissiva totale del collegamento per la durata della connessione stessa.  
+
+**Multiplexing nelle reti a commutazione di circuito**  
+
+Un circuito all'interno di un collegamento è implementato tramite **multiplexing a divisione di frequenza** (**FDM**) o **multiplexing a divisione di tempo** (**TDM**). Con FDM, lo spettro di frequenza di un collegamento viene suddiviso tra le connessioni stabilite tramite il collegamento. Nello specifico il collegamento dedica una banda di frequenza a ciascuna connessione per la durata della connessione stessa. La larghezza della banda viene detta **ampiezza della banda**.  
+Per un collegamento TDM il tempo viene suddiviso in frame di durata fissa a loro volta ripartiti in un numero fisso di slot temporali. Quando la rete stabilisce una connessione attraverso un collegamento, le deidca uno slot di tempo in ogni frame. Tali slot sono dedicati unicamente a quella connessione, con uno slot temporale disponibile in ciascun frame alla trasmissione dei dati di connessione.  
+
+![FDM TDM](./Screen/FDMTDM.png)  
+
+La figura mostra FDM e TDM per uno specifico collegamento di rete che supporta fino a quattro circuiti. Nel caso di FDM il dominio delle frequenze viene ripartito in quattro bande, ciascuno con ampiezza di 4kHz.  
+Nel caso di TDM, il dominio del tempo viene suddiviso in frame, con quattro slot di tempo per ciascun intervallo; a ogni circuito viene assegnato lo stesso slot dedicato in tutti i frame.
