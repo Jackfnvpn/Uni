@@ -48,7 +48,9 @@ Notiamo anche che esiste un legame fra vincoli di chiave e le proiezioni: $\pi_[
 ## Join  
 L'operatore che permette di correlare dati contenuti in relazioni diversi, confrontando i valori contenuti in esse. Esistono due varianti dell'operatore, il *join naturale* e il *theta-join*.  
 
-**Join naturale** Il *join naturale* è un operatore che correla dati in relazioni diverse, sulla base di valori uguali in attributi con lo stesso nome.  
+### Join naturale 
+
+Il *join naturale* è un operatore che correla dati in relazioni diverse, sulla base di valori uguali in attributi con lo stesso nome.  
 ![Join naturale](./Screen/join_naturale.png)  
 
 Denoitiamo l'operatore con $\bowtie$. Il risultato del join è costituito da una relazione sull'unione degli insiemi di attributi degli operandi e le sue tuple sono ottenute combinando le tuple degli operandi con valori uguali sugli attributi comuni (attributo **Reparto**, in figura).  
@@ -62,7 +64,7 @@ Consideriamo le relazioni *INFRAZIONI* e *AUTO* insieme al join di esse.Notiamo 
 ![Figli con entrambi i genitori](./Screen/figli_con_gen.png)  
 
 La figura mostra un altro esempio di join. Qui combiniamo i dati nelle due relazioni sulla base del valore del figlio ottendendo la coppia di genitori, per ogni persona per cui entrambi siano indicati nella base di dati.  
-## Join completi e incompleti
+### Join completi e incompleti
 ![Join con tuple dangling](./Screen/join_dangling.png)  
 
 Nella figura che raffigura un join naturale tra le relazioni con attributi **Impiegato**, **Reparto**, **Capo** possiamo dire che ciascuna tupla di ciascuno degli operandi contribuisce ad almeno una tupla contribuisce ad almeno una tupla del risultato (il join si dice *completo*): per ogni tupla $t_{1}$ di $r_{1}$, esiste una tupla $t$ in $r_{1}\bowtie r_{2}$ tale che $t[X_{1}]=t_{1}$ (e analogamente per $r_{2}$). Questa proprietà non è sempre verificata, perché richiede una corrispondenza fra le tuple delle due relazioni.  
@@ -83,4 +85,36 @@ Ricapitolando, possiamo dire che il join $r_{1}$ e $r_{2}$ contiene un numero di
 Inoltre:
 + se il join di $r_{1}$ e $r_{2}$ è completo, allora contiene almeno un numero di tuple pari al massimo fra $|r_{1}| |r_{2}|$  
 + se $X_{1} \cap X_{2}$ contiene una chiave per $r_{2}$, allora il join di $r_{1}(X_{1})$ e $r_{2}(X_{2})$ contiene al più $|r_{1}|$ tuple;
-+  se $X_{1} \cap X_{2}$ coincide con una chiave per $r_{2}$ e sussiste il vincolo di riferimento fra  se $X_{1} \cap X_{2}$ in $r_{1}$ e la chiave di $r_{2}$, allora il join di $r_{1}(X_{1})$ e $r_{2}(X_{2})$ contiene esattamente $|r_{1}|$ tuple.
++  se $X_{1} \cap X_{2}$ coincide con una chiave per $r_{2}$ e sussiste il vincolo di riferimento fra  se $X_{1} \cap X_{2}$ in $r_{1}$ e la chiave di $r_{2}$, allora il join di $r_{1}(X_{1})$ e $r_{2}(X_{2})$ contiene esattamente $|r_{1}|$ tuple.  
+
+### Join esterni 
+La caratteristica del join di "tralasiare" le tuple di una relazione senza controparte nell'altra è utile in molti casi ma potenzialmente pericolsa in altri, in quanto può omettere informazioni importanti.  
+
+![dangling2](./Screen/join_dangling.png)  
+
+Come nella figura , supponiamo di essere interessati a tutti gli impiegati, con l'indicazione del capo se noto. Allo scopo è stato proposto l'operatore *join esterno*, che prevede che tutte le tuple diano un contributo al risultato, eventualmente estese con valori nulli ove non vi siano controparti.  Ne esistono tre varianti: *sinistro* che estende solo le tuple del primo operando, quello *destro*, che estende le tuple sel secondo operando e quello *completo*, che le estende tutte.
+
+![Join esterni](./Screen/join_lrc.png)  
+
+### Theta-join ed equi-join  
+![Prodotto](./Screen/prodottocartj.png)  
+
+Osservando la figura possiamo notare che un prodotto cartesiano ha di solito ben poca utilità, in quanto concatena tuple non necessariamente correlate semanticamente. Ineffetti il prodotto cartesiano viene seguito da una selezione che centra l'attenzione su tuple correlate come nella seguente figura:
+
+![Prodotto2](./Screen/prodottocartjsel.png)  
+
+Per questa ragione viene spesso definito un operatore derivato, il *theta-join*, come prodotto cartesiano seguito da una selezione:
+
+$r_{1} \bowtie r_{2} = \sigma_{F}(r_{1} \bowtie r_{2})$.
+dove $F$ è una formula proposizionale e $r_{1}, r_{2}$ non hanno attributi comuni.
+
+La relezione nella figura può esse ottenuta per mezzo del theta-join:
+
+*IMPIEGATI* $\bowtie_{Progetto=Codice}$ *PROGETTI*.  
+
+UN theta join in cui la condizione di $F$ sia una congiunzione di ugualglianza, con attributo della prima relazione e uno della seconda viene chiamato *equi-join*. Quindi la relazione nella figura precedente è ottenuta per mezzo di un equi-join.
+
+Dal punto di vista pratico il theta-join e ancor di più l'equi-join hanno una grae importanza in quanto la maggior parte delle basi di dati non utilizzano i nomi di attributo per correlare relazioni, pertanto non utilizzano il join naturale ma l'equi-join e il theta-join.  
+
+## Interrogazioni in algebra relazionale 
+
