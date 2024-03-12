@@ -80,3 +80,33 @@ Gli esempi riportati sottolineano la curciale differenza tra le due forme di con
 
 La connessione degli utenti e dei fornitori di contenuti alla rete di un ISP è solo una piccola parte del puzzle daa risolvere per connettere i  miliardi di utenti. Per completare il puzzle bisogna interconnettere gli ISP attraverso una **rete di reti**.  
 
+Un approccio naif sarebbe quello di connettere direttamente ogni ISP diaccesso con tutti gli altri. Una struttura a maglia completa è troppo costosa per gli ISP in quanto richiederebbe a ogniuno di essi di avere un collegamento separato per ciascuna delle centinaia delle migliaia degli altri ISP nel mondo.  
+
+La nostra prima struttura di rete, *Struttura di rete 1*, interconnette tutti gli ISP di accesso con unico ISP globale di transito. Il nostro ISP globale di transito è una rete di router e collegamenti che non solo copre l'intero  globo, ma anche alneo un router prossimo a ogniuno delle centinaia di migliaia ISP di accesso.  
+
+Poiché l'ISP di accesso paga l'ISP globale di transito, l'ISP di accesso è comunemente detto **cliente** (customer) e l'ISP globale di transito prende il nome di **fornitore** (provider).  
+
+Se tuttavia un'azienda costruisse e gestisse un ISP globale che si rivelasse vantaggioso, allora altre aziente costruirebbero il proprio ISP globale di transito e si metterebbero tutti in competizione.  
+Questo ragionamento porta alla *Struttura di rete 2*, che consiste di centinaia di migliaia di ISP di accesso e più ISP globali di transito.  
+La *struttura di rete 2* è una gerarchia a due livelli nella quale provider globali di trasnito stanno in cima alla gerarchia e gli ISP di accesso alla base.  
+Nella realtà sebbene alcuni ISP abbiano veramente una copertura globale impressionante e siano invero connessi a molti ISP di accesso, nessun ISP è presente in ogni posto del mondo.  
+Al contrario in ogni regione può esservi un **ISP regionale**. Ogni ISP regionale si connette all' **ISP di primo livello** (*tier-1 ISP*), che non sono presenti in ogni città del mondo.  
+
+Non ci sono più solo ISP di primo livello in competizione ma anche nelle regioni ci sono più ISP regionali in competizione tra di loro. In questa gerarchia ogni ISP di acesso paga l'ISP regionale a cui si connette, che a sua volta paga il suo ISP di primo livello. Un ISP di accesso può anche donnettersi direttamente a un ISP di primo livello  e in tal caso lo paga direttamente. Quindi c'è una relazione cliente-fornitore a ogni livello della gerarchia. Poiché gli ISP di livello 1 sono in cima alla gerarchia, essi non pagano nessuno.  
+In alcune regioni ci può essere un ISP regionale più grande , che magari copre l'intera nazione, al quale gli ISP regionali più piccoli si connettono.  
+
+Chiameremo questa gerarchia a livelli, che è un approssimazione grezza dell'internet odierna, *Struttura di rete 3*.  
+
+Per costruire una rete che sia più simile all'Internet odierna dobbiamo aggiungere alla struttura di rete 3 i PoP, il multi-homing, il peering e gli IXP.  
+I **PoP** esistono in tutti i livelli della gerarchia tranne che in quello degli ISP di accesso. Un PoP è un gruppo di router vicini tra loro nella rete del provider, tramite il quale gli ISP clienti possono connettersi al fornitore. Una rete cliente si connette al PoP del fornitore affittando un collegamento ad alta velocità da un provider di telecomunicazioni terzo, collegando direttamente uno dei suoi router a un router del PoP.  
+Qualunque ISP, tranne quelli del primo livello, può scegliere la modalità **multi-homing** (o **multi-home**). che consiste nel connettersi a due o più ISP fornitori.  
+Per esempio, un ISP di accesso può effettuare una connessione multi-home con due ISP regionali o con due ISP regionali e un ISP di primo livello. Allo stesso modo un ISP regionale PUÒ connettersi con modalità multi-home con più ISP di primo livello. Con questa modalità un ISP può continuare a inviare e ricevere pacchetti in Internet anche se uno dei fornitori è guasto.  
+Per avere una connessione Internet globale gli ISP clienti pagano i loro ISP fornitori. Il costo riflette la quantità del traffico che l'ISP cliente scambia con il fornitore. Per ridurre tali costi, una coppia di ISP vicini e di pari livello gerarchico può fare uso di **peering**, cioè connettere direttamente le loro reti in modo che tutto il traffico tra di esse passi attraverso una connessione diretta piuttosto che transitare da un intermediario. In questa modalità nessun ISP effettua pagamenti all'altro.  
+Utilizzando queste connessioni un'azienda terza può creare un IXP (*INternet exchange point*), un punto d'incontro dove più ISP possono fare peering tra di loro.  
+
+![Interconnessioni tra ISP](./Screen/InterconnessioniISP.png)  
+
+Ci riferiremo a questo ecosistema consistente in ISP di accesso, ISP regionali, ISP di primo livello, PoP, multi-homing, peering e IXP come alla *Struttura di rete 4*.  
+
+Concludiamo con la *Struttura di rete 5*, che descrive l'Internet odierna. La struttura è mostrata in figura precedente, è costruita sulla *Struttura di rete 4* aggiungendo le reti di distribuzione di contenuti: reti private che connettono i suoi data center a Internet, spesso aggirando ISP tier-1 e regionali.  
+
