@@ -110,3 +110,19 @@ Ci riferiremo a questo ecosistema consistente in ISP di accesso, ISP regionali, 
 
 Concludiamo con la *Struttura di rete 5*, che descrive l'Internet odierna. La struttura è mostrata in figura precedente, è costruita sulla *Struttura di rete 4* aggiungendo le reti di distribuzione di contenuti: reti private che connettono i suoi data center a Internet, spesso aggirando ISP tier-1 e regionali.  
 
+>[!NOTE]  
+>Riassumendo, oggigiorno Internet è complessa e consiste di dozzine di ISP di primo livello e centinaia di migliaia di ISP di livello inferiore. Gli ISP si distinguono per la copertura geografica: alcuni di essi si estendono per continenti e oceani mentre altri si limitano a ristrette regioni. Gli ISP di livello più basso si collegano a quelli di lovello superiore e questi ultimi si interconnettono tra loro. Gli utenti e i fornitori di contenuto sono clienti degli ISP di livello inferiore, mentre questi sono a loro volta clienti degli ISP di livello superiore. 
+
+## Ritardi, perdite e throughput nelle reti a commutazione di pacchetto  
+Idealmente, vorremmo che i servizi Internet fossero in grado di spotare una quantità di dati qualsiasi tra due host, istantaneamente e senza alcuna perdita di dati. Purtroppo non è possibile. Le reti di calcolatori limitano necessariamente il throughput, cioè la quantità di dati al secondo che può essere trasferita tra due host, introducono ritardi tra quest'ultimi e possono addirittura perdere pacchetti.  
+
+### Panoramica del ritardo nelle reti a commutazione di pacchetto 
+Ricordiamo che un pacchetto parte da un host (sorgente), passa attraverso una serie di router e conclude il viaggio in un altro host (la destinazione). A ogni tappa, il pacchetto subisce vari tipi di ritardo a ciascun nodo (host o router) del tragitto.  
+Di tali ritardi, i principali sono il **ritardo di elaborazione**, **ritardo di accodamento**, il *ritardo di trasmissione* che complessivamente formano il **ritardo totale**. Le prestazioni di molte applicazioni per Internet sono influenzate dai ritardi di rete.  
+
+**Tipi di ritardo**  
+
+![Ritardo di nodo al router A](./Screen/ritardonodo.png)  
+
+In figura, un pacchetto viene inviato dal nodo  monte attraverso il router A verso il router B, Il nostro scopo è caratterizzare il ritardo di nodo presso il router A.  
+Si noti che il collegamento in uscita dal router A verso il router B è preceduto da una coda. Quando il pacchetto arriva al router A dal nodo a monte, il router ne esamina l'interstazione per determinare l'uscita e quindi dirige il pacchetto su tale collegamento (quello che porta al router B). Un pacchetto può essere trasmesso su un collegamento solo se non ci sono altri pacchetti in fase di trasmissione e se non esistono pacchetti che lo precedono nella coda; se il collegamento è momentaneamente occupato o se altri pacchetti sono accodati, l'ultimo pacchetto verrà messo in coda. 
