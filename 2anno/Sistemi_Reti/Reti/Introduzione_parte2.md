@@ -125,4 +125,96 @@ Di tali ritardi, i principali sono il **ritardo di elaborazione**, **ritardo di 
 ![Ritardo di nodo al router A](./Screen/ritardonodo.png)  
 
 In figura, un pacchetto viene inviato dal nodo  monte attraverso il router A verso il router B, Il nostro scopo è caratterizzare il ritardo di nodo presso il router A.  
-Si noti che il collegamento in uscita dal router A verso il router B è preceduto da una coda. Quando il pacchetto arriva al router A dal nodo a monte, il router ne esamina l'interstazione per determinare l'uscita e quindi dirige il pacchetto su tale collegamento (quello che porta al router B). Un pacchetto può essere trasmesso su un collegamento solo se non ci sono altri pacchetti in fase di trasmissione e se non esistono pacchetti che lo precedono nella coda; se il collegamento è momentaneamente occupato o se altri pacchetti sono accodati, l'ultimo pacchetto verrà messo in coda. 
+Si noti che il collegamento in uscita dal router A verso il router B è preceduto da una coda. Quando il pacchetto arriva al router A dal nodo a monte, il router ne esamina l'interstazione per determinare l'uscita e quindi dirige il pacchetto su tale collegamento (quello che porta al router B). Un pacchetto può essere trasmesso su un collegamento solo se non ci sono altri pacchetti in fase di trasmissione e se non esistono pacchetti che lo precedono nella coda; se il collegamento è momentaneamente occupato o se altri pacchetti sono accodati, l'ultimo pacchetto verrà messo in coda.  
+
+**Ritardo di elaborazione**  
+
+Il tempo richiesto per esaminare l'intestazione del pacchetto e per determinare devo dirglielo fa parte del **ritardo di elaborazione**. Questo può anche includere altri fattori, tra i quali il tempo richiesto per controllare errori a livello di bit eventualmente occorsi nel pacchetto durante la trasmissione del nodo a monte al router. Nei router ad alta velocità questi ritardi sono solitamente dell'ordine dei microsecondi o inferiori. Dopo l'elaborazione, il router dirige il pacchetto verso la coda che precede il collegamento al router B.  
+
+**Ritardo di accodamento**  
+
+Una volta in coda, il pacchetto subisce un **ritardo di accodamento**
+mentre attende la trasmissione sul collegamento. La lunghezza di tale ritardo per uno specifico pacchetto dipenderà dal numero di pacchetti precedentemente arrivati, accodati e in attesa di trasmissione sullo stesso collegamento.  
+Se la coda è vuota e non è in corso la trasmissione di altri pacchetti, il ritardo per il nostro pacchetto è nullo.  
+Nella pratica i ritardi di accodamento possono essere dell'ordine dei microsecondi o dei millisecondi.  
+
+**Ritardo di trasmissione**  
+
+Assumendo che i pacchetti siano trasmessi secondo la politica first-come first-served, come avviene comunemente nelle reti a commutazione di pacchetto, il nostro pacchetto può essere trasmesso solo dopo la trasmissione di tutti quelli che lo hanno preceduto nell'arrivo.  
+Sia $L$ la lunghezza del pacchetto (in bit) e $R$ bps la velocità di trasmissione del collegamento dal router A al router B. Il **ritardo di trasmissione** risulta essere $\frac{L}{R}$. Ordine microsecondi, millisecondi
+
+**Ritardo di propagazione**  
+
+Una volta sul collegamento, un bit deve propogarsi fino al router B. Il tempo è il **ritardo di propagazione**. Il bit viaggia alla velocità di propagazione del collegamento che dipende dal mezzo fisico ed è compresa nell'intervallo che va dai $2 * 10^8 m/s ai 3 * 10^8 m/s$, corrispondente quest'ultimo alla velocità della luce. Il ritardo di propagazione è dato da *d/v*, dove *d* è la distanza tra i due router, mentre *v* è la velocità di propagazione nel collegamento. Ordine dei millisecondi.  
+
+**Confronto tra ritardi di trasmissione e di propagazione**  
+
+Il ritardo di trasmissione è la quantità di tempo impiegata dai router per trasmettere in uscita il pacchetto, ed è funzione della lunghezza del pacchetto e della velocità di trasmissione del collegamento, ma non ha niente a che fare con la distanza tra i due router.  
+Il ritardo di propagazione è il tempo richiesto per la propagazione di un bit da un router a quello successivo ed è funzione della distanza tra i due router, ma non ha niente a che fare con la lunghezza del pacchetto o con la velocità di trasmissione propria del collegamento.  
+
+![Analogia](./Screen/analogiacar.png)  
+
+Siano $d_{elab}, d_{acc}, d_{trasm}, d_{prop}$ i ritardi elaborazione, accodamento, trasmissione, propagazione; il ritardo totale di nodo è:  
+$d_{nodo} = d_{elab}+d_{acc}+d_{trasm}+d_{prop}$  
+
+Il contributo di queste componenti del ritardo può variare in modo significativo.  
+
+### Ritardo di accodamento e perdita di pacchetti  
+La componente più complessa del ritardo totale del nodo è il ritardo di accodamento.  
+A differenza degli altri tre ritardi , quello di accodamento può variare da pacchetto a pacchetto.  
+Per esempio, se in una coda vuota arrivano 10 pacchetti contemporaneamente, il primo pacchetto trasmesso non subirà ritardo di accodamento, mentre l'ultimo subirà un ritardo di accodamento abbastanza grande (deve attendere la trasmissione degli altri 9).  
+Nel caratterizzare il ritardo di accodamento vengono usate misure statistiche.  
+Quando si considera rilevante e quando trascurabile il ritardo di accodamento? La risposta dipende dalla velocità di arrivo del traffico della coda, della veloictà di tramissione del collegamento e dalla natura del traffico entrante.  
+Per approfondire l'argomento, denotiamo con $a$ la velocità media di arrivo dei pacchetti nella coda, espressa in pacchetti al secondo. Ricordiamo che $R$ è la velocità di trasmissione. Supponiamo poi che tutti i pacchetti consistano di $L$ bit. Quindi la velocità media di arrivo dei bit in coda è di $La$ bit/s.  
+Infine assumiamo che la coda possa mantenere un numero illimitat*o di bit. Il rapporo $La/R$ detto **intensità di traffico**, spesso gioca un importante ruolo nella stima dell'entità di accodamento. 
+
+Se $La/R > 1$ la velocità media di arrivo dei bit nella coda supera la velocità alla quale i bit vengono ritrasmessi in uscita da essa.  
+La coda tenderà a crescere senza limiti e il ritardo di coda tenderà a $\infty$.  
+
+Se $La/R \sim 0$ gli arrivi di pacchetti sono pochi e piuttosto distanziati e risulta poco probabile che un pacchetto in arrivo ne trovi un altro in coda. Il ritardo di accodamento sarà quasi nullo.  
+
+Se $La/R \rightarrow 1$ si riscontrano intervalli di tempo in cui la velocità di arrivo supera la capacità trasmissiva e si forma una coda e altri in cui la capacità trasmissiva è inferiore e quindi la coda si riduce.  
+
+![intensità di traffico](./Screen/intensitatraf.png)  
+
+**Perdita di pacchetti** 
+
+Le code hanno capacità finita. In realtò i ritardi dei pacchetti non tendono all'infinito quando l'intensità di traffico si approssima a 1 ma un pacchetto può trovare la coda piena. Non essendo possibile memorizzare tale pacchetto, il router lo eliminerà.  
+Dal punto di vista host, e come se il pacchetto sia stato inviato ma mai ricevuto dal destinatario. La frazione di pacchetti perduti aumentain proporzione all'intensità di traffico.  
+Un pacchetto peduto può essere ritrasmesso in modo da assicurare che i dati vengono trasferiti alla destinazione.  
+### Ritardo end-to-end  
+
+Consideriamo ora il ritardo dalla sorgente alla destinazione (*end-to-end delay*). Supponiamo l'esistenza di $N-1$ router tra host sorgente e destinazione.  
+Ipotiziamo anche che la rete non sia congestionata (trascuro i ritardi di accodamento), il ritardo di elaborazione a ciascun router e presso il mittente sia $d_{elab}$ la velocità di trasmissione in uscità a ogni router e all'host sorgente sia di R bps e la propagazione su ciascun collegamento sia $d_{prop}$. I ritardi totali di nodo si accumulano e danno un ritardo complessivo end-to-end pari a:  
+
+$d_{end-to-end} = N(d_{elab}+d_{trasm}+d_{prop})$.  
+
+**Traceroute**  
+
+Un programma diagnostico che fornisce una misura del ritardo dalla sorgente al router lungo i percorsi Internet punto-punto verso la destinazione. For all $i$:  
++ Invia tre pacchetti che raggiungeranno il router $i$ sul percorso verso la destinazione (con il campo time-to-live uguale a $i$)  
++ Il router $i$ restituirà i pacchetti al mittente 
++ Il mittente calcola l'intervallo tra trasmissione e risposta  
+
+![Traceroute](./Screen/traceroute.png)  
+
+L'output presenta sei colonne: la prima contiene il valore $n$, il numero del router, la seconda il nome del router, di seguito il suo indirizzo; le ultime tre colonne rappresentano i ritardi di andata e ritorno nelle tre prove. Se l'origine riceve meno di tre messaggi da ogni dato router (per la perdita di pacchetti), Traceroute pone un asterisco subito dopo il numero del router e riporta meno di tre tempi di andatae ritorno per tale router.
+
+Nel percorso abbiamo 14 router tra la sorgente e la destinazione.  
+La maggior parte di essi ha un nome tutti hanno un indirizzo. Per esempio il nome del Router4 è *corel-rt-at-5-2-0.gw.umass.edu* e il suo indirizzo è *128.119.0.9*. Analizzando i dati forniti per questo stesso router, vediamo che nella prima delle tre prove il ritardo di andata e ritorno tra la sorgente e il router è stato di 0,351 ms. I ritardi di andata e ritorno per le successive due prove sono stati di 0,392 e 0,380 ms. Questi ritardi includono tutte le componenti di ritardo appena trattate.   
+Dato che il ritardo di accodamento varia con il tempo, il ritardo di andata e ritorno del pacchetto $n$ inviato al router $n$ può in realtà essere maggiore rispetto al ritardo di andata e ritorno dal pacchetto $n+1$ inviato al router $n+1$. Infatti nell'esempio si può notare che i ritardi nel Router11 appaiono superiori ai ritardi nel Router12.  
+
+### Throughput nelle reti di calcolatori  
+Per definire il throughput end-to-end usiamo un esempio: un trasferimento di un file voluminioso da $A$ a $B$, attraverso la rete. Questo file potrebbe, un grosso videoclip da trasmettere da un computer ad un altro.  
+
+Il **throughput** (*capacità totale*) **istantaneo** in ogni istante di tempo è la veloicità (in bps) alla quale B sta ricevendo il file; molte applicazioni mostrano il Throughput istantaneo durante il download nell'interfaccia utente (speedtest).  
+Se il file consiste di $F$ bit e il trasferimento richiede $T$ secondi affinché $B$ riceva tutti gli $F$ bit, allora il **throughput medio** del trasferimento del file è di $F/T$ bps.  
+
+![Throughput](./Screen/throughput.png)  
+
+La figura (a) mostra due host, un server e un client connessi da due collegamenti e un router. Si consideri il throughput per un trasferimento di file dal server al client. Sia $R_s$ la velocità del collegamento tra il server e il router $R_c$ quella del collegamento tra il router e il client.  
+Qual'è il throughput tra il server e il client? Per rispondere a questa domanda considereremo  i bit come a un fluido e ai collegamenti come a delle condotte. Chiaramente il server non può pompare nel suo collegamento a una veloictà maggiore di $R_s$ bps e il router non può inoltrare bit a una velocità più alta di $R_c$ bps. Se $R_s < R_c$ i bit immessi dal server scorreranno attraverso il router e arriveranno al client a una velocità di $R_s$ bps, dando un throughput di $R_s$ bps. Se invece $R_c < R_s$ allora il router non sarà in grado di inoltrare i bit alla stessa velocità alla quale li riceve. In tal caso i bit lascieranno il router a una velocità di $R_c$, dando un throughput end-to-end di $R_c$.  
+
+Si noti che se i bit continuano ad arrivare al router a una velocità $R_s$ e a lasciarlo a una velocità $R_c$, la quantità di bit accumulata al router in attesa di trasmissione al client cresce indefinitivamente: situazione non possibile.  
+
+
