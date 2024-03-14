@@ -212,9 +212,22 @@ Se il file consiste di $F$ bit e il trasferimento richiede $T$ secondi affinché
 
 ![Throughput](./Screen/throughput.png)  
 
-La figura (a) mostra due host, un server e un client connessi da due collegamenti e un router. Si consideri il throughput per un trasferimento di file dal server al client. Sia $R_s$ la velocità del collegamento tra il server e il router $R_c$ quella del collegamento tra il router e il client.  
++ La figura (a) mostra due host, un server e un client connessi da due collegamenti e un router. Si consideri il throughput per un trasferimento di file dal server al client. Sia $R_s$ la velocità del collegamento tra il server e il router $R_c$ quella del collegamento tra il router e il client.  
 Qual'è il throughput tra il server e il client? Per rispondere a questa domanda considereremo  i bit come a un fluido e ai collegamenti come a delle condotte. Chiaramente il server non può pompare nel suo collegamento a una veloictà maggiore di $R_s$ bps e il router non può inoltrare bit a una velocità più alta di $R_c$ bps. Se $R_s < R_c$ i bit immessi dal server scorreranno attraverso il router e arriveranno al client a una velocità di $R_s$ bps, dando un throughput di $R_s$ bps. Se invece $R_c < R_s$ allora il router non sarà in grado di inoltrare i bit alla stessa velocità alla quale li riceve. In tal caso i bit lascieranno il router a una velocità di $R_c$, dando un throughput end-to-end di $R_c$.  
-
 Si noti che se i bit continuano ad arrivare al router a una velocità $R_s$ e a lasciarlo a una velocità $R_c$, la quantità di bit accumulata al router in attesa di trasmissione al client cresce indefinitivamente: situazione non possibile.  
+Quindi per questa semplice rete con due collegamenti, il throughput è il $min(R_s, R_c)$, cioè la velocità di trasmissione del collegamento che fa da **collo di bottiglia**.  
+Avendo determinato il throughput, possiamo ora stimare il tempo necessario a trasferire un grosso file $F$ bit dal server al client come $F/ min(R_s, R_c)$.  
+Consideriamo questo esempio:  Supponete di stare scaricando un file MP3 di $F$ = 32 mln di bit.  
+Il server ha una velocità di trasmissione di $R_s = 2 Mbps$ e abbiamo un collegamento di accesso di $R_c = 1 Mbps$. Il tempo necessario a trasferire il file è allora di 32 secondi.  
+Non teniamo conto di ritardi store-and-forward e quelli legati ai protocolli.  
+
++ La figura (b) mostra una rete di $N$ collegamenti tra server e client aventi rispettivamente velocità di trasmissione $R_1, R_2,...,R_N$  
+Applicando la stessa analisi fatta per la rete con due collegamenti, troviamo anche il throughput per un trasferimento di file dal server al client è il $min(R_1,R_2,...,R_N)$.  
+
+![Throughput Internet](./Screen/throughputend.png) 
+
+Il throughput dipende dalla velocità di trasmissione dei collegamenti sui quali passano i dati. Abbiamo visto che, quando non c'è altro traffico che interviene, il throughput può essere semplicemente approssimato alla velocità di trasmissione minima ungo il percorso tra sorgente e destinazione.  
+
+Più in generale, il throughput dipende non solo dalla velocità di tramsissione dei collegamenti lungo il percorso, ma anche dal traffico sulla rete.  
 
 
