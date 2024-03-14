@@ -50,7 +50,15 @@ Mentre il compito del livello di collegamento è spostare interi frame da un ele
 
 ### Incapsulamento  
 
+![Host, router e commutatori a livello di collegamento](./Screen/hostorutercommlv.png)  
 
+La figura mostra il percorso seguito dai dati scendendo lungo la pila di protocolli del sistema mittente, risalendo e scendendo lungo le pile di protcolli dei commutatori e infine, risalendo la pila.  
+Al pari degli host, organizzano il proprio hardware e software di rete a livelli. In ogni caso non implementano tutti i livelli della èila di protocolli ma solo quelli inferiori.  
+Come mostrato nella figura, i commutatori a livello di collegamento implementano i livelli 1 e 2, mentre i router implementano i livelli da 1 a 3, Ciò significa, per esempio, che i router Internet sono in grado di interpretare il protocollo IP, mentre i commutatori a livello di collegamento non possono farlo.  
+La figura mostra anche l'importante concetto di **Incapsulamento**.  
+Presso un host mittente, un **messaggio a livello di applicazione** $M$ viene passato a livello di trasporto. Nel caso più semplice questo livello prende il messaggio e gli concatena informazioni aggiuntive che saranno utilizzate dalla parte ricevente a livello di trasporto.  Il messaggio a livello di applicazione e le informazioni di intestazione a livello di trasporto costituiscono il **segmento a livello di trasporto** che Incapsula il messaggio a livello di applicazione. Le informazioni aggiunte possono includere dati che consentono a livello di trasporto lato ricevente di consegnare il messaggio all'applicazione desiderata, o potrebbero includere bit di correzione che consentono al ricevente di determinare il cambiamento.  
+Il livello di trasporto passa il segmento a livello di rete, quali gli indirizzi dell'host di sorgente e di destinazione, andando a creare un **datagramma a livello di rete**.  A questo punto il datagramma viene passato al livello di collegamento, il quale aggiunge le proprie informazioni di intestazione, creando un **frame a livello di collegamento**. Quindi, a ciascun livello, il pacchetto a due tipi di cambio: intestazione e **payload**, un pacchetto proveniente dal livello superiore.  
 
+\
 
 
