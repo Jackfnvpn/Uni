@@ -117,4 +117,77 @@ UN theta join in cui la condizione di $F$ sia una congiunzione di ugualglianza, 
 Dal punto di vista pratico il theta-join e ancor di più l'equi-join hanno una grae importanza in quanto la maggior parte delle basi di dati non utilizzano i nomi di attributo per correlare relazioni, pertanto non utilizzano il join naturale ma l'equi-join e il theta-join.  
 
 ## Interrogazioni in algebra relazionale 
+Un interrogazione può essere definita come una funzione che applicata a istanze di base di dati, produce relazioni.  
+Più precisamente, dato uno schema $R$ di base di dati, un'ibterrogazione è una funzione che , per ogni istanza di $r$ di $R$, produce una relazione su un dato insieme di attributi $X$. Le espressioni dei vari linguaggi di interrogazione "rappresentano" o "realizzano" interrogazioni: ogni espressione definisce una funzione. Indichiamo con $E(r)$ il *risultato* dell'applicazione dell'espressione $E$ alla base di dati $r$.  
+
+dato il seguente schema:  
+
+![Schema](./Screen/schemaint.png)  
+
+La prima interrogazione che consideriamo è molto semplice: *trovare matricola, nome ed età degli impiegati che guadagnano più di 40 mila euro*.  
+In questo caso con una selezione possiamo porre l'attenzione sulle sole tuple che soddisfano la condizione e con una proiezione eliminiamo gli attributi non richiesti:  
+
+![Espressioni](./Screen/espressioni.png)  
+
+$\pi_{Matr,Nome,Età}(\sigma_{Stipendio>40}(IMPIEGATI))$  
+
+Il risultato di questa espressione, applicata a questa base di dati è:  
+![Risultato Esp](./Screen/risespressioni.png)  
+
+La seconda interrogazione coinvolge entrambe le relazioni dello schema, *trovare le matricole dei capi degli impiegati che guadagnano più di 40 mila euro*:  
+
+$\pi_{Capo}(SUPERVISIONE\bowtie_{Impiegato=Matr}\sigma_{Stipendio>40}(IMPIEGATI))$  
+
+![Ris Esp due relazioni](./Screen/ristwoespressioni.png)  
+
+Passiamo a esempi più complessi. Il primo: *trovare nome e stipendio dei capi degli impiegati che guadagnano più di 40 mila euro*. In questo caso, possiamo ovviamente far uso dell'espressione precedente, ma dobbiamo poi produrre, per ciascuna tupla del risultato le informazioni richieste sul capo, che vanno estratte dalla relazione $IMPIEGATI$.  
+Intuitivamente, la soluzione prevede il join della relazione $IMPIEGATI$, con il risultato dell'espressione precedente, ma con un avvertenza: in generale, il capo e l'impiegato differiscono, quindi le due tuple di $IMPIEGATI$ che contribuiscono a una tupla del join sono diverse.  
+Il join deve quindi essere preceduto da una ridenominazione che "cambi" tutti i nomi degli attributi.  
+
+$\pi_{NomeC,StipC}(\rho_{MatrC,NomeCmStipC,EtàC \leftarrow Matr,Nome,Stip,Età}(IMPIEGATI)$  
+
+$\bowtie_{MatrC=Capo}$  
+
+$SUPERVISIONE \bowtie_{Imp=Matr}\sigma_{Stip>40}(IMPIEGATI))$  
+
+Il risultato:  
+
+![Risultato applicazione](./Screen/2_risespressioni.png)  
+
+## Equivalenza di espressioni algebriche  
+
+L'algebra relazionale, come molti altri stumenti formali in contesti diversi, permette di formulare espressioni fra loro *equivalenti*, cioè che producono lo stesso risultato.  
+
+$E_1 \equiv_R E_2$ se $E_1(r) = E_2(r), \forall{r}$ di $R$ (**equivalenza dipendente dallo schema**).  
+
+$E_1 \equiv E_2$ se $E_1 \equiv_R E_2$ $\forall R$  
+
+L'equivalenza di espressioni dell'algebra risulta particolarmente importante dal punto di vista applicativo, nella fase di esecuzione delle interrogazioni. Esse vengono tradotte in algebra relazionale e viene valutato il costo, in termini di dimensioni dei risultati intermedi. In presenza di varie alternative equivalenti, viene scelta quella di costo minore.  
+Vengono spesso utilizzate *trasformazioni di equivalenza*, operazioni che sostituiscono un'espressione con un'altra a essa equivalente.  
+Vediamo alcune trasformazioni:  
+1. **Atomatizzazione delle selezioni**: una selezione congiuntiva può essere sostituita da una cascata di selezioni atomiche:  
+
+$\sigma_{F_1 \land F_2}(E) \equiv \sigma_{F_1}(\sigma_{F_2}(E))$  
+
+2. **Idempotenza delle proiezioni**: una proiezione può essere trasformata in una cascata di proiezioni che "eliminano" i vari attributi in fasi successive:  
+
+$\pi_X(E) \equiv \pi_X(\pi_{XY}(E))$  
+
+3. **Anticipazione della selezione rispetto al join**:  
+
+$\sigma_F(E_1 \bowtie E_2) \equiv E_1 \bowtie \sigma_F(E_2)$  
+
+4. **Anticipazione della proiezione rispetto al join:  
+
+$\pi_{X_1 Y_2}(E_1 \bowtie E_2) \equiv E_1 \bowtie \pi_{Y2}(E2)$  
+(se gli attributi in $X_2 - Y_2$ non sono coinvolti nel join).  
+
+Combinando con Idempotenza delle proiezioni:  
+
+$\pi_Y(E_1 \bowtie_F E_2) \equiv \pi_Y(\pi_{Y1}(E_1)\bowtie \pi_{Y2}(E_2))$  
+
+Dove Y_1 e Y_2 sono gli attributi 
+
+
+
 
