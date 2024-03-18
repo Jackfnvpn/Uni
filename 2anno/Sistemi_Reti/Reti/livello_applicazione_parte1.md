@@ -154,6 +154,49 @@ Quando il client ha mandato un messaggio alla sua interfaccia socket, questo non
 
 E' importante notare che il server invia i file richiesti ai client senza memorizzare alcuna informazione di stato a proposito del client. Per cui in caso di ulteriore richiesta dello stesso oggetto da parte dello stesso client,  il server procederà nuovamente all'invio, non avendo mantenuto traccia di quello precedentemente effettuato.  
 
-HTTP, per questo motivo, è classificato come **protocollo senza memoria di stato**.
+HTTP, per questo motivo, è classificato come **protocollo senza memoria di stato**.  
+
+### Connessioni persistenti e non persistenti  
+
+In molte applicazioni per Internet, client e server comunicano per un lungo periodo di tempo, con il client che inoltra una serie di richieste e il server che risponde a ciascuna di esse. A seconda dell'applicazione e del suo impiego di richieste oitrebbe essere effettuata in sequenza, periodicamente a intervalli regolari o in maniera intermittente. Da qui vi è una decisione da prendere: ciascuna coppia richiesta-risposta deve essere inviata su una connessione TCP *separata* o tutte sulla *stessa*. Nel primo approccio si dice che l'applicazione usa **connessioni persistenti**, nel secondo **connessioni non persistenti**.  
+
+**HTTP con connessioni non persistenti**  
+
+Seguiamo passo dopo passo il trasferimento di una pagina web dal server al client nel caso di connessioni non persistenti. Ipotizziamo che l'URL del file HTML principale sia:  
+```
+http://www.SomeSchool.edu/SomeDepartment/home.index
+```
+Ecco cosa avviene:  
+
+1. Il processo client HTTP inizializza una connessione TCP con il server ```www.SomeSchool.edu``` sulla porta 80 (default HTTP). Associate alla connessione TCP ci saranno una socket per il client e una per il server.  
+2. Il client HTTP, tramite la propria socket, invia al server un messaggio di richiesta HTTP che include il percorso ```/SomeDepartment/home.index```  
+3. Il processo server HTTP riceve il messaggio di richiesta attraverso la propria socket associata alla connessione, recupera l'oggetto 
+```SomeDepartment/home.index``` dalla memoria (centrale o di massa), lo incapsula in un messaggio di risposta HTTP che viene inviato al client attraverso la socket.  
+4. Il processo server HTTP comunica a TCP di chiudere la connessione. Questo però, non termina la connessione finché non sia certo che il client abbia ricevuto integro il messaggio di risposta.  
+5. Il client HTTP riceve il messaggio di risposta. La connessione TCP termina. Il messaggio indica che l'oggetto incapsulato è un file HTML. Il client estrae il file dal messaggio di risposta, esamina il file HTML e trova riferimenti ai 10 oggetti JPEG.  
+6. Vengono ripetuti i primi quattro passi per gli altri oggetti JPEG.   
+
+Quando il browser riceve la pagina web, la visualizza all'utente.  
+I passi riportati illustrano l'utilizzo di connessioni non persistenti in cui ogni connessioni TCP viene chiusa dopo l'invio dell'oggetto da parte del server: vale a dire che ogniuna trasporta soltanto un messaggio di richiesta e uno di risposta.  
+
+Nei passi sopra descritti, il client ottiene le connessioni in serie anziché in parallelo.  
+Alcuni browser possono essere configurati per controllare il grado di parallelismo.  
+Prima di procedere, facciamo un calcolo approssimativo per stimare l'intervallo di tempo che intercorre tra la richiesta di un file HTML da parte del client e il momento in cui l'intero file viene ricevuto.  
+Definiamo il **round-trip time** (**RTT**), che rappresenta il tempo impiegato da un piccolo pacchetto per viaggiare dal client al server e poi tornare al client.  
+
+RTT include i ritardi di propagazione, di accodamento, di elaborazione.  
+
+![Calcolo approssimativo](./Screen/timeHTML.png)  
+
+Cosa succede quando viene fatto un click su un link ipertestuale. Viene iniziata una connessione TCP con il web server. Ciò comporta **un handshake a tre vie**: il client invia un piccolo segmento TCP al server e quest'ultimo manda una conferma per mezzo di un server. Infine il client dà anch'esso una conferma di ritorno al server. Le prime due parti dell'handshake a tre vie richiedono RTT. Dopo il loro completamento, il client invia un messaggio di richiesta HTTP combinato con la terza parte dell'handshake, la conferma di avvenuta ricezione, tramite connessione TCP. Quando il messaggio di richiesta arriva al server, inoltra il file HTML sulla connessione TCP. La richiesta-risposta HTTP consuma un altro RTT. Pertanto il tempo di risposta totale approssivamente è di due RTT più tempo di trasmissione da parte del server del file HTML.  
+
+**HTTP con connessioni persistenti**  
+
+Le connessioni non persistenti presentano alcuni limiti: il primo è che ogni oggetto richiesto occorre stabilire e mantenere una nuova connessione (oneroso).  
+
+In secondo luogo, ciascun oggetto subisce un ritardo di consegna di due RTT, uno per la connessione TCP e uno per richiedere e ricevere un oggetto.  
+
+Con HTTP 1.1 nelle connessioni persistenti il server lascia la connessione TCP aperta dopo l'invio di una risposta, per cui le richieste e le risposte successive tra gli stessi client e server possono essere trasmesse sulla stessa connessione. In particolare, non solo il server può inviare un'intera pagina web su una sola connessione TCP permanente, ma può spedire allo stesso client più pagine web.  
+Queste richieste di oggetti possono essere effettuate una di seguito all'altra senza aspettare le risposte delle richieste pendenti (*pipelining*).  
 
 
