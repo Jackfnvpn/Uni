@@ -14,7 +14,7 @@ Un provider è un insieme di commutatori di pacchetto e di collegamenti.Gli ISP 
 Sistemi periferici, commutatori di pacchetto e altre parti di Internet fanno uso di protocolli che controllano l'invio e la ricezione di informazioni all'interno della rete. Due dei principali protocolli Internet sono: **Transmission Control Protocol** (**TCP**), e l'**Internet Protocol** (**IP**). Quest'ultimo specifica il formato dei pacchetti scambiati tra router e sistemi periferici.  
 Data la loro importanza per Internet, un accordo sulle funzioni svolte da ogni protocollo risulta fondamentale, qui entrano in gioco gli standard. Gli **standard di Internet** vengono sviluppati dall'**Internet Enginnering Task Force** (**IETF**). Le pubblicazioni sugli standard di internet vengono dette **Request For Comment** (**RFC**).
 ### Descrizione dei servizi 
-Possiamo descrivere come un'infrastruttura che fornisce servizi alle applicazioni (posta elettronica, messaggistica istantanea, navigazione WEB, ...). Queste applicazioni sono dette **applicazioni distribuite**, in quanto coinvolgono più sistemi periferici che si scambiano reciprocamente dati. L'aspetto più rilevante è che le applicazioni Internet vengono eseguite sui sistemi periferici e non sui commutatori di paccheto del nucleo della rete, questo perché essi non hanno a che fae con le applicazioni che sono sorgente e destinazione dei dati.  
+Possiamo descrivere Internet come un'infrastruttura che fornisce servizi alle applicazioni (posta elettronica, messaggistica istantanea, navigazione WEB, ...). Queste applicazioni sono dette **applicazioni distribuite**, in quanto coinvolgono più sistemi periferici che si scambiano reciprocamente dati. L'aspetto più rilevante è che le applicazioni Internet vengono eseguite sui sistemi periferici e non sui commutatori di paccheto del nucleo della rete, questo perché essi non hanno a che fae con le applicazioni che sono sorgente e destinazione dei dati.  
 
 Ma come fa una parte di applicazione eseguita su un sistema periferico a istruire Internet affinché recapiti dati a un'altra parte di software eseguita su un altro sistema periferico?  
 I sistemi periferici collegati a Internet forniscono una **interfaccia socket**, che specifica come un programma eseguito su un sistema periferico possa chiedere  internet di recapitare dati a un programma eseguito su un altro sistema periferico.  
@@ -34,7 +34,7 @@ Qualsiasi attività in Internet che coinvolga due o più entità remote in comun
 Come esempio di protocollo si consideri che succede quando si invia una richiesta a un web server, ossia quando si digita l'indirizzo di una pagina web in un browser.  
 Come nella figura precedente (parte destra), per prima cosa il computer invierà un messaggio di richiesta di connessione al web server e si metterà in attesa di un messaggio di risposta. Il web server alla fine riceverà il messaggio di richiesta di connessione e restituirà un messaggio di risposta di connessione. Sapendo che ora è possibile richiedere un documento web, il computer invierà il nome della pagina che vuole prelevare dal server tramite un messaggio GET. Infine il web server restituirà la pagine web (file) al computer.  
 
-*Un* ***protocollo*** *definisce il formato e l'ordine dei messaggi scambiati tra due o più entità in comunicazione, così come le azioni intraprese in fase di trasmissione e/O di ricezione di un messaggio o di un altro evento*.
+*Un* ***protocollo*** *definisce il formato e l'ordine dei messaggi scambiati tra due o più entità in comunicazione, così come le azioni intraprese in fase di trasmissione e/o di ricezione di un messaggio o di un altro evento*.
 
 ## Ai confini della rete  
 
@@ -111,7 +111,7 @@ Ma la categoria 6a può raggiungere velocità trasimissive di 10 Gbps a distanze
 ### Cavo coassiale
 Costituito da due conduttori di rame concentrici, bidirezionale e a banda larga: canali di frequenza multipli sul cavo e centiania di Mbps per canale.  
 ### Fibra ottica  
-mezzo sottile e flessibile che conduce impulsi di luce, ciascuno dei quali rappresenta un bit. Ha un'elevata velocità trasmissiva: trasmissione punto-punto ad alta velocità (fino a decine e centinaia di Gbps). Attenuazione di segnale molto bassa nel raggio di 100 km. Basso tasso di errore: ripetitori distanziati, immune all'interferenza elettromagnetica.  
+Mezzo sottile e flessibile che conduce impulsi di luce, ciascuno dei quali rappresenta un bit. Ha un'elevata velocità trasmissiva: trasmissione punto-punto ad alta velocità (fino a decine e centinaia di Gbps). Attenuazione di segnale molto bassa nel raggio di 100 km. Basso tasso di errore: ripetitori distanziati, immune all'interferenza elettromagnetica.  
 
 ### Canali di radio  
 Trasportano segnali nello spettro elettromagnetico, non richiedono l'installazione fisica di cavi.  
