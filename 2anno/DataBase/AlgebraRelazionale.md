@@ -177,16 +177,100 @@ $\pi_X(E) \equiv \pi_X(\pi_{XY}(E))$
 
 $\sigma_F(E_1 \bowtie E_2) \equiv E_1 \bowtie \sigma_F(E_2)$  
 
-4. **Anticipazione della proiezione rispetto al join:  
+4. **Anticipazione della proiezione rispetto al join**:  
 
 $\pi_{X_1 Y_2}(E_1 \bowtie E_2) \equiv E_1 \bowtie \pi_{Y2}(E2)$  
 (se gli attributi in $X_2 - Y_2$ non sono coinvolti nel join).  
 
 Combinando con Idempotenza delle proiezioni:  
 
-$\pi_Y(E_1 \bowtie_F E_2) \equiv \pi_Y(\pi_{Y1}(E_1)\bowtie \pi_{Y2}(E_2))$  
+$\pi_Y(E_1 \bowtie_F E_2) \equiv \pi_Y(\pi_{Y_1}(E_1)\bowtie \pi_{Y_2}(E_2))$  
 
-Dove Y_1 e Y_2 sono gli attributi 
+Dove $X_1$ e $X_2$ gli attributi di $E_1$ ed $E_2$ e con $J_1$ e $J_2$ i rispettivi sottoisniemi coinvolti nella condizione $F$ di join:  
+
+$Y_1 = ( X_1 \cap Y) \cup J_1$  
+$Y_2 = ( X_2 \cap Y) \cup J_2$  
+
+5. **Ingoblamento di una selezione in un prodotto cartesiano a formare un join**:  
+
+$\sigma_F(E_1 \bowtie E_2) \equiv E_1 \bowtie_F E_2$  
+
+con $X_1 \cap X_2 = \emptyset$  
+
+6. **Distributività della selezione rispetto l'unione**:  
+
+$\sigma_F(E_1 \cup E_2) \equiv \sigma_F(E_1)\cup\sigma_F(E_2)$  
+
+7. **Distributività della selezione alla differenza**:  
+$\sigma_F(E_1-E_2) \equiv \sigma_f(E_1)-\sigma_F(E_1)-\sigma_F(E_2)$  
+
+8. **Distributività della proiezione rispetto all'unione**:  
+$\pi_X(E_1 \cup E_2) \equiv \pi_X(E_1) \cup \pi_X(E_2)$  
+
+9. $\sigma_{F_1 \lor F_2}(R) \equiv \sigma_{F_1}(R) \cup \sigma_{F_2}(R)$  
+
+10. $\sigma_{F_1 \land F_2}(R) \equiv \sigma_{F_1}(R) \cap \sigma_{F_2}(R) \equiv \sigma_{F_1}(R) \bowtie \sigma_{F_2}(R)$   
+11. $\sigma_{F_1 \land \lnot(F_2)}(R) \equiv \sigma_{F_1}(R)-\sigma_{F_2}(R)$  
+
+12. $E \bowtie(E_1 \cup E_2) \equiv (E \bowtie E_1) \cup (E \bowtie E_2)$  
+
+## Algebra con valori nulli  
+
+Estensione degli operatori logici ad una logica a 3 valori (VERO, FALSO, SCONOSCIUTO(U))  
+
+![Algebra valori nulli](./Screen/algebranulli.png)  
+
+A IS NULL è vero su una ennupla t se il valore di t su A è nullo; falso se è specificato  
+
+A IS NOT NULL è vero su una tupla t se il valore di t su A è specificato; falso se è nullo  
+
+$\sigma_{Età>30}(PERSONE)$ restituisce le persone la cui età è nota e > 30 anni  
+
+$\sigma_{Età>30 \land Età IS NULL}(PERSONE)$ restituisce le persone che potrebbero avere più di 30 anni.  
+
+## Viste  
+
+Abbiamo visto che può risultare utile mettere a disposizione degli utenti rappresentazioni diverse per gli stessi dati. Nel modello relazionale, la tecnica prevista a questo scopo è quella delle *relazioni derivate*, relazioni il cui è contenuto è funzione del contenuto di altre relazioni. In una base di dati relazionale possono quindi esistere reazioni di *base*, il cui contenuto è autonomo, e derivate il cui contenuto è funzione di altre relazioni derivate.  
+Possono esistere due tipi di relazione:  
++ *viste materializzate*: relazioni derivate effettivamente memorizzate nella base di dati;
+
+* *relazioni virtuali* (chiamate anche *viste*): relazioni definite per mezzo di funzioni, che non memorizzate nella base di dati, ma utilizzabili nelle interrogazioni come se lo fossero.  
+
+Le viste materializzate hanno vantaggi:  
+
++ Permettono di mostrare a un utente le sole componenti della base di dati che interessano  
+
++ Espressioni molto complesse possono essere definite come viste  
+
++ **Sicurezza:** è possibile definire dei diritti di accesso relativi ad una vista  
+
++ In caso di ristrurazzione della base di dati, le "vecchie" relazioni possono essere di nuovo ricavate mediante viste, consentendo l'uso di applicazioni che fanno riferimento al vecchio schema.  
+
+![Vista](./Screen/viste10.png)  
+
+### Interrogazioni sulle viste  
+
+Sono eseguite sostituendo alla vista la sua definizione  
+
+$SEL_{Capo='Leoni'}(SUPERVISIONE)$  
+
+Viene eseguita come  
+
+$SEL_{Capo='Leoni'}(PROJ_{Impiegato,Capo}(Afferenza JOIN Direzione))$  
+
+### Viste, motivazioni  
+
+Schema esterno: ogni utente vede solo  
+
++ ciò che gli interessa e nel modo in cui gli interessa, senza essere distratto dal resto  
++ ciò che è autorizzato a vedere
+
+Strumento di programmazione  
+
++ si può semplificare la scrittura di interrogazioni: espressioni complesse e sottoespressioni ripetute  
+Utilizzo di programmi esisteni su schemi ristrutturati  
+
+
 
 
 
