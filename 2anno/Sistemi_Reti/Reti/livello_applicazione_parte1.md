@@ -199,4 +199,74 @@ In secondo luogo, ciascun oggetto subisce un ritardo di consegna di due RTT, uno
 Con HTTP 1.1 nelle connessioni persistenti il server lascia la connessione TCP aperta dopo l'invio di una risposta, per cui le richieste e le risposte successive tra gli stessi client e server possono essere trasmesse sulla stessa connessione. In particolare, non solo il server può inviare un'intera pagina web su una sola connessione TCP permanente, ma può spedire allo stesso client più pagine web.  
 Queste richieste di oggetti possono essere effettuate una di seguito all'altra senza aspettare le risposte delle richieste pendenti (*pipelining*).  
 
+### Formato dei messaggi HTTP  
+
+**Messaggio di richiesta HTTP**:  
+
+```
+GET /somedir/page.html HTTP/1.1  
+Host: www.someschool.edu  
+Connection: close  
+User-agent: Mozilla/5.0  
+Accept-language: fr  
+```
+
+Il messaggio è scritto in testo ASCII.  
+Inoltre consiste di cinque righe, ciascuna seguita da un carattere di ritorno a capo e un carattere di nuova linea.  
+La prima riga è detta **riga di richiesta**, quelle successive **righe d'intestazione**. La riga di richiesta presenta tre campi: il metodo, il campo URL e il campo versione di HTTP.  
+Il campo metodo può assumere diversi valori: GET, HEAD, PUT, DELETE.  
+La maggioranza dei messaggi di richiesta HTTP usa il metodo GET.   
+La versione è autoesplicativa (HTTP/1.1). Il browser sta richiedendo l'oggetto ```/somedir/page.html```.  
+
+Consideriamo ora le righe d'intestazione.  
+La riga ```Host: www.someschool.edu``` specifica l'host su cui risiede l'oggetto.  
+La linea ```Connection: close```, il browser sta comunicando al server che non si deve occupare di connessioni persistenti.  
+La linea ```User-agent: Mozilla/5.0```, specifica il tipo di browser che sta effettuando la richiesta (Mozilla/5.0, nell'esempio).  
+La riga ```Accept-language```, rappresenta solo una delle montre intestazioni di negoziazione dei contenuti disponibili in HTTP.  
+
+![Richiesta HTTP](./Screen/formatomexHTTP.png)  
+
++ **METODO POST:** La pagina web spesso include un form per l'input dell'utente.  
+L'input dell'utente viene inviato dal client al sever ne corpo dell'entità di un messaggio di richiesta HTTP POST.  
+
++ **METODO GET:** L'input arriva al server nel campo URL della richiesta:  
+```www.somesite.com/animalsearch?monkey&banana```  
++ **METODO HEAD:** Richiede l'intestazioni che verrebbero restituite se l'URL specificato fosse richiesto con il metodo HTTP GET  
++ **METODO PUT:** Carica un nuovo file (oggetto) sul server.  
++ **METODO DELETE:** Consente la cancellazione di un oggetto server  
+
+**Messaggio di risposta HTTP**  
+
+```
+HTTP/1.1 200 OK  
+Connection: close  
+Date: Thu, 18 Aug 2015 15:44:04 GMT  
+Server: Apache/2.2.3 (CentOS)  
+Last-Modified: Tue, 18 Aug 2015 15:11:03 GMT  
+Content-Lenght: 6821  
+Content-Type: text/html  
+(data data data data ...)
+```
+Osseriviamo tre sezioni: una **riga di stato** iniziale, sei **righe d'intestazione** e il **corpo**. Quest'ultimo contiene l'oggetto richiesto.  
+La riga di stato presenta tre campi: la versione del protocollo, e che va tutto bene (OK).  
+Osseriviamo ora le righe d'intestazione.   
+Il server utilizza la riga d'intestazione ```Connection: close``` per comunicare al client che ha intenzione di chiudere la connessione TCP dopo l'invio del messaggio.  
+```Date: ``` indica l'ora e la data di creazione e invio da parte del server.  
+```Server: ``` indica che il messaggio è stato generato da un web server Apache.  
+```Last-Modified:``` indica l'istante e la data in cui l'oggetto p stato creato o modificato l'ultima volta.  
+```Content-Lenght: ``` contiene il numero di byte dell'oggetto inviato  
+```Content-Type:``` indica che l'oggetto nel corpo testo è HTML.  
+
+![Formato messaggi risposta](./Screen/formatomexrispHTTP.png)  
+
+Il codice di stato e l'espressione associata indicano il risultato della richiesta. Tra i più comuni:  
+
++ 1XX: una risposta intermedia per comunicare lo stato di connessione o l'avanzamento della richiesta prima di completare l'azione richiesta e inviare una risposta finale.  
+
++ 2XX: La richiesta è stata ricevuta con successo, compresa e accettata  
++ 3XX: Il client deve eseguire ulteriori azioni per soddisfare la richiesta  
++ 4XX: La richiesta è sintatticamente scorretta o non può essere soddisfatta  
++ 5XX: Il server ha fallito nel soddisfare una richiesta apparentemente valida.  
+
+
 
