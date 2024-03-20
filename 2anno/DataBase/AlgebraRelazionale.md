@@ -270,6 +270,26 @@ Strumento di programmazione
 + si può semplificare la scrittura di interrogazioni: espressioni complesse e sottoespressioni ripetute  
 Utilizzo di programmi esisteni su schemi ristrutturati  
 
+### Viste come stumento di programmazione  
+
+*Trovare gli impiegati che hanno lo stesso capo di Rossi*  
+
++ **Senza Vista:**  
+
+$PROJ_{Impiegato}(Afferenza JOIN Direzione) JOIN$ $REN_{ImpR, RepR \leftarrow Imp,Reparto}(SEL_{Impiegato='Rossi'})(Afferenza JOIN Direzione))$  
+
++ **Con la vista:**  
+
+$PROJ_{Impiegato}(Supervisione)JOIN$ $REN_{ImprR,RepR \leftarrow Imp,Reparto}(SEL_{Impiegato='Rossi'}(Supervisione))$  
+
+![Viste aggiornate](./Screen/viste_agg.png)  
+
+**Aggiornare una vista: ** modificare le relazioni di base in modo che la vista "ricalcolata", rispecchi l'aggiornamento  
+
+L'aggiornamento sulle relazioni di base corrispondente a quello specificato sulla vista deve essere univoco, però in generale non lo è.
+Ben pochi aggiornamenti sono ammissibili.
+
+
 
 
 
