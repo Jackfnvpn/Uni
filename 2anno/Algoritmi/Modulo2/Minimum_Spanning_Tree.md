@@ -102,7 +102,61 @@ An efficient implementation of Kruskal's algorithm uses a Union-Find data struct
 
 ![Kruskal code](./Screen/codeKruskal.png)  
 
+### Correctness of Kruskal's algorithm  
 
+![Correttezza parte_1](./Screen/corrKruskal.png)  
+![Correttezza parte_2](./Screen/2_corrKruskal.png)  
 
+Prendiamo in considerazione il cut di $S$ di vertici appartenenti alla stessa componente connessa di $y$  
+
+Dato che l'algoritmo guarda i vertici in ordine crescente, per collegare a $S$ a $V-S$, l'algoritmo andrà a prendere l'arco (x,y) di costo minimo che attraversa il cut (**cut property**)
+
+### Complessità  
+
+![Complessità](./Screen/comp_Kruskal.png)  
+
+# Prim's algorithm  
+Start with some root node $s$ and greedily grow a tree $T$ from $s$ outward. At each step, add the cheapest edge $e$ to $T$ that has exactly one endpoint in $T$.  
+
+### Correctness  
+Immediate consequence of the cut property, used $n-1$ times.  
+
+> [!NOTE] <span style="color:red"><strong>Eucledian complete graph</strong><span></span>  
+> + verticies placed on the plane  
+> + for each pair of verticies $u$ and $v$ the cost of edge ($u,v$)is the eucledian distance between $u$ and $v$  
+
+### Running time  
+**A simple and inefficient , implementation:**  
+For $n-1$ times, find a cheapest edge crossing the cut induced by the current partial tree in $O(m)$ time.  
+Total: $O(mn)$.  
+
+**A much faster implementation:**  
+Mantain set of explored nodes $S$.  
+Use a priority queue to mantain unexplored nodes.  
+For each unexplored node $v$, the priority is the attachment cost $a[v]=cost$ of a cheapest edge incident in $v$ having the other endpoint in $S$.  
+
+![Code Prim](./Screen/codeprim.png)  
+
+## Clustering  
+
+**Clustering** Given a set $U$ of $n$ objects labeled $p_1,...,p_n$ classify into coherent groups.  
+
+**Distance function** Numeric value specifyng "closeness" of two objects  
+
+**Fundamental problem** Divide into clusters so that points in different clusters are far appart.  
+
+**k-clustering** Divide objects into k non-empty groups.  
+
+**Distance function** Assume it satisfies several natural properties  
+
++ $d(p_i,p_j) = 0 iff p_i =p_j$ (identity of indiscernibles)  
++ $d(p_i,p_j) \ge 0$ (nonnegativity)  
++ $d(p_i,p_j) = d(p_j,p_i)$ (simmetry)  
+
+**Spacing** Min distance between any pair of points in different clusters  
+
+**Clustering of maxium spacing** Given an integer k, find a k-clustering of maxium spacing.  
+
+![Spacing](./Screen/spacing.png)  
 
 
