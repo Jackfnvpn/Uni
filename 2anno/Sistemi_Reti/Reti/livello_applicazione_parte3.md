@@ -102,3 +102,19 @@ Troviamo poi 4 ulteiori campi che indicano il numero di occorenze delle quattro 
 Supponiamo di aver creato un'azienda chiamata Network Utopia.  
 La prima cosa che sicuramente desiderate è far registrare il nome di dominio ```networkutopia.com``` presso un ente di registrazione (**registrar**), un'azienda che verifica l'unicità del nome di dominio , lo inserisce nel database DNS e vi richiede una piccola somma di denaro.  
 
+Quando registrate il nome di dominio ```networkutopia.com``` presso un registrar, dovete fornire anche i nomi e gli indirizzi IP dei vostri DNS autoritativi primario e secondario. Supponiamo che i nomi e gli indirizzi IP ```dns1.networkutopia.com```, ```dns2.networkutopia.com```, ```212.2.212.1``` e ```212.212.212.2```. Per ciascuno di questi due server  autoritativi l'ente si accerterà dell'Inserimento di un record di tipo NS e di tipo A nei TLD server relativi al suffisso com. Più nello specifico, per il server autoritativo primario di ```networkutopia.com``` il registrar inserirebbe nel sistema DNS i due seguenti record di risorsa:  
+
+*(networkutopia.com, dns1.networkutopia.com,NS)*  
+*(dns1.networkutopia.com, 212.212.212.1,A)*  
+
+Bisognerà anche accertarsi che il record di risorsa di tipo Aper il nostro web server ```www.networkutopia.com``` e il record di risorsa di tipo MX per il server di posta ```mail.networkutopia.com``` vengano immessi nei nostri DNS server autoritativi.  
+
+## Distribuzione di file P2P  
+Ci sono coppie di host connnessi in modo intermittente, chiamati peer, che comunicano direttamente l'uno con l'altro. I peer non appartengono ai fornitori dei servizi, ma sono computer, telefoni controllati dagli utenti.  
+
+### Scalabilità dell'architettura P2P  
+![Dist file](./Screen/dist_file_prob.png)  
+
+Come mostrato nella figura, server e peer sono collegati a Internet con collegamenti di accesso: sia $u_s$ la banda di upload del collegamento di accesso del server , $u_i$ la banda di upload del collegamento di accesso dell' $i$-esimo peer e $d_i$ la banda di download del collegamento di accesso dell'$i$-esimo peer. Sia inoltre $F$ la dimensione del file da distribuire (in bit) e $N$ il numero di peer che vuole una copia del file. Il **tempo di distribuzione** è il tempo richiesto perché tutti gli $N$ peer ottengano una copia del file.  
+Supponiamo che il nucleo di rete abbia banda in abbondanza, e che i server e i peer non stiano partecipando a nessun'altra applicazione di rete.  
+Determiniamo in primo luogo il tempo di distribuzione del file per l'archittetura client-server che indichiamo con $D_{cs}$
