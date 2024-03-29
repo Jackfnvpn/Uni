@@ -21,12 +21,13 @@ Add job to subset if it is compatible with previously chosen jobs
 >[!WARNING]  
 Greedy algorithm is correct if all weights are 1  
 
-![EX](./Screen/early_w_int_sched.png)  
+![EX](./Screen/early_w_int_sched.png)    
+
 
 >[!NOTE]  
 Jobs are in ascending order of finish time: $f_1 \leq f_2 \leq ... \leq f_n$  
 
-**DEF:**  $p(j)$ = largest index $i<j$ such that job $i$ is compatible with $j$.  
+**DEF:**  $p(j)$ = largest index $i < j$ such that job $i$ is compatible with $j$.  
 
 ![EX2](./Screen/ex_early_w_int_sched.png)  
 *ES*: $p(8)=1$, $P(7)=3$, $P(2)=0$  
