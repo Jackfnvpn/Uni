@@ -112,7 +112,61 @@ $\#$ of recursive calls $\le n \implies O(n)$
 |**Time complexity is harder to analyze** | Time complexity is easy to analyze|  
 |  |  Short and clean code |  
 
+## Drink as much as possible  
+
+Robert wants to drink as much as possible  
+
++ Robert walks through the streets of King's Landing and ecounters $n$ taverns $t_1,...,t_n$ in order.  
++ When Robert ecounters a taver $t_i$, he can either stop for a drinl or continue walking  
++ The wine served in tavern $t_i$ has strenght $s_i$  
++ The strenght of Roberts's drinks must increase over time  
+
+**GOAL:** Compute the maximum number of drinking stops of Robert  
+
+![WINE](./Screen/exwine.png)  
 
 
+### First attempt:  
+**Subproblem definition:**  
+
+$OPT[i]$: lenght of the LIS of $S[1],...,S[i]$  
+
+**Base case:**  
+
+$OPT[1]=1$  
+
+**Solution:**  
+
+$OPT[n]$  
+
+**Recursion formula:** $???$  
+
+**Tip:** sometimes adding constraints to subproblems can help!  
+
+$OPT[i]$: lenght of the LIS of $S[1],...,S[i], that ends with $S[i]$  
+
+![SOl](./Screen/solexwine.png)  
+
+**Subproblem definition:**  
+$OPT[i]$: lenght of the LIS of $S[1],...,S[i], that ends with $S[i]$  
+
+**Base case:**  
+$OPT[1]=1$  
+
+**Solution:**  
+$max_{i=1,2,...,n}OPT[i]$  
+
+**subproblem order:**  
+$OPT[1],OPT[2],...,OPT[n]$  
+
+**Recursion formula:**  
+$OPT[i]+max \{0,max_{j=1,2,...,i-1   
+tc S[j]<S[i]}OPT[j]\}$
+
+![code](./Screen/codesolexwine.png)  
+
+**Running time:**  
++ each $OPT[i]$ is computed in $O(i)=O(n)$ time  
++ $O(n^2)$ time.  
 
 
