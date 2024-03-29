@@ -41,7 +41,7 @@ Must be an optimal solution to problem consisting of remaning jobs $1,2,...,j-1$
 
 **CASE 2** $OPT(j)$ selects job $j$  
 + collect profit $w_j$  
-+ can't use incompatible jobs {$p(j)+1, p(j)+2,...,j-1$}  
++ can't use incompatible jobs $\{ p(j)+1, p(j)+2,...,j-1 \}$  
 + Must include optimal solution to problem consisting of remaning compatible jobs $1,2,...,p(j)$  
 
 **Bellman equation:** $OPT(j)$=  
