@@ -47,8 +47,9 @@ Must be an optimal solution to problem consisting of remaning jobs $1,2,...,j-1$
 **Bellman equation:** $OPT(j)$=  
 {  
 
+
 + $0$ if $j>0$  
-+ $max \{ OPT(j-1),w_j+OPT(p(j)) \}$
++ $max\{ OPT(j-1),w_j+OPT(p(j)) \}$
 
 }
 
@@ -101,7 +102,8 @@ Use $M[j]$ to avoid solving subproblem $j$ more than once.
 ![code sol](./Screen/find_sol_code_w_int_sched.png)  
 
 >[!NOTE]  
-$\#$ of recursive calls $\le n \implies O(n)$  
+> \# of recursive calls $\le n \implies O(n)$  
+
 
 
 | Memoization (top-down) | Table-based (bottom-up) |
@@ -161,8 +163,7 @@ $max_{i=1,2,...,n}OPT[i]$
 $OPT[1],OPT[2],...,OPT[n]$  
 
 **Recursion formula:**  
-$OPT[i]+max \{0,max_{j=1,2,...,i-1   
-tc S[j]<S[i]}OPT[j]\}$
+$OPT[i]+max \{0,max_{j=1,2,...,i-1 tc S[j]<S[i]}OPT[j]\}$
 
 ![code](./Screen/codesolexwine.png)  
 
