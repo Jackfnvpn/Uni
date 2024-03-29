@@ -48,7 +48,7 @@ Must be an optimal solution to problem consisting of remaning jobs $1,2,...,j-1$
 {  
 
 + $0$ if $j>0$  
-+ $max${$OPT(j-1),w_j+OPT(p(j))$}
++ $max \{OPT(j-1),w_j+OPT(p(j))\}$
 
 }
 
