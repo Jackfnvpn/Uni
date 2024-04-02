@@ -92,7 +92,7 @@ Use $M[j]$ to avoid solving subproblem $j$ more than once.
   - (1) returns an initialized value $M[j]$  
   - (2) initializes $M[j]$ and makes two recursive calls   
 
-- Progress measure $\phi=\#$ initialized entries among $M[1:n]$  
+- Progress measure $\phi $ = $\#$ initialized entries among $M[1:n]$  
   - initially $\phi =0$; throughout $\phi \le n$  
   - (2) increases $\phi$ by $1 \implies 2n$ recursive calls.  
 + Overall running time of $M-COMPUTE-OPT(n)$ is $O(n)$  
