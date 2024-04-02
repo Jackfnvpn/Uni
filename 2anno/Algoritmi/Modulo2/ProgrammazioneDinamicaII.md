@@ -85,7 +85,7 @@ Use $M[j]$ to avoid solving subproblem $j$ more than once.
 **Claim:**  Memoized version of algorithm takes $O(nlogn)$ time.  
 
 *Pf*:  
-+ Sort by finish time: $\O(nlogn)$ (mergesort).  
++ Sort by finish time: $O(nlogn)$ (mergesort).  
 + Compute $p[j]$ for each : $O(nlogn)$ (binary search)  
 
 - $M-COMPUTE-OPT(j):$ each invocation takes $O(1)$ time and either  
@@ -163,7 +163,7 @@ $max_{i=1,2,...,n}OPT[i]$
 $OPT[1],OPT[2],...,OPT[n]$  
 
 **Recursion formula:**  
-$OPT[i] + max(0,max_{j=1,2,...,i-1 tc S[j]<S[i]} OPT[j])$
+$OPT[i]+max(0,max_{j=1,2,...,i-1 : S[j]<S[i]} OPT[j])$  
 
 ![code](./Screen/codesolexwine.png)  
 
