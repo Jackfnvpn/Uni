@@ -163,7 +163,7 @@ $max_{i=1,2,...,n}OPT[i]$
 $OPT[1],OPT[2],...,OPT[n]$  
 
 **Recursion formula:**  
-$OPT[i]+max(0,max_{j=1,2,...,i-1 : S[j]<S[i]} OPT[j])$  
+$OPT[i]+max(0,max_{j=1,2,...,i-1 : S[j] \< S[i]} OPT[j])$  
 
 ![code](./Screen/codesolexwine.png)  
 
