@@ -117,4 +117,41 @@ Ci sono coppie di host connnessi in modo intermittente, chiamati peer, che comun
 
 Come mostrato nella figura, server e peer sono collegati a Internet con collegamenti di accesso: sia $u_s$ la banda di upload del collegamento di accesso del server , $u_i$ la banda di upload del collegamento di accesso dell' $i$-esimo peer e $d_i$ la banda di download del collegamento di accesso dell'$i$-esimo peer. Sia inoltre $F$ la dimensione del file da distribuire (in bit) e $N$ il numero di peer che vuole una copia del file. Il **tempo di distribuzione** è il tempo richiesto perché tutti gli $N$ peer ottengano una copia del file.  
 Supponiamo che il nucleo di rete abbia banda in abbondanza, e che i server e i peer non stiano partecipando a nessun'altra applicazione di rete.  
-Determiniamo in primo luogo il tempo di distribuzione del file per l'archittetura client-server che indichiamo con $D_{cs}$
+Determiniamo in primo luogo il tempo di distribuzione del file per l'archittetura client-server che indichiamo con $D_{cs}$  
+
+Facciamo le seguenti osservazioni:  
+
++ Il server deve trasmettere una copia del file a ciascuno degli $N$ peer, cioè $NF$ bit. Dato che la banda di upload del server è $u_s$, il tempo per distribuire il file deve essere almeno $NF/u_s$.  
++ Sia $d_{min}$ la banda di download del peer avente il valore più basso cioè $d_min = min \{ d_1,d_2,...,d_N \}$. Il peer con la banda di download più bassa non può ricevere tutti gli $F$ bit del file in meno $F/d_{min}$ secondi. Quindi il tempo minimo di distribuzione è almeno $F/d_{min}$  
+
+Mettendo assieme queste due osservazioni otteniamo:  
+
+$D_{cs} \geq max \{ NF /u_s, F/d_{min} \}$  
+
+Ciò fornisce un limite inferiore al tempo di distribuzione minimo per l'archittetura client-server. Consideriamolo come tempo effettivo:  
+
+$D_{cs} = max \{ NF /u_s, F/d_{min} \}$  
+
+Vediamo qui che per $N$ sufficientemente grande , il tempo di distribuzione nel caso client-server è dato da $\frac{NF}{u_s}$
+Quindi il tempo di distribuzione aumenta linearmente con il numero di $N$ di peer.   
+
+Per l'architettura P2P, quando un peer riceve alcuni dati del file , può usare la propria capacità di upload per redistribuire i dati agli altri peer. Per ottenere una semplice espressione del tempo minimo di distribuzione facciamo in primo luogo un'osservazione.  
+
++ All'inizio della distribuzione solo il server dispone del file. Per trasmetterlo all'interno della comunità dei peer il server deve inviare ciascun bit del file almeno una volta nel collegamento di accesso.  
+Quindi il minimo tempo di distribuzione è $\frac{F}{u_s}$. Diversamente dallo schema client-server, un bit inviato una dal server non può non dover essere inviato di nuovo, in quanto i peer possono re-distribuire i bit tra loro  
+
++ Come per l'archittetura client-server, il peer con velocità di download più bassa non può ottenere tutti i bit del file in meno di $F/d_{min}$  
+
++ Infine si osservi che la capacità totale di upload del sistema è uguale alla velocità di upload del server più quella di ciascun peer:  
+$u_{tot}=u_s+u_1+...+u_N$. Il sistema deve poter consegnare $F$ bit a ciascuno degli $N$ peer quindi $NF$ bit. Ciò non può essere fatto a una velocità più grande di $u_{tot}$. Dunque il tempo di distribuzione minimo è:  $NF/u_{tot}$.  
+
+Mettendo assieme queste tre osservazioni otteniamo il tempo minimo di distribuzione P2P:  
+
+$D_{P2P}= max(\frac{F}{u_s},\frac{F}{d_{min}},\frac{NF}{u_s+\sum_{i=1}^N u_i})$  
+
+![csp2p](./Screen/csp2p.png)  
+
+### Bit Torrent  
+Bit torrent è un famoso protocollo P2P per la distribuzione di file. L'insieme di tutti i peer che partecipano alla distribuzione di un file è detto **torrent**. I peer in un torrent scaricano un **chunk** del file di uguale dimensione. Un peer quando entra a far parte del torrent la prima volta non ha chunk del file. Col passare del tempo accumula sempre più parti che, mentre scarica invia agli altri peer. Una volta che il peer ha acquisito l'intero file può lasciare il torrent o rimanere e inviare chunk agli altri. Inoltre può lasciare il torrent quando vuole con un qualsiasi sottoinsieme dei chunk e rientrare in seguito.  
+Ciascun torrent ha un nodo di infrastruttura chiamato **tracker**. Quando un peer entra a far parte di un torrent, si registra presso un tracker e periodicamente lo informa che è ancora nel torrent. In questo modo il tracker tiene traccia dei peer che stanno partecipando al torrent.  
+
