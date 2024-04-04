@@ -8,12 +8,12 @@ $OPT[1]: min(H_1)$
 
 ### *DEF:* Recursion Formula  
 
-$OPT[i]=\{$  
+$OPT[i]=${  
 + $min (v[i],b[i])$ $if$  $OPT[i-1].col = r.col$  
 + $min(r[i],b[i])$ $if$ $OPT[i-1].col = v.col$
 + $min(v[i],r[i])$ $if$ $OPT[i-1].col = b.col$
 
-$\}$
+}
 
 ### Code 
 ```python
