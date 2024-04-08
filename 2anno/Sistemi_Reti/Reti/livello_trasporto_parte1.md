@@ -97,3 +97,67 @@ L'host server può ospitare più socket TCP contemporanee collegate a processi d
 
 Consideriamo un host che stia eseguendo un web server , supponiamo Apache, sulla porta 80. Quando i client (browser) inviano segmenti al server, *tutti* i segmenti hanno porta di destinazione 80. In particolare , sia i segmenti per stabilire la connessione iniziale sia quelli che trasportano messaggi di richiesta HTTP hanno porta di destinazione 80.  
 
+![stesso IP](./Scree/sts_n_porta.png)  
+
+La figura mostra un web server che genera un nuovo processo per ogni connessione. Ciascuno di questi processi ha una propria socket attraverso la quale giungono richieste e sono inviate risposte HTTP. Gli odierni web server ad alte prestazioni spesso utilizzano un solo processo, ma creano un nuovo thread e una nuova socket di connessione per ciascun client. Tale server può avere diverse socket associate allo stesso processo.  
+
+
+## Trasporto non orientato alla connessione  
+
+UDP fa praticamente il minimo che un protocollo di trasporto debba fare. A parte la funzione di multiplexing/demultiplexing e una forma di controllo degli errori minima, non aggiunge nulla a IP.  
+UDP prende i messaggi del processo applicativo, aggiunge il numero di porta di origine e di destinazione per il multiplexing/demultiplexing, aggiunge altri due piccoli campi e passa il paccheto a livello di rete.  
+Questi incapsula il segmento in un datagramma IP e quindi effettua un tentativo di consegnarlo all'host di destinazione in modalità best-effort. Se il segmento arriva a destinazione, UDP utilizza il numero di porta di destinazione per consegnare i dati del segmento al processo applicativo corretto.  
+
+> [!NOTE]  
+> In UDP non esiste handshaking tra le entità di invio e di ricezione a livello di trasporto. Per questo motivo si dice che UDP *non è orientato alla connessione*.  
+
+DNS è un protocollo a livello applicativo che utilizza UDP.  
+Quando l'applicazione DNS in un host vuole effettuare una query, costruisce un messaggio di query DNS e lo passa a UDP.  
+Senza effettuare alcun handshaking con l'entità UDP in esecuzione sul sistema di destinazione, il sistema aggiunge i campi d'intestazione al messaggio e trasferisce il segmento risultante a livello di rete. Quest'ultimo incapsula il segmento UDP in un datagramma e lo invia al server DNS. L'applicazione DNS sull'host che effettua la richiesta aspetta quindi una risposta. Se non riceve, l'applicazione tenta di inviare la richiesta a un altro DNS server oppure informa l'applicazione dell'impossibilità di ottenere una risposta.  
+
+Perché UDP e non TCP:  
+  + *Controllo più preciso a livello di applicazione su quali dati sono inviati e quando*. Non appena un processo applicativo passa dei dati a UDP, quest'ultimo li impacchetta in un segmento che trasferisce immediatamente a livello di rete. TCP invece dispone di un meccanismo di controllo della congestione che ritarda l'invio a livello di trasporto quando i collegamenti sono eccessivamente congestionati. Inoltre TCP continua a inviare il segmento fino a quando non viene notificata la sua ricezione. Dato che le applicazioni in tempo reale richiedono una minima velocità di invio e non sopportano ritardi eccessivi mentre tollerano una perdita di dati, UDP si adatta meglio a loro;  
+  + *Nessuna connessione stabilita*. TCP utilizza un handshake a tre vie prima di iniziare il trasferimento dei dati. UDP invece "spara" dati a raffica senza alcun preliminare formale. Pertanto UDP non introduce alcun ritardo nello stabilire una connessione;
+  + *Nessuno stato di connessione*. TCP mantiene lo stato della connessione nei sistemi periferici. Questo stato include buffer di ricezionee di invio, parametri per il controllo di congestione e parametri sul numero di sequenza e di acknowledgment. UDP no, per questo motivo un server dedicato a una particolare applicazione può generalmente supportare molti più client attivi quando l'applicazione utilizza UDP.  
+  + *Minor spazio usato per l'intestazione del pacchetto*. L'intestazione dei pacchetti TCP aggiunge 20 *byte*, mentre UDP solo 8.  
+
+![protocolli di trasporto usati dalle applicazioni](./Scree/prt_trsp_diff.png) 
+
+La conseguenza di mancanza di controllo di congestione di UDP può avere come risultato un'alta percentuale di perdite tra mittente e destinatario UDP nonché uno schiacciamento delle sessioni TCP.  
+
+Le applicazioni **possono** ottenere un trasferimento dati affidabile anche con UDP, se l'affidabilità è insita nell'applicazione stessa.  
+
+### Struttura dei segmenti UDP  
+
+![Struttura UDP](./Scree/strutt_seg_UDP.png)  
+
+In figura i campi di un segmento UDP, dove i dati dell'applicazione occupano il campo Dati.  
+L'intestazione UDP presenta solo quattro campi di due byte ciascuno. I numeri di porta consentono all'host di destinazione di trasferire i dati applicativi al processo corretto (demultiplexing). Il campo lunghezza specifica il numero di byte del segmento UDP. Un valore esplicito di lunghezza è necessario perché la grandezza del campo Dati può essere divisa tra un segmento e quello successivo.  
+
+### Checksum UDP  
+Il checksum UDP serve per il rilevamento degli errori.  
+Lato mittente UDP effettua il complemento a 1 della somma di tutte le parole da 16 bit nel segmento, e l'eventuale riporto finale viene sommato al primo bit. Tale risultato viene posto nel campo Checksum del segmento UDP. Esempio:  
+
+```
+0110011001100000
+0101010101010101
+1000111100001100
+```
+La somma delle prime due:  
+```
+0110011001100000
+0101010101010101
+1011101110110101
+```  
+Sommando la terza parola al risultato precedente:  
+
+```
+1011101110110101
+1000111100001100
+0100101011000010
+```
+Si noti che il riporto di quest'ultima somma è stato sommato al primo bit. Il completamento a 1 si ottiene convertendo i bit 0 in 1 e viceversa. Di conseguenza il checksum sarà 1011010100111101. In ricezione, si sommano le tre parole iniziali e il checksum. Se non ci sono errori nel pacchetto, l'addizione sarà 1111111111111111. Altrimenti vi è un errore.  
+Dato che non sono garantiti ne l'affidabilità del singolo collegamento ne il rilevamento degli errori in memoria, UDP deve fornire a livello di trasporto un meccanismo di verifica su base end-to-end, se si vuole che il trasferimento dati sia in grado di rilevare errori.  
+Questo è un esempio del **principio end-to-end**.  
+
+
