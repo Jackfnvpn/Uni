@@ -160,4 +160,30 @@ Si noti che il riporto di quest'ultima somma è stato sommato al primo bit. Il c
 Dato che non sono garantiti ne l'affidabilità del singolo collegamento ne il rilevamento degli errori in memoria, UDP deve fornire a livello di trasporto un meccanismo di verifica su base end-to-end, se si vuole che il trasferimento dati sia in grado di rilevare errori.  
 Questo è un esempio del **principio end-to-end**.  
 
+## Principi di trasferimento  dati affidabile  
+
+![principi trasferimento affidabile](./Scree/tras_dat_aff.png)  
+
+La figura illustra il contesto del trasferimento affidabile. L'astrazione del servizio offerta alle entità dei livelli superiori è quella di un canale affidabile tramite il quale si possono trasferire dati. Con un canale affidabile a disposizione nessun bit dei trasferiti è corrotto o va perduto e tutti i bit sono consegnati nell'ordine di invio.  
+
+Il compito di un **protocollo di trasferimento dati affidabile** è l'implementazione di questa astrazione del servizio. Ciò è complicato dalla possibile infaffidabilità del livello sottostante al protocollo di trasporto.  
+
+La figura (b) mostra le interfacce per il nostro protocollo di trasferimento dati sarà invocato tramite una chiamata a ```rdt_send()``` e trasferirà i dati da consegnare al livello superiore sul lato ricevente. In questo caso ```rdt``` sta per "reliable data transfer" e send indichia la chiamata al lato mittente di ```rdt```. Quando un pacchetto raggiunge il lato ricevente del canale, viene chiamata ```rdt_rcv()```. Il protocollo ```rdt```, quando vuole consegnare i dati a livello superiore, chiama ```deliver_data()``` (da qui in avanti useremo il termine pacchetto e non segmento per questo livello).   
+
+### Costruzione di un protocollo di trasferimento dati affidabile  
+
+#### Trasferimento dati affidabile su un canale perfettamente affidabile: rdt1.0  
+
+Consideriamo il caso più semplice, in cui il canale sottostante è completamente affidabile.  
+
+![MSF](./Scree/rdt.png)  
+
+La **macchina a stati finiti** (a) definisce le operazioni del mittente, l'altra(b) mostra come opera il destinatario . L'evento che causa la transazione è scritta sopra la linea orizzontale, e le azioni intraprese sotto.  
+Quando un evento non determina un'azione e quando un azione non determina un evento usiamo la lettera $\Lambda$ sopra e sotto la linea rispettivamente.  
+Il lato mittente di ```rdt``` accetta semplicemente dati dal livello superiore tramite l'evento ```rdt_send(data)```, crea un pacchetto contenente dati con l'azione ```make_pkt(data)``` e lo invia sul canale.  
+Per quanto riguarda il ricevente, ```rdt``` raccoglie i pacchetti dal sottostante canale tramite l'evento ```rdt_rcv(packet)```, rimuove i dati dai pacchetti tramite l'azione ```extract(packet,data)``` e li passa a livello superiore con l'azione ```deliver_data(data)```.  
+
+#### Trasferimento dati affidabile su un canale con errori sui bit: rdt2.0  
+
+
 
