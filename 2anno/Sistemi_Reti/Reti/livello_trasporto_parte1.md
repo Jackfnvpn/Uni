@@ -185,5 +185,38 @@ Per quanto riguarda il ricevente, ```rdt``` raccoglie i pacchetti dal sottostant
 
 #### Trasferimento dati affidabile su un canale con errori sui bit: rdt2.0  
 
+Un modello più realistico del canale sottostante è quello in cui i bit in un pacchetto possono essere corrotti. Assumiamo ancora che i pacchetti vengono ricevuti nello stesso ordine di invio.  
+Analizziamo come le persone agirebbero in una situazione analoga: come viene dettato un lungo messaggio al telefono. Chi raccoglie il messaggio potrebbe dire "OK" dopo ogni frase che ha sentito, compreso e memorizzato.  
+Se la persona che prende nota non capisce una frase, chiede di ripeterla. Questo protocollo di dettatura dei messaggi usa **notifiche positive** e **notifiche negative**. Tali messaggi di controllo consentono al destinatario di far sapere al mittente che cosa sia stato ricevuto correttamente e che cosa no, chiedendone la ripetizione. Nel contesto di una rete di calcolatori, i protocolli di trasferimento dati affidabile basati su ritrasmissioni sono noti come **protocolli ARQ**.  
+Per gestire la presenza di errori nei bit, i protocolli ARQ devono avere tre funzionalità aggiuntive:  
++ *Rilevamento degli errori*. Innazitutto è richiesto un meccanismo che consenta al destinatario di rilevare gli errori sui bit.   
++ *Feedback del destinatario*. Dato che mittente e destinatario sono generalmente in esecuzione su sistemi periferici diversi, l'unico modo che ha il mittente per conoscere la "visione del mondo" del destinatario (se un pacchetto sia stato ricevuto correttamente o meno) consiste nel feedback esplicito del destinatario. Le risposte di notifica positiva e negativa nello scenario del telefono sono equivalenti ai feedback.  
++ *Ritrasmissioni*. Un pacchetto ricevuto con errori sarà ritrasmesso dal mittente.  
 
+![RDT2.0](./Scree/rdt2.png)  
+
+La figura illustra l'automa che descrive ``rdt2.0``, un protocollo che utilizza il rilevamento degli errori, le notifiche positive e negative.  
+Il lato mittente di ``rdt2.0`` presenta due stati. In quello di sinistra, il protcollo lato mittente sta attendendo i dati da raccogliere dal livello superiore.  
+Quando si verifica l'evento ```rdt_send(data)```, il mittente crea un pacchetto (sndpkt) contenente i dati da inviare, insieme al checksum e infine spedisce il pacchetto tramite l'operazione ```udt_send(sndpkt)```. Nello stato di destra, il protocollo mittente è in attesa di un pacchetto ACK (positive) o NAK (no positive) dal destinatario.  
+Se riceve un ACK (```rdt_rcv(rcvpkt) && isACK(rcvpkt)```) il mittente  sa che il pacchetto ritrasmesso più recente è stato ricevuto correttamente e pertanto il protocollo si rimette in stato di attesa dei dati provenienti dal livello superiore. Se invece riceve NAK , il protocollo ritrasmette l'ultimo pacchetto e attende una risposta. Importante che quando il mittente è nello stato di attesa ACK e NCK non può ricevere dati dal livello superiore. Quindi il mittente non invia dati finché non è certo che il destinatario abbia ricevuto corretammente il pacchetto corrente. Proprio per questo i protocolli quali ``rdt2.0`` sono detti **protocolli stop-and-wait**.  
+La MSF lato ricevente di ``rdt2.0`` ha ancora un solo stato. All'arrivo del pacchetto, il destinatario risponde o con un ACK o con un NAK, a seconda che il pacchetto sia corrotto o meno.  
+Nella figura la notazione ``rdt_rcv(rcvpkt) && corrupt(rcvpkt)`` corrisponde al caso in cui si riceve un pacchetto con qualche errore.  
+Questo protocollo presenta un difetto; non abbiamo tenuto conto della possibilità che i pacchetti ACK o NAK possano a loro volta essere alterati.  
+Per risolvere il problema, prendiamo in considerazione tre possibilità per gestire gli ACK e NAK corrotti:  
+
++ Una possibilità è l'aggiunta di bit di checksum sufficienti a consentire al mittente non solo di trovare, ma anche di correggere gli errori sui bit. Ciò risolve il problema solo per un canale che può danneggiare pacchetti, ma non perderli.  
++ Un ulteriore approccio prevede semplicemente che il mittente rinvii il pacchetto. Questo approccio introduce **pacchetti duplicati** nel canale. La fondamentale difficolta insita nella duplicazione dei pacchetti è che il destinatario non sa se l'ultimo ACK o NAK inviato sia stato ricevuto correttamente dal mittente. Di conseguenza non non può sapere se un pacchetto in arrivo contenga dati nuovi o sia una ritrasmessione.  
+
+Una soluzione è aggiungere un campo al pacchetto dati, obbligando il mittente a numerare i propri pacchetti dati con un **numero di sequenza**. Al destinatario sarà sufficiente controllare questo numero per sapere se il pacchetto ricevuto sia o meno una ritrasmissione.  
+
+![RDT 1](./Scree/mitt_dest1_rdt2.png)  
+
+Le figure illustrano le MSF di ``rdt2.1``. Le MSF di mittente e destinatario hanno il doppio degli stati precedenti. Questo avviene perché lo stato del protocollo deve riflettere il fatto che il pacchetto attualmente in invio o in ricezione abbia numero di sequenza 0 o 1.  
+Notiamo che le azioni negli stati di invio e di attesa di un pacchetto numerato 0 sono immagini specualri delle azioni negli stati in cui viene spedito o si attende un pacchetto numerato 1. L'unica differenza riguarda la gestione del numero di sequenza.  
+Il protocollo ``rdt2.1`` usa ackhnowledgment positivi e negativi dal destinatario verso il mittente. Il destinatario manda un ackhnowledgment positivo quando riceve un pacchetto fuori sequenza, e uno negativo quando riceve un pacchetto alterato.   
+Un mittente che riceve due ACK (**ACK duplicati**) sa che il destinatario non ha ricevuto correttamente il pacchetto successivo a quello confermato due volte. Il nostro protocollo di trasferimento dati affidabile e privo di NAK per un canale con errori sui bit è ``rdt2.2``  
+
+![RDT 2.2](./Scree/rdt_mitt_dest_2.png)  
+
+Una sottile distinzione tra ``rdt2.1 e rdt2.2`` consiste nel fatto che includendo un argomento ```ACK,0 o ACK,1```, nella funzione ```make_pkt()``` della MSF, e il mittente deve ora controllare il numero di sequenza del pacchetto confermato da un messaggio ACK ricevuto. 
 
