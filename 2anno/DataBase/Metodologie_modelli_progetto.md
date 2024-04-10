@@ -154,6 +154,25 @@ Infine una generalizzazione può avere solo un'entità figlia: si parla di *sott
 
 ![Gerarchia generalizzazione](./Screen/ger_generalizzazioni.png)  
 
+## Modellazione dei dati in UML  
+
+### Rappresentazione di dati con i diagrammi delle classi  
+
+#### Classi  
+Sono le componenti principali dei diagrammi delle classi e corrispondono alle entità del modello E-R. Una classe viene rappresentata in UML da un rettangolo contenente il nome della classe e gli attributi a esso associati.  
+C'è da aggiungere che, a differenza di E-R, per una classe è possibile specificare nel riquadro in basso del rettangolo anche i *metodi*, ovvero le operazioni ammissibili su oggetti della classe secondo  il già citato principio di incapsulamento della programmazione orientata agli oggetti. Tale principio suggerisce di descrivere i dati *insieme* alle operazioni da svolgere su di essi.  
+
+![CLASSI UML](./Screen/rappp_class_UML.png)  
+
+Per esempio si potrebbe associare alla classe $IMPIEGATO$ il metodo $SetStipendio()$, che assegna a un impiegato un certo stipendio. Non è invece possibile definire attributi composti.  
+Nei diagrammi delle classi, i simboli $+,-$, #, qui indicano la loro *visibilità*, ovvero se possono essere acceduti o meno da altri oggetti di altre classi.  
+
+#### Associazioni  
+
+![ASSOCIAZIONI](./Screen/ass_bin_UML.png)  
+
+
+
 
 
 

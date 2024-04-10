@@ -218,5 +218,33 @@ Un mittente che riceve due ACK (**ACK duplicati**) sa che il destinatario non ha
 
 ![RDT 2.2](./Scree/rdt_mitt_dest_2.png)  
 
-Una sottile distinzione tra ``rdt2.1 e rdt2.2`` consiste nel fatto che includendo un argomento ```ACK,0 o ACK,1```, nella funzione ```make_pkt()``` della MSF, e il mittente deve ora controllare il numero di sequenza del pacchetto confermato da un messaggio ACK ricevuto. 
+Una sottile distinzione tra ``rdt2.1 e rdt2.2`` consiste nel fatto che includendo un argomento ```ACK,0 o ACK,1```, nella funzione ```make_pkt()``` della MSF, e il mittente deve ora controllare il numero di sequenza del pacchetto confermato da un messaggio ACK ricevuto.  
+
+#### Trasferimento dati affidabile su un canale con perdite ed errori sui bit: rdt3.0  
+
+Supponiamo ora che il canale di trasmissione, oltre a danneggiare i bit, possa anche smarrire i pacchetti. Il protocollo ora deve occuparsi anche di come rilevare lo smarrimento di pacchetti e che cosa fare quando ciò avviene.  
+Suppponiamo che il mittente spedisca un pacchetto dati e che questo o l'ACK corrispondente del ricevente vada smarrito. In entrambi i casi, il mittente non otterrà alcuna risposta da parte del destinatario. Se il mittente è disposto ad attendere un tempo sufficiente per essere *certo* dello smarrimento del pacchetto, può semplicemente ritrasmetterlo.  
+
+**Ma quanto tempo deve attendere il mittente?** Certamente, almeno per il minimo ritardo di andata e ritorno tra mittente e destinatario più il tempo richiesto per l'elaborazione di un pacchetto del destinatario. Questo ritardo è difficile da stimare, inoltre potrebbe portare lunghe attese.  Di conseguenza l'approccio da usare è scegliere in modo assenato un valore di tempo tale per cui la perdita di tempo risulti probabile. Se non si riceve un ACK in questo lasso di tempo, si ritrasmette il pacchetto. Ma il mittente potrebbe trasmettere un pacchetto il cui ritardo potrebbe essere lungo, e ciò porterebbe a pacchetti duplicati. Il protocollo ``rdt2.2`` risolve questo problema.   
+Il mittente non sa se un pacchetto sia andato perso, se ACK sia stato smarrito o se il pacchetto / ACK abbiano avuto un lungo ritardo. L'unica azione fatta è quella di ritrasmettere.  
+Implementare un meccanismo di ritrasmissione basato sul tempo richiede un **contatore** in grado di segnalare al mittente l'avvenuta scadenza di un dato lasso di tempo.   
+Il mittente dovrà quindi essere in grado di (1) inizializzare il contatore ogni volta che invia un pacchetto, (2) di rispondere a un interrupt generato dal timer con l'azione appropriata e (3) fermare il contatore.  
+
+![rdt3.0](./Scree/rdt3.0.png)  
+
+La figura mostra la MSF del mittente in ``rdt3.0``, un protocollo che trasferisce in modo affidabile i dati su un canale che può alterare o perdere pacchetti.  
+
+![operazioni rdt3.0](./Scree/op_rdt3.0.png)  
+
+La figura mostra come il protocollo operi senza pacchetti smarriti o in ritardo e come gestisca i pacchetti di dati persi.  
+Nella figura il tempo procede dall'alto verso il basso del diagramma. Nella figura, nelle pari (a),(b),(c), la parentesi quadra lato mittente indica gli istanti in cui il contatore viene impostato e in cui scade. Dato che i numeri di sequenza dei pacchetti si alternano tra 0 e 1, ``rdt3.0`` viene detto **protocollo ad alternanza di bit**  
+
+
+### Protocolli per il trasferimento dati affidabile  
+
+Il problema di rdt3.0 è che è un protocollo stop-and-wait, dunque non abbastanza veloce.  
+Per valutare l'impatto delle prestazioni, consideriamo il caso di due host (uno nella west-coast e l'altro sulla east-cost). Il ritardo di propagazione di andata e ritorno (*RTT*) alla velocità della luce per questi due sistemi è approssimativamente di 30 ms. Supponiamo che i due sistemi siano connessi da un canale con velocità di trasmissione $R$ di 1 Gbps ($10^9$ bit al secondo). Con pacchetti di dimensione $L$ di 1000 byte inclusi i campi di intestazione e dati, il tempo effettivamente richiesto per trasmettere il pacchetto su collegamento è:  
+
+$d_t = \frac{L}{R} = \frac{8000 bit}{10^9bit/s}$
+
 
