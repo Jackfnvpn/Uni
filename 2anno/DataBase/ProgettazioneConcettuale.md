@@ -22,6 +22,7 @@ Proviamo a fissare alcune regole per ottenere una specifica dei requisiti più p
 
 ![amb rm](./Screen/rm_amb.png)  
 *Esempio di strutturazione dei requisiti*
+
 ## Rappresentazione concettuale dei dati  
 ### Criteri generali di rappresentazione  
 Nella progettazione concettuale conviene seguire le "regole concettuali" del modello E-R.  
@@ -46,6 +47,8 @@ Esempi di queste sono:
 + La decomposizione di una relazione in due relazioni distinte  
 + La trasformazione di una entità in una gerarchia di generalizzazione.  
 
+![tdmod](./Screen/top_down_mod.png)  
+
 Il vantaggio della strategia top-down è che il progettista può inizialmente descrivere le specifiche dei dati trascurandone i dettagli, per poi entrare nel merito.  
 
 ### Strategia bottom-up  
@@ -60,6 +63,8 @@ Esempi di questi:
 + L'individuazione nelle specifiche di un legame tra diverse entità riconducibile a una generalizzazione.  
 + L'aggregazione di una serie di attributi in un entità o in una relazione.  
 
+![BU mod](./Screen/bottom-up_mod.png)  
+
 Il vantaggio della strategia bottom-up è che si adatta a una decomposizione del problema in componenti più semplici, facilmente individuabili. Si presta bene in lavori di gruppo.  
 
 ### Strategia Inside-Out
@@ -70,6 +75,8 @@ Si individuano inizialmente solo alcuni concetti importanti e poi si procede a p
 
 Si può osservare che è stata individuata inizialmente l'entità $IMPIEGATO$ con i suoi attributi. A partire da queste entità sono state rappresentate le correlazioni esistenti tra gli impiegati e i dipartimenti dell'azienda, individuando le relazioni $DIREZIONE$ e $AFFERENZA$ e l'entità $DIPARTIMENTO$ con i relativi attributi. Infine partendo da quest'ultima entità  sono state rappresentate le sedi dell'azienda e l'appartenenza dei dipartimenti alle relative sedi.  
 
+![IO mod](./Screen/inside_out_mod.png)  
+
 Questa strategia ha il vantaggio che non richiede integrazioni. D'altro canto è necessario esaminare , di volta in volta, tutte le specifiche per individuare concetti non ancora rappresentati e descrivere i nuovi concetti in dettaglio.  
 
 ### Strategia mista
@@ -77,7 +84,9 @@ Questa strategia ha il vantaggio che non richiede integrazioni. D'altro canto è
 Cerchiamo di combinare i vantaggi della strategia top-down e bottom-up.  
 Il progettista suddivide i requisiti in componenti separate, come in bottom-up ma allo stesso tempo definisce uno *schema scheletro* contenente i concetti principali dell'applicazione.  
 
+
 E la più flessibile tra le strategie viste: suddivide un problema complesso in sottoproblemi e procede per raffinamenti successivi.  
+
 
 ## Qualità di uno schema concettuale  
 
