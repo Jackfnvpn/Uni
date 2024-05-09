@@ -1,0 +1,9 @@
+reset;
+
+model Example.mod
+
+option solver cplex;
+
+solve;
+
+display x1,x2,z;

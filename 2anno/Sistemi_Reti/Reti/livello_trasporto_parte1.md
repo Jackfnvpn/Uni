@@ -212,39 +212,99 @@ Una soluzione è aggiungere un campo al pacchetto dati, obbligando il mittente a
 ![RDT 1](./Scree/mitt_dest1_rdt2.png)  
 
 Le figure illustrano le MSF di ``rdt2.1``. Le MSF di mittente e destinatario hanno il doppio degli stati precedenti. Questo avviene perché lo stato del protocollo deve riflettere il fatto che il pacchetto attualmente in invio o in ricezione abbia numero di sequenza 0 o 1.  
-Notiamo che le azioni negli stati di invio e di attesa di un pacchetto numerato 0 sono immagini specualri delle azioni negli stati in cui viene spedito o si attende un pacchetto numerato 1. L'unica differenza riguarda la gestione del numero di sequenza.  
-Il protocollo ``rdt2.1`` usa ackhnowledgment positivi e negativi dal destinatario verso il mittente. Il destinatario manda un ackhnowledgment positivo quando riceve un pacchetto fuori sequenza, e uno negativo quando riceve un pacchetto alterato.   
-Un mittente che riceve due ACK (**ACK duplicati**) sa che il destinatario non ha ricevuto correttamente il pacchetto successivo a quello confermato due volte. Il nostro protocollo di trasferimento dati affidabile e privo di NAK per un canale con errori sui bit è ``rdt2.2``  
+Usiamo un esempio. Supponiamo di star scaricando pagine web mentre sono in esecuzione FTP e due sessioni di Telnet. Abbiamo dunque attivi 4 processi, FTP,HTTP e due Telnet. Il livello di trasporto nel calcolatore, quando riceve i dati deve indirizzarli a uno di questi 4 processi:  
+Innazitutto ricordiamo che un processo può gestire una o più **socket** attraverso le quali i dati fluiscono dalla rete al processo e viceversa.  
+Di conseguenza il livello di trasporto nell'host di ricezione non trasferisce i dati direttamente a un processo, ma piuttosto a una socket che fa da intermediario. Siccome, a ogni dato istante, può esserci più di una socket nell'host di ricezione, ciascuna avrà un identificatore univoco il cui formato dipende dal fatto che si tratti di socket UDP o TCP.  
 
-![RDT 2.2](./Scree/rdt_mitt_dest_2.png)  
+Consideriamo ora come l'host in ricezione indirizzi verso la socket appropriata il segmento a livello di trasporto in arrivo.  
+Ciascun segmento a livello di trasporto ha vari campi deputati allo scopo. Lato ricevente, il livello di trasporto esamina questi campi per identificare la socket di ricezione e quindi vi dirige il segmento.  
+Il compito di trasportare i dati dei segmenti a livello di trasporto verso la giusta socket viene detto **demultiplexing**. Il compito di radunare frammenti di dati da diverse socket e passarli a livello di rete, viene detto **multiplexing**.  
 
-Una sottile distinzione tra ``rdt2.1 e rdt2.2`` consiste nel fatto che includendo un argomento ```ACK,0 o ACK,1```, nella funzione ```make_pkt()``` della MSF, e il mittente deve ora controllare il numero di sequenza del pacchetto confermato da un messaggio ACK ricevuto.  
+![Multiplexing](./Screen/multiplexing.png)  
 
-#### Trasferimento dati affidabile su un canale con perdite ed errori sui bit: rdt3.0  
+Si osservi che il livello di trasporto nell'host centrale in figura deve effettuare il demultiplexing dal livello di rete dei segmenti che possono arrivare sia per il processo $P_1$ che processo $P_2$; ciò avviene indirizzando i dati del segmento in ingresso alla giusta socket. Il livello di trasporto nell'host centrale deve, inoltre, raccogliere i dati in uscita dalle socket dei due processi, creare segmenti a livello di trasporto e passarli a livello di rete.  
+In una analogia, Anna effettua un'operazione di multiplexing quando raccoglie le lettere dai mittenti e le imbuca. Nel momento in cui Andrea riceve le lettere dal postino, effettua un'operazione di demultiplexing, consegnando ciascuna missiva al rispettivo destinatario.  
+Esaminiamo ora come vengono realizzati negli host il multiplexing e demultiplexing.  
+Il multiplexing richiede (1) che le socket abbiano identificatori unici e (2) che ciascun segmento presenti campi che indichino la socket a cui va consegnato il segmento.  
 
-Supponiamo ora che il canale di trasmissione, oltre a danneggiare i bit, possa anche smarrire i pacchetti. Il protocollo ora deve occuparsi anche di come rilevare lo smarrimento di pacchetti e che cosa fare quando ciò avviene.  
-Suppponiamo che il mittente spedisca un pacchetto dati e che questo o l'ACK corrispondente del ricevente vada smarrito. In entrambi i casi, il mittente non otterrà alcuna risposta da parte del destinatario. Se il mittente è disposto ad attendere un tempo sufficiente per essere *certo* dello smarrimento del pacchetto, può semplicemente ritrasmetterlo.  
+![campi porte](./Screen/campi_numport.png)
 
-**Ma quanto tempo deve attendere il mittente?** Certamente, almeno per il minimo ritardo di andata e ritorno tra mittente e destinatario più il tempo richiesto per l'elaborazione di un pacchetto del destinatario. Questo ritardo è difficile da stimare, inoltre potrebbe portare lunghe attese.  Di conseguenza l'approccio da usare è scegliere in modo assenato un valore di tempo tale per cui la perdita di tempo risulti probabile. Se non si riceve un ACK in questo lasso di tempo, si ritrasmette il pacchetto. Ma il mittente potrebbe trasmettere un pacchetto il cui ritardo potrebbe essere lungo, e ciò porterebbe a pacchetti duplicati. Il protocollo ``rdt2.2`` risolve questo problema.   
-Il mittente non sa se un pacchetto sia andato perso, se ACK sia stato smarrito o se il pacchetto / ACK abbiano avuto un lungo ritardo. L'unica azione fatta è quella di ritrasmettere.  
-Implementare un meccanismo di ritrasmissione basato sul tempo richiede un **contatore** in grado di segnalare al mittente l'avvenuta scadenza di un dato lasso di tempo.   
-Il mittente dovrà quindi essere in grado di (1) inizializzare il contatore ogni volta che invia un pacchetto, (2) di rispondere a un interrupt generato dal timer con l'azione appropriata e (3) fermare il contatore.  
+Quelli in figura sono il **campo del numero di porta di origine** e il **campo del numero di porta di destinazione** (I segmenti UDP e TCP presentano ulteriori campi).  
+I numeri di porta sono di 16 bit e vanno da 0 a 65535, quelli che vanno da 0 a 1023 sono chiamati **numeri di porta noti** e sono riservati per essere usati da protocolli applicativi come HTTP o FTP.  
+Quando si sviluppa un'applicazione bisogna assegnargli un numero di porta.  
 
-![rdt3.0](./Scree/rdt3.0.png)  
+#### Multiplexing e demultiplexing non orientati alla connessione  
 
-La figura mostra la MSF del mittente in ``rdt3.0``, un protocollo che trasferisce in modo affidabile i dati su un canale che può alterare o perdere pacchetti.  
+Programmi python possono creare una socket UDP con il seguente frammento di codice:  
 
-![operazioni rdt3.0](./Scree/op_rdt3.0.png)  
+```python
+clientSocket=socket(AF_INET,SOCK_DGRAM)
+```  
+Quando una socket UDP viene definita in tale modo, il livello di trasporto le assegna automaticamente un numero di porta compreso tra 1024 e 65535 che non sia ancora stato utilizzato. Altrimenti un programma python potrebbe creare una socket UDP associata a una specifica porta col seguente codice:  
 
-La figura mostra come il protocollo operi senza pacchetti smarriti o in ritardo e come gestisca i pacchetti di dati persi.  
-Nella figura il tempo procede dall'alto verso il basso del diagramma. Nella figura, nelle pari (a),(b),(c), la parentesi quadra lato mittente indica gli istanti in cui il contatore viene impostato e in cui scade. Dato che i numeri di sequenza dei pacchetti si alternano tra 0 e 1, ``rdt3.0`` viene detto **protocollo ad alternanza di bit**  
+Per valutare l'impatto delle prestazioni, consideriamo il caso di due host (uno nella west-coast e l'altro sulla east-cost). Il ritardo di propagazione di andata e ritorno (*RTT*) alla velocità della luce per questi due sistemi è approssimativamente di 30 ms. Supponiamo che i due sistemi siano connessi da un canale con velocità di trasmissione $R$ di 1 Gbps ($10^9$ bit al secondo). Con pacchetti di dimensione $L$ di 1000 byte inclusi i campi di intestazione e dati, il tempo effettivamente richiesto per trasmettere il pacchetto su collegamento è: 
+
+$d_t = \frac{L}{R} = \frac{8000 bit}{10^9bit/s} = 8 ms$  
+
+![confrontopipstop](./Scree/confronto_stoppipe.png)  
+
+La figura (a) mostra che nel nostro protocollo stop-and-wait, se il mittente comincia a inviare pacchetti a $t=0$, l'ultimo bit entra nel canale lato mittente al tempo $t=L/R=8 \mu$  
+Il pacchetto effettua dunque un viaggio di 15ms attraverso il continente , e l'ultimo bit del pacchetto giunge al destinatario all'istante $t=RTT/2+L/R=15.008ms$. Assumendo per semplicità che i pacchetti ACK siano estremamente piccoli e che il destinatario possa spedire un ACK non appena ricevuto l'ultimo bit di un pacchetto dati, l'ACK giunge al mittente all'istante $t=RTT/2 + L/R+RTT/2=30.008ms$. Quindi in un arco di $30.008ms$ il mittente ha trasmesso solo per $0,008 ms$. Se definiamo l'utilizzo del mittente come la frazione di tempo in cui il mittente è stato effettivamente occupato nell'invio di bit sul canale, l'analisi della figura (a) mostra che il protocollo stop-and-wait presenta un utilizzo del mittente pari a:  
+
+$U_{mittente}=\frac{L/R}{RTT+L/R}=\frac{0,008}{30,008}=0,00027$  
+
+In altre parole il mittente è stato attivo solo per 2,7 centesimi dell 1% del tempo.  
 
 
-### Protocolli per il trasferimento dati affidabile  
 
-Il problema di rdt3.0 è che è un protocollo stop-and-wait, dunque non abbastanza veloce.  
-Per valutare l'impatto delle prestazioni, consideriamo il caso di due host (uno nella west-coast e l'altro sulla east-cost). Il ritardo di propagazione di andata e ritorno (*RTT*) alla velocità della luce per questi due sistemi è approssimativamente di 30 ms. Supponiamo che i due sistemi siano connessi da un canale con velocità di trasmissione $R$ di 1 Gbps ($10^9$ bit al secondo). Con pacchetti di dimensione $L$ di 1000 byte inclusi i campi di intestazione e dati, il tempo effettivamente richiesto per trasmettere il pacchetto su collegamento è:  
+La soluzione a questo particolare problema è semplice: anziché operare in modalità stop-and-wait, si consente al mittente di inviare più pacchetti senza attendere gli acknowledgment, come mostrato in (b). Questa figura illustra che, se si consente al mittente di trasmettere tre pacchetti senza dover aspettare gli acknowledgment, l'utilizzo viene sostanzialmente triplicato.  
+Dato che molti pacchetti in transito dal mittente al destinatario possono essere visualizzati di una tubatura, questa tecnica è nota come **pipelining**. Le conseguenze su un protocollo di trasferimento  dati affidabile sono le seguenti:  
 
-$d_t = \frac{L}{R} = \frac{8000 bit}{10^9bit/s}$
++ L'intervallo dei numeri di sequenza disponibili deve essere incrementato, dato che ogni pacchetto in transito deve presentare un numero di sequenza univoco e che ci potrebbero essere più pacchetti in transito ancora in attesa di acknowledgment.  
++ I lati di invio e di ricezione dei protocolli possono dover memorizzare in un buffer più di un pacchetto. Quantomeno , il mittente dovrà memorizzare i pacchetti trasmessi, ma il cui acknowledgment non è ancora stato ricevuto.  
++ La quantita di numeri in sequenza necessari e i requisiti di buffer dipendono dal modo in cui il protocollo di trasferimento dati reagisce ai pacchetti smarriti, alterati o troppo in ritardo. Si possono identificare due approcci verso la risoluzione del pipelining.  
+
+![invio](./Scree/invioprotstoppipe.png)  
+
+### Go-Back-N (GBN)  
+
+In un protocollo **Go-Back-N** il mittente può trasmettere più pacchetti senza dover attendere alcun acknowledgment, ma non può avere più di un dato massimo consentito di $N$ pacchetti in attesa di acknowledgment nella pipeline.  
+
+![GBN](./Scree/GBN.png)  
+
+La figura mostra la visione del mittente sull'intervallo di numeri di sequenza in un protocollo GBN. Se definiamo *base* come il numero di sequenza del pacchetto più vecchio che non ha ancora ricevuto un acknowledgment e *nextseqnum* il più piccolo numero di sequenza inutilizzato (da inviare), allora si possono identificare quattro intervalli di numeri di sequenza. 
+
+I numeri di sequenza nell'intervallo *[0,base-1]* corrispondono ai pacchetti già trasmessi e che hanno ricevuto acknowledgment. L'intervallo *[base, nextseqnum-1]* corrisponde ai pacchetti inviati, ma che non hanno ancora ricevuto alcun ackhnowledgment. Intervallo *[nextseqnum, base+N-1]* possono essere utilizzati per i pacchetti da inviare immediatamente, nel caso arrivassero dati dal livello superiore. Infine maggiore o uguale a *base+N* non possono essere utilizzati finché il mittente non riceva un ackhnowledgment relativo a un pacchetto che si trova nella pipeline ed è ancora privo di ackhnowledgment.  
+
+L'intervallo di numeri di sequenza ammissibili per i pacchetti trasmessi , ma che non hanno ancora ricevuto ackhnowledgment, può essere visto come una finestra di dimensione $N$ (**ampiezza della finestra**) sull'intervallo dei numeri in sequenza e il protocollo GBN viene detto **protocollo a finestra scorrevole**.  
+
+In pratica il numero di sequenza di un pacchetto viene scritto su un campo a dimensione fissa dell'intestazione del pacchetto. Detto $k$ il numero di bit di tale campo , l'intervallo possibile dei numeri di sequenza è *[$0,2^{k-1}$]*.  
+
+Il mittente GBN deve rispondere a tre tipi di evento:  
+
++ *Invocazione dall'alto*. Quando dall'alto si chiama ```rdt_send()```, come prima cosa il mittente controlla se la finestra sia piena, ossia se vi siano $N$ pacchetti in sospeso senza ackhnowledgment. Se la finestra non è piena, crea e invia un pacchetto e le variabili vengono aggiornate di conseguenza. Se la finestra è piena il mittente restituisce i dati al livello supeiore che rientrerà più tardi.  
++ *Ricezione di un ACK*. In GBN, l'ackhnowledgment del pacchetto con il numero di sequenza $n$ verrà considerato un **ackhnowledgment cumulativo**
+ che indica che tutti i pacchetti con un numero di sequenza minore o uguale a $n$ sono stati correttamente ricevuti dal destinatario.  
+
++ *Evento di timeout*. Come nei protocolli stop-and-wait, si usa ancora un contatore per risolvere il problema di pacchetti dati o ackhnowledgment persi. Quando si verifica un timeout (*tempo scaduto*), il mittente **invia** nuovamente **tutti** i pacchetti spediti che ancora non hanno ricevuto un ackhnowledgment.  
+
+Anche le azioni del destinatario GBN sono semplici. Se un pacchetto con numero di sequenza $n$ viene ricevuto correttamente , il destinatario manda un ACK per quel pacchetto e consegna i dati al livello superiore. In tutti gli altri casi , il destinatario scarta i pacchetti e rimanda un ACK per il pacchetto ricevuto in ordine più recente.  
+
+### Ripetizione selettiva  
+
+I **protocolli a ripetizione selettiva** evitano le ritrasmissioni non necessarie facendo ritrasmettere al mittente solo quei pacchetti sui cui esistono sospetti di errore (ossia, smarrimento o alterazione).  
+
+![Rip sel](./Scree/ripselt.png)  
+
+- **Mittente**  
+  - *Dati ricevuti dall'alto*. Quando si ricevono dati dall'alto, il mittente SR controlla il successivo numero di sequenza disponibile per il pacchetto. Se è all'interno della finestra del mittente, i dati vengono impacchettati e inviati. Altrimenti sono salvati nei buffer o restituiti al livello superiore per una successiva ritrasmissione GBN.  
+  - *Timeout*. Vengono usati ancora i contatori per cautelarsi contro la perdita dei pacchetti. Ora però ogni pacchetto deve avere un proprio timer logico, dato che al timeout sarà ritrasmesso un nuovo pacchetto  
+  - *ACK ricevuto*. Se riceve un ACK, il ricevente etichetta tale pacchetto come ricevuto, ammesso che sia nella finestra. Se $n$ è il numero di sequenza più piccolo, la base della finestra avanza al successivo numero di sequenza del pacchetto non riscontrato  
+
+- **Ricevente**
+  - Il pacchetto con numero di sequenza nell'intervallo [*rcv_base, rcv_base + N + 1*] viene ricevuto correttamente. Il pacchetto ricevuto ricade all'interno della finestra del ricevente e al mittente viene restituito un pacchetto ACK. Se il pacchetto non era già stato ricevuto viene inserito nel buffer. Se presenta un numero di sequenza uguale alla base della finestra di ricezione, allora questo pacchetto e tutti i pacchetti nel buffer aventi numeri consevutivi vengono consegnati al livello superiore.
+  - Viene ricevuto il pacchetto con numero di sequenza nell' intervallo [rcv_base - N, rcv_base - 1]. In questo caso si deve generare un ACK, anche se si tratta di un pacchetto che il ricevente ha già riscontrato.
+  -Altrimenti, si ignora il pacchetto.
+
 
 

@@ -12,9 +12,6 @@
 
 #define TRUE 1
 
-// Prototipo della funzione main secondo lo standard ANSI
-int main(int argc, char *argv[]);
-
 int main(int argc, char *argv[]) {
     int in_fd, out_fd;      // File descriptor per i file di input e output
     int rd_count, wt_count; // Contatori per la lettura e scrittura
@@ -52,7 +49,7 @@ int main(int argc, char *argv[]) {
         if (rd_count <= 0)
             break; // Se fine del file o errore, esce dal ciclo
 
-        wt_count = write(out_fd, buffer, rd_count); // Scrive i dati
+        wt_count = write(out_fd, buffer, sizeof(buffer)); // Scrive i dati
         if (wt_count <= 0)
             exit(4); // wt_count <= 0 è un errore
     }
