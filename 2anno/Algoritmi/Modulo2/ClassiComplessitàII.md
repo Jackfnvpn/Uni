@@ -53,9 +53,10 @@ A permutation $\pi$ of the $n$ nodes
 
 #### Certifiers  
 Check that $\pi$ contains each node in $V$ exactly once, and that $G$ contains an edge between each pair of adjacent nodes   
-![certifiers3](./Scree/certficateproblems3.png)  
 
-> [!NODE]  
+![certifiers5](./Scree/certficateproblems3.png)  
+
+> [!NOTE]  
 > $HAMILTON$- $PATH\in NP$  
 
 ## Two problems that probably do not belong to NP  
