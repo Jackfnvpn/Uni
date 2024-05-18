@@ -34,7 +34,3 @@ def Merge(L: list, start: int, end_1: int, end_2: int) -> None:
 
     for i in range(start, end_2 + 1):
         L[i] = X[i - start]
-
-
-def saluta():
-    print("ciai")
