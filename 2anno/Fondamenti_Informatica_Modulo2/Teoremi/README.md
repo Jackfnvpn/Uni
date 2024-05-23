@@ -1,0 +1,1 @@
+File con tutti i teoremi e le associate dimostrazioni fatte durante il corso di Fondamenti d'Informatica all'Università di Roma Torvergata stilato dal mio caro amico ![Zbirciog Ionut Georgian](https://github.com/IonutZbir)
