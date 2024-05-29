@@ -55,7 +55,8 @@ Da $T$ deriviamo una macchina di Turing trasduttore ad un nastro (oltre quello d
 1. Viene simulata la computazione $T(x)$ utilizzando il primo nastro come nastro di lavoro.  
 2. Nel caso la computazione $T(x)$ termini nel suo stato di accettazione, sul nastro di output viene scritto 1. Nel caso la computazione $T(x)$ termini nel suo stato di rigetto, sul nastro di output viene scritto 0.  
 
-Poiché $L$ è decidibile, il primo passo termina sempre. Se $x \in L$ allora T(x) termina nello stato di accettazione e nel passo 2 viene scritto 1 sul nastro di output. Se $x \notin L$ allora T(x) termina nello stato di rigetto e nel passo 2 viene scritto 0 sul nastro di output. Dunque $\chi_L$ è calcolabile.  
+Poiché $L$ è decidibile, il primo passo termina sempre. Se $x \in L$ allora T(x) termina nello stato di accettazione e nel passo 2 viene scritto 1 sul nastro di output. Se $x \notin L$ allora T(x) termina nello stato di rigetto e nel passo 2 viene scritto 0 sul nastro di output. Dunque $\chi_L$ è calcolabile.    
+
 
 $(\impliedby)$  
 
@@ -68,7 +69,53 @@ Essa utilizza due nastri, sul primo viene scritto l'input $x \in \Sigma^*$.  La 
 1. Viene simulata la computazione $T'(x)$ utilizzando il primo nastro come nastro di lavoro e viene scritto il valore $\chi_L(x)$ sul nastro di output.  
 2. Se sul nastro di output viene scritto 1 la macchina $T$ termina nello stato di accettazione. Se sul nastro di output viene scritto 0 la macchina $T$ termina nello stato di rigetto.  
 
-Siccome $\chi_L$ è totale, il passo 1 termina sempre. Se $\chi_L(x)=1$ allora la computazione $T(x)$ termina nello stato di accettazione e dunque $x \in L$. Se $\chi_L(x)=0$ allora la computazione $T(x)$ termina nello stato di rigetto e dunque $x \notin L$. Dunque $L$ è decidibile  
+Siccome $\chi_L$ è totale, il passo 1 termina sempre. Se $\chi_L(x)=1$ allora la computazione $T(x)$ termina nello stato di accettazione e dunque $x \in L$. Se $\chi_L(x)=0$ allora la computazione $T(x)$ termina nello stato di rigetto e dunque $x \notin L$. Dunque $L$ è decidibile   
+
+### <span style="color:red"> Teorema  </span>  
+
+Se la funzione $f: \Sigma^* \rightarrow \Sigma^*_1$ è totale è calcolabile allora il linugaggio $L_f=\set{<x,y>: x \in \Sigma^* \space \land \space y=f(x)} \subseteq \Sigma^* \times \Sigma^*_1$ è decidibile  
+
+#### <span style="color:yellowgreen"> dim </span>
+
+Poiché $f$ è totale e calcolabile allora esiste una macchina di Turing $T_f$ ad un nastro (oltre quello di output), che su con input $x \Sigma^*$ calcola il valore $f(x)$ e lo scrive sul nastro di output.  Da $T_f$ deriviamo una nuova macchina di Turing $T$ riconoscitore a 2 nastri. Sul primo di questi verrà scritto l'input $<x,y>$ con $x \in \Sigma^*$ e $y \in \Sigma^*_1$, opera nella seguente maniera:  
+1. Sul primo nastro è scritto l'input $<x,y>$   
+2. Viene simulata la computazione $T_f(x)$ calcolando il valore $z=f(x)$ e scrivendo $z$ sul secondo nastro  
+3.  Esegue un confronto fra $z$ e $y$. Se $z=y$ allora la computazione $T((x,y))$ termina nello stato di accettazione, altrimenti nello stato di rigetto.  
+
+Siccome $f$ è una funzione totale il passo 2. termina sempre per ogni input x. Se al passo 2. viene scritto sul secondo nastro il valore $y=f(x)$ al passo 3. la computazione $T((x,y))$ termina nello stato di accettazione. Se invece $f(x)=z\neq y$ allora il passo 2. termina scrivendo $z$ sul secondo nastro e al passo 3. la computazione $T((x,y))$ termina nello stato di rigetto. $L$ è decidibile  
+
+### <span style="color:red"> Teorema  </span>  
+
+Sia $f: \Sigma^* \rightarrow \Sigma^*_1$ una funzione. Se il linguaggio $L_f \subseteq \Sigma^* \times \Sigma^*_1$ allora $f$ è calcolabile.  
+
+#### <span style="color:yellowgreen"> dim </span>
+
+Poichè $L_f \subseteq \Sigma^* \times \Sigma^*_1$ è decidibile, esiste una macchina di Turing di tipo riconoscitore $T$ , con stato di accettazione $q_A$ e stato di rigetto $q_R$, tale che, per ogni $x \in \Sigma^*$ e per ogni $y \in \Sigma^*_1$:
+
+$
+    o_T(x,y) =
+    \begin{cases}
+    q_A & \text{se } y=f(x) \\
+    q_R & \text{altrimenti} 
+    \end{cases}
+$  
+
+
+Senza perdita di generalità, supponiamo che $T$ utilizzi un unico nastro. A partire da $T$ , definiamo una macchina di
+Turing di tipo trasduttore $T_f$ a 4 nastri, che, con input $x \in \Sigma^*$ sul primo nastro, opera nella maniera seguente:  
+1. Scrive il valore $i=0$ sul primo nastro 
+2. Enumera tutte le stringhe $y \in \Sigma^*_1$ la cui lunghezza è pari al valore scritto sul primo nastro, simulando per ciascuna
+di esse le computazione $T(x, y)$; in altri termini, opera come segue:   
+  
+    2.1.  sia $y$ la prima stringa di lunghezza $i$ non ancora enumerata; allora, scrive $y$ sul secondo nastro;  
+    2.2 sul terzo nastro, esegue la computazione $T(x, y)$;
+    2.3 se $T(x, y)$ termina nello stato $q_a$ allora scrive sul nastro di output la stringa $y$ e termina, altrimenti, eventualmente incrementando il valore $i$ scritto sul primo nastro se $y$ era l’ultima stringa di lunghezza $i$, torna
+al passo 2.  
+
+Osserviamo innanzi tutto che, poichè $L_f$ è decidibile, il passo  2.1 sopra termina per ogni input $<x, y>$. Se $x$ appartiene al dominio di $f$ , allora esiste $\bar{y} \in \Sigma^*_1$ tale che $\bar{y} = f(x)$ e, quindi, $<x, \bar{y}> \in L_f$ . Allora, in questo caso, prima o poi (ma, comunque, in tempo finito) la stringa $\bar{y}$ verrà scritta sul secondo nastro e la computazione $T(x, y)$ terminerà nello stato di accettazione e, quindi, al passo 2.3 $T_f(x)$ scriverà $\bar{y}$ sul nastro output terminerà. Questo dimostra che $f$ è calcolabile. 
+
+Notiamo esplicitamente che, nella dimostrazione del Teorema, se $x$ non appartiene al dominio di $f$ , allora nessuna
+stringa $y$ generata al passo 2.2 consente a $T(x, y)$ di terminare nello stato di accettazione e, quindi, la computazione $T_f(x)$ non termina. Pertanto, l’ipotesi di decidibilità di $L_f$ non consente di affermare che $f$ sia totale.
 
 ## Teoremi Dispensa 5  
 
@@ -86,6 +133,58 @@ $L_H$ è accettabile $\implies \exists T: \forall i,x \in \N \times \N[o_T(i,x)=
 
 Mostriamo che $T$ è una modifica della macchina universale $U$ che lavora con 4 nastri. Sul primo nastro verrà scritta la codifica della macchina di Turing i mentre sul secondo nastro $x \in$ {$0,1$}$^*$. La macchina di Turing $T$ inizia la sua computazione verificando che la codifica $i$ scritta sul nastro 1 di input sia effettivamente la codifica di una macchina di Turing, così non fosse terminerebbe nello stato di rigetto. Poi $T$ simula la computazione di $U$ e se $U$ termina (che sia nello stato di accettazione o di rigetto) allora $T$ termina nello stato di accettazione. Quindi $T(i,x)$ accetta le sole coppie $(i,x)$ che appartengono a $L_H$. Dunque $L_H$ è accettabile.
 Nel caso $i$ non sia una codifica di alcuna macchina di Turing, allora poiché l'insieme delle quintuple di una qualsiasi macchina di Turing è totale e le computazioni con input che non rispettano le specifiche non terminano, allora $U(i,x)$ non termina.  
+
+### <span style="color:red"> Teorema  </span>  
+
+$L_H$ non è decidibile  
+
+#### <span style="color:yellowgreen"> dim </span>
+
+Supponiamo che $L_H$ sia decidibile, allora esiste una macchina di Turing $T$ tale che
+
+$
+    T(i,x) =
+    \begin{cases}
+    q_A & \text{se } (i,x) \in L_H, \\
+    q_R & \text{se } (i,x) \notin L_H
+    \end{cases}
+$  
+
+Da $T$ possiamo, allora, semplicemente complementando gli stati di accettazione e di rigetto di $T$ , derivare una nuova
+macchina T ′ che accetta tutte e sole le coppie $(i, x) ∈
+\N \times \N − L_H$ , ossia,
+
+$
+    T'(i,x) =
+    \begin{cases}
+    q_R & \text{se } (i,x) \in L_H, \\
+    q_A & \text{se } (i,x) \notin L_H
+    \end{cases}
+$  
+
+A partire da $T'$ deriviamo, poi, una terza macchina $T ^∗$ che, invece che su una coppia di interi,
+opera su un singolo input $i \in \N$. Inoltre, $T^*(i)$ accetta se $T'(i, i)$ accetta, mentre non termina se $T'(i, i)$ rigetta. Questo
+è possibile apportando a $T'$ le seguenti modifiche:
+
++ sostituiamo lo stato $q_R$ con un nuovo stato non finale $q'_R$ in tutte le quintuple di $T'$ che terminano nello stato $q_R$;
++ aggiungiamo alle quintuple di $T'$ la quintupla $<q'_R, y, y, q'_R, fm>$, per ogni $y \in \set{0, 1}$.  Allora:
+
+$
+    T^*(i) =
+    \begin{cases}
+    \text{non termina} & T'(i,i) \text{ rigetta} \\
+    q_A & \text{se } T'(i,i) \text{ accetta}
+    \end{cases}
+$  
+
+Poichè $\mathcal{T}$ è un insieme numerabile e $T^* \in \mathcal{T}$ , allora deve esistere $k \in \N$ tale che $T^∗ = T_k$.
+Ci chiediamo, ora: quale'e l’esito della computazione $T_k(k)$?
+Se $T_k(k) = T^∗(k)$ accettasse, allora $T'(k, k)$ dovrebbe accettare anch’essa. Ma se $T'(k, k)$ accetta, allora $(k, k) \in L_H$ ,
+ossia, $T_k(k)$ non termina. Allora, $T^∗(k)$ non può accettare e, dunque, necessariamente non termina.
+Ma, se $T^∗(k)$ non termina, allora $T'(k, k)$ rigetta e, quindi, $(k, k) \in LH$. Dunque, per definizione, $T_k(k)$ termina.
+Quindi, entrambe le ipotesi, $T_k(k)$ termina o $T_k(k)$ non termina, portano ad una contraddizione. Allora, la macchina
+$T^∗$ non può  esistere. Poich´e $T^∗$ è ottenuta mediante semplici modifiche della macchina che dovrebbe decidere $L_H$ , ne
+consegue che $L_H$ non `e decidibile.
 
 ## Teorema Dispensa 6  
 
@@ -344,3 +443,12 @@ Siccome $L$ è $\bold{NP}$-completo allora:
 
    1. $L \in \bold{NP}$
    2. $\forall L' \in \bold{NP}[L' \leq L]$
+
+$(\subseteq)$  
+
+Poiché $L \in coNP$ allora per ogni $L_1 \in \bold{NP}$, $L_1 \leq L$, ma $\bold{coNP}$ è chiusa rispetto la riducibilità polinomiale ovvero $L_2 \in \bold{coNP}$ e $L_1 \leq L_2 \implies L_1 \in \bold{coNP}$, allora per ogni $L_1 \in NP$ si ha che $L_1 \leq L$ e $L \in \bold{coNP}$. Dunque per la chisura di $\bold{coNP}$, $L_1 \in \bold{coNP}$. Quindi $\bold{NP} \subseteq \bold{coNP}$  
+
+$(\supseteq)$  
+
+Poiché $L \in coNP$ allora $L^c \in \bold{NP}$, $L_1 \leq L$, ma poiché $L$ è $NP$-completo  allora $L^c$ è $coNP$-completo, dunque $\forall L' \in \bold{coNP}, L'\leq L^c$. Ma $\bold{NP}$ è chiusa rispetto la riducibilità polinomiale ovvero $L_2 \in \bold{NP}, L_1 \leq L_2 \implies L_1 \in \bold{NP}$, allora per ogni $L' \in \bold{coNP}, L' \leq L^c e L^c \in \bold{NP}$. Dunque per la chiusura di $\bold{NP}$, $L' \in \bold{NP}$ quindi $\bold{coNP} \subseteq \bold{NP}$.  
+
