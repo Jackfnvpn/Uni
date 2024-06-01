@@ -87,6 +87,8 @@ Dimostrare che $L$ è decidibile
 
 
 
+
+
 ## Problema 5  
 
 Siano $L_1 \subseteq \Sigma^*$ un linguaggio decidibile e $L_2 \subseteq \Sigma^*$ un linguaggio accettabile. Cosa si può dedurre circa

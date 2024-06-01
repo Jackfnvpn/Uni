@@ -132,7 +132,7 @@ $L_H$ è accettabile
 $L_H$ è accettabile $\implies \exists T: \forall i,x \in \N \times \N[o_T(i,x)=q_A \iff (i,x)\in L_H]$  
 
 Mostriamo che $T$ è una modifica della macchina universale $U$ che lavora con 4 nastri. Sul primo nastro verrà scritta la codifica della macchina di Turing i mentre sul secondo nastro $x \in$ {$0,1$}$^*$. La macchina di Turing $T$ inizia la sua computazione verificando che la codifica $i$ scritta sul nastro 1 di input sia effettivamente la codifica di una macchina di Turing, così non fosse terminerebbe nello stato di rigetto. Poi $T$ simula la computazione di $U$ e se $U$ termina (che sia nello stato di accettazione o di rigetto) allora $T$ termina nello stato di accettazione. Quindi $T(i,x)$ accetta le sole coppie $(i,x)$ che appartengono a $L_H$. Dunque $L_H$ è accettabile.
-Nel caso $i$ non sia una codifica di alcuna macchina di Turing, allora poiché l'insieme delle quintuple di una qualsiasi macchina di Turing è totale e le computazioni con input che non rispettano le specifiche non terminano, allora $U(i,x)$ non termina.  
+Siccome nel caso $x \notin L^c_H$ non possiamo dire nulla, $T$ non decide $L^c_H$.
 
 ### <span style="color:red"> Teorema  </span>  
 
@@ -452,3 +452,99 @@ $(\supseteq)$
 
 Poiché $L \in coNP$ allora $L^c \in \bold{NP}$, $L_1 \leq L$, ma poiché $L$ è $NP$-completo  allora $L^c$ è $coNP$-completo, dunque $\forall L' \in \bold{coNP}, L'\leq L^c$. Ma $\bold{NP}$ è chiusa rispetto la riducibilità polinomiale ovvero $L_2 \in \bold{NP}, L_1 \leq L_2 \implies L_1 \in \bold{NP}$, allora per ogni $L' \in \bold{coNP}, L' \leq L^c e L^c \in \bold{NP}$. Dunque per la chiusura di $\bold{NP}$, $L' \in \bold{NP}$ quindi $\bold{coNP} \subseteq \bold{NP}$.  
 
+## Teorema Dispensa 9
+
+### <span style="color:red"> Teorema  </span>  
+
+Un linguaggio $L \subseteq \Sigma^*$ è in $\bold{NP}$ se e soltanto se esistono una macchina di Turing determinisitica $T$ che opera in tempo polinomiale e una costante $k \in \N$ tali che per ogni $x \in \Sigma^*$,  
+
+$x \in L \iff \exist y_x \in \set{0,1}^*: |y_x| \leq |x|^k \space \land \space T(x,y_x)$ accetta  
+
+#### <span style="color:yellowgreen"> dim  </span>  
+
+$(\implies)$  
+
+Sia $L \subseteq \Sigma^*$ un linguaggio in $\bold{NP}$: per definizione di $\bold{NP}$, esistono una macchina di Turing non determinisitica $NT$ e un intero $h \in \N$ tali che $NT$ accetta $L$ e, per ogni $x \in L[ntime(NT,x) \leq |x|^h]$. Questo significa che, per ogni $x \in L$ esiste una computazione deterministica di $NT(x)$ che termina nello stato di accettazione, ossia esiste una sequenza di quintuple $p_1,...,p_{|x|^k}$ che, eseguite a partire dallo stato globale di $NT$ in cui l'input $x=x_1x_2x_3...x_n$ è scritto sul nastro, lo stato interno è lo stato inziiale $q_0$ di $NT$ e la testina è posizionata sulla cella contenente $x_1$, porta ad uno stato globale di accettazione. Allora indichiamo con $p_i=<q_{i_1},s_{i_1},s_{i_2},q_{i_2},m_{i}>$ la $i$-esima quintupla della sequenza, per ogni $i=1,...,n^k$, deve essere $q{1_1}=q_0,q_{(n^k)_2}=q_A$ e, per ogni $2 \leq i \leq n^k$, $q_{i_1}=q_{(i-1)_2}$. Poniamo allora:  
+
+$y(x) = q_{1_1} , s_{1_1} , s_{1_2} , q_{1_2} , m_1 − q_{2_1} , s_{2_1} , s_{2_2} , q_{2_2} , m_2 − . . . − q_{n^k_1} , s_{n^k_1} , s_{n^k_2} , q_{n^k_2} , m_{(n^k)}$
+
+ossia $y(x)$ è la parola nell'alfabeto $\Sigma \cup Q \cup \set{-,s,f,d}$ ottenuta concatenando le parole che corrispondono alla sequenza accettante di quintuple.  
+Sulla base della precedente osservazione, definiamo, ora, una macchina di Turing deterministica a due nastri (a testine indipendenti) $\bar{T}$ che corrisponde alla macchina $NT$ : essa possiede, codificata nelle sue quintuple, la descrizione dell’insieme $P$ delle quintuple di $NT$ . La computazione $\bar{T}(x, y)$, con input $x \in \Sigma^*$ scritto sul primo nastro e
+$y \in (\Sigma \cup Q \cup \set{−, s, f , d})^*$ scritto sul secondo nastro, procede come di seguito descritto. 
+
+1. $\bar{T}$ verifica che $y$ sia nella forma 
+$y(x) = q_{1_1} , s_{1_1} , s_{1_2} , q_{1_2} , m_1 − q_{2_1} , s_{2_1} , s_{2_2} , q_{2_2} , m_2 − . . . − q_{n^k_1} , s_{n^k_1} , s_{n^k_2} , q_{n^k_2} , m_{(n^k)}$: se così non fosse, rigetta.  
+
+2. $\bar{T}$ verifica che , per ogni $1 \leq i \leq  n^k , \langle q_{i_1} , s_{i_1}  , s_{i_2}  , q_{i_2}  , m_i \rangle \in P$: se così non è rigetta  
+3. $\bar{T}$ verifica che $q_{1_1} = q_0$ e $q_{(n^k)_2} = q_A$ : se così non è, rigetta.  
+4. $\bar{T}$ verifica che, per ogni $2 \leq i \leq n^k$, $q_{i_1} = q_{(i−1)_2}$ : se così non è, rigetta.
+5. $\bar{T}$ simula la computazione di $NT(x)$ descritta da $y$: <br>
+    5.1 Con la testina posizionata sulla cella contenente $x_1$, verifica se la quintupla $\langle q_{1_1} , s_{1_1} , s_{1_2} , q{1_2} , m_1\rangle$ può essere eseguita, ossia, se $s_{1_1} = x_1$ e, se è così, eseguila modificando (eventualmente) il contenuto della cella
+del primo nastro su cui è posizionata la testina e spostando (eventualmente) la testina sul primo nastro, altrimenti rigetta;  <br>
+    5.2 per ogni $2 \leq i\leq n^k$, verifica se la quintupla $q_{i_1} , s_{i_1} , s_{i_2} , q_{i_2} , m_i$ può essere eseguita, ossia, se il simbolo
+letto dalla testina è $s_{i_1}$ e, se è così, la esegue modificando (eventualmente) il contenuto della cella del primo
+nastro su cui è posizionata la testina e spostando (eventualmente) la testina sul primo nastro, altrimenti rigetta. 
+<br> 
+
+6. $\bar{T}$ accetta  
+
+Dunque, se $x \in L$, allora $y(x)$ è la codifica di $NT(x)$ accettante che è costituita da al più $|x|^k$ passi.
+Dunque, se $x \in L$, allora $|y(x)| \in O(|x|^k)$ e quindi $\bar{T}$ opera in tempo polinomiale in $|x|$.
+Se $x \in L$, $y_x$ prende il nome di **certificato** per $x$. Dunque $x \in L \iff \exist y(x) \in (\Sigma \cup Q \cup \set{−, s, f, d})^*$ tale che $\bar{T}(x, y_x)$ accetta.  
+
+$(\impliedby)$  
+
+sia $L \subseteq \Sigma^∗$ un linguaggio per il quale esistono una macchina di Turing deterministica $T$ che opera in tempo
+polinomiale e una costante $k \in \N$ tali che, per ogni $x \in \Sigma^∗, x \in L \iff \exist y_x \in {0, 1}∗ : |y_x| ≤ |x|^k \space \land \space T(x, y_x)$ accetta.
+
+Senza perdita di generalità, assumiamo che $T$ disponga di un solo nastro sul quale, inizialmente, sono scritte le due
+parole $x$ e $y$ separate da un carattere $‘2’$. 
+Definiamo la seguente macchina di Turing non deterministica $NT$ che opera in due fasi, con input $x$: 
++ durante la prima fase genera una parola $y \in \set{0, 1}^∗$ di lunghezza al più $|x|^k$ scrivendola sul nastro, alla destra di
+$x$ e separato da esso da un carattere $‘2’$;
+
++ durante la seconda fase simula la computazione $T(x, y)$.
+Si osservi, innanzi tutto, che $NT$ opera in tempo polinomiale in $|x|$: infatti, la prima fase, in cui viene generata
+$y$, richiede al più $O(|x|^k)$ passi e la seconda fase richiede tempo proporzionale a $dtime(T, (x, y))$ e quindi, poichè
+$dtime(T, (x, y))$ è un polinomio in $|x|$ e $|y|$ e $|y| \leq |x|^k$, polinomiale in $|x|$.
+Sia $x \in \Sigma^*$. Se $x \in L$, allora, per ipotesi, esiste una parola $y_x \in \set{0, 1}^∗$ di lunghezza $|y_x| \leq |x|^k$ tale che $T(x, y_x)$ accetta.  
+
+Allora, durante la prima fase della computazione di $NT(x)$ esiste una sequenza di scelte che genera $y_x$ che, nella
+seconda fase, induce $NT$ ad accettare. Quindi, $NT$ accetta $x$. Di contro, se $NT$ accetta $x$ allora esiste una parola
+$y_x \in \set{0, 1}^∗$ di lunghezza $|y_x| \leq |x|^k$, generata durante la prima fase, che induce la seconda fase ad accettare: ma poichè la seconda fase di $NT$ non `e altro che una simulazione di $T$ , questo significa $T(x, y_x)$ accetta. Quindi, $x \in L$.
+In conclusione, $x \in L$ se e soltanto se $NT(x)$ accetta, e, poichè $NT$ è una macchina di Turing non deterministica che
+opera in tempo polinomiale, questo prova che $L \in \bold{NP}$.   
+
+### <span style="color:red"> Teorema  </span>  
+
+Sia $\Gamma_0$ un problema in $\bold{NP}$. Se esiste un problema $\bold{NP}$-completo riducibile a $\Gamma_0$, allora $\Gamma_0$ è $\bold{NP}$-completo  
+
+#### <span style="color:yellowgreen"> dim  </span>  
+  
+Sia $\Gamma_1$ un problema $\bold{NP}$-completo tale che $\Gamma_1 \leq \Gamma_0$. Poiché $\Gamma_1 \leq \Gamma_0$, esiste una funzione $f_{10}: I_{\Gamma_1} \rightarrow I_{\Gamma_0}$ tale che $f_{10} \in \bold{FP}$ e per ogni $x \in I_{\Gamma_1}[x \in \Gamma_1 \iff f_{10}(\Gamma_0) \in \Gamma_0]$  
+
+Poiché $\Gamma_1$ è $\bold{NP}$-completo, per ogni problema $\Gamma_2 \in \bold{NP}$, si ha che $\Gamma_2 \leq \Gamma_1$ e dunque esiste una funzione $f_{21}: I_{\Gamma_2} \rightarrow I_{\Gamma_1}: f_{21} \in \bold{NP} \space \land \space \forall x \in I_{\Gamma_2}[x \in \Gamma_2 \iff f_{21}(x) \in \Gamma_1]$.
+
+Mostriamo ora che la composizione $f_{21}$ e $f_{10}$ è una riduzione polinomiale da $\Gamma_2$ a $\Gamma_0$:  
+
+Sia $x \in I_{\Gamma_2}:$ allora, $x \in \Gamma_2$ se e soltanto se $f_{21}(x) \in \Gamma_1$ e, inoltre, $f_{21}(x) \in \Gamma_1$ se e soltanto se $f_{10}
+( f_{21}(x)) \in \Gamma_0$. Se indichiamo con $f_{20}$ la composizione delle funzioni $f_{21}$ e $f_{10}$, questo dimostra che $f_{20}$ è una riduzione da $\Gamma_2$ a $\Gamma_0$.
+
+Poichè $f_{21} \in \bold{FP}$, esistono una macchina di Turing di tipo trasduttore $T_{21}$ e un intero $k \in \N$ tali che, per ogni $x \in I_{\Gamma_2}$, $T_{21}(x)$ calcola $f_{21}(x)$ e $dtime(T_{21}, x) \leq |x|^k$. Osserviamo che, poichè la computazione $T_21$(x) deve anche scrivere il
+risultato $f_{21}(x)$ sul nastro di output, questo implica che $|f_{21}(x)| \leq dtime(T_{21}, x)$ , ossia, $|f21(x)| \leq |x|^k$.
+Analogamente, poichè $f_{10} \in \bold{FP}$, esistono una macchina di Turing di tipo trasduttore $T_{10}$ e un intero $h \in \N$ tali che,
+per ogni $x \in I_{\Gamma_1}$ , $T_{10}(x)$ calcola $f_{10}(x)$ e $dtime(T{10}, x) \leq |x|^h$. Allora, possiamo definire la seguente macchina di Turing
+di tipo trasduttore $T_{20}$ che calcola $f_{20}$: quando la computazione $T_{20}(x)$ ha inizio, l’input $x \in I_{\Gamma_2}$`e scritto sul nastro di
+lavoro e, a questo punto:  
+
+1. Viene eseguita la computazione $T_{21}(x)$ scrivendo il suo output $f_{21}(x)$ sul nastro di lavoro
+2. Utilizzando il risultato della computazione $T_{21}(x)$, viene eseguita la computazione $T_{10}(f_{21}(x))$ ed il suo output
+viene scritto sul nastro di output  
+
+Infine, in virtù del fatto che   $|f_{21}(x)| \leq |x|^k$, per ogni $x \in \Sigma_2$,
+
+$dtime(T_{20}, x) \leq |x|^k + |f_{21}(x)|h \leq |x|^k + |x|^{kh} \leq 2|x|^{kh} \leq |x|^{kh}+1$.
+
+Essendo $h$ e $k$ due valori costanti (indipendenti dall’input x), questo dimostra che $f_{20} \in \bold{FP}$.
+
+Quindi, abbiamo dimostrato che $\Gamma_2 \leq \Gamma_0$, e, poichè $\Gamma_2$ è un qualunque problema in $\bold{NP}$, questo prova che ogni problema in $\bold{NP}$ è riducibile polinomialmente a $\Gamma_0$. Dall’appartenenza di $\Gamma_0$ a $\bold{NP}$ segue che $\Gamma_0$ è $\bold{NP}$-completo.  
