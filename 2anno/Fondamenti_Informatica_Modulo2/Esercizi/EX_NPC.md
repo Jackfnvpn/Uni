@@ -128,6 +128,15 @@ Il problema è in $\bold{NP}$, infatti dato un certificato del problema verifica
 
 Per dimostrarne la completezza 
 
+![9.28](../Screen/928.png)
+
++ $\mathcal{I}_{12col} = \set{\lang G = (V, E),k\rang : G \text{ è un grafo non orientato } \ \land \ k \in \N}$.
 
 
++ $\mathcal{S}_{12col}(G) = \set{I\subseteq V}$.
+
+
++ $\mathcal{\pi}_{12col}(G, k\mathcal{S}_{12col}(G,k)) = \exist I \in \mathcal{S}_{12col}(G, k) : |I| \geq k \land \forall(u, v) \in I [ (u,v) \notin E ]$.  
+
+Il problema coincide con $IS$.  
 
