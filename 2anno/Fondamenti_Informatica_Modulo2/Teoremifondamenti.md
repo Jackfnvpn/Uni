@@ -4,7 +4,7 @@
 
 ### <span style="color:red"> Teorema  </span>
 
-Un $L \subseteq$ un linguaggio è decidibile $\iff$ $L$ è accettabile e $L^c$ è accettabile  
+Un linguaggio $L \subseteq \Sigma^*$ è decidibile $\iff$ $L$ è accettabile e $L^c$ è accettabile  
 
 #### <span style="color:yellowgreen"> dim </span>
 
@@ -265,8 +265,8 @@ Per transitività allora $dspace(T,x) \leq dspace(T,x)|Q|(|\Sigma|+1)^{dspace(T,
 
 ### <span style="color:red"> Teorema  </span>  
 
-Sia $f: \N \rightarrow \N$ una funzione totale è calcolabile.  
-Sia $L \subseteq \Sigma^*$ un linguaggio accettato da una macchina di Turing non deterministica $NT$ tale che $\forall x \in \Sigma^*[ntime(NT,x)\leq f(|x|)]$ allora $L$ è decidibile.
+Sia $f: \N \rightarrow \N$ una funzione totale e calcolabile.  
+Sia $L \subseteq \Sigma^*$ un linguaggio accettato da una macchina di Turing non deterministica $NT$ tale che $\forall x \in L[ntime(NT,x)\leq f(|x|)]$ allora $L$ è decidibile.
 
 #### <span style="color:yellowgreen"> dim </span>
 
@@ -332,8 +332,8 @@ Dunque $L \in DSPACE[f(n)]$
 ### <span style="color:red"> Teorema  </span>  
 
 Sia $f:\N \rightarrow \N$ totale e calcolabile.  
-$DSPACE[f(n)] \subseteq EXPTIME[f(n)]$
-$NSPACE[f(n)] \subseteq NEXPTIME[f(n)]$    
+$DSPACE[f(n)] \subseteq DTIME[2^{f(n)}]$
+$NSPACE[f(n)] \subseteq NTIME[2^{f(n)}]$    
 
 #### <span style="color:yellowgreen"> dim  </span>
 
@@ -343,7 +343,6 @@ abbiamo che
 $dtime(T,x) \leq |Q|2^{log(dspace(T,x))+log((|\Sigma|+1)){dspace(T,x)}}$.  
 dunque $dtime(T,x) \leq |Q|2^{O({f(|x|)})}$
 dunque $dtime(T,x) \in O(2^{O({f(|x|)})})$
-
 
 Dunque $L \in DTIME[2^{f(|x|)}]$  
 
@@ -840,9 +839,6 @@ Dunque sia $u=0,...,|x|^h$ il primo intero per cui $a(M^u_1)=vero$, allora per $
 
 Dunque la successione di stati globali $\lang SG_1,...,SG_u\rang$ corrisponde a una computazione accettante di $NT(x)$.  
 Dunque $x \in L_\Gamma$
-
-
-
 
 
 ### <span style="color:red"> Teorema  </span>  
