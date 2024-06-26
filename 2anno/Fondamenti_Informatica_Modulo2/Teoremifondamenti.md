@@ -306,7 +306,59 @@ Questo dimostra che $NT'$ decide $L$. Dunque $L$ è decidibile.
 + $coDSPACE[f(n)]=\set{L\subseteq \Sigma^*: L^c \text{ è un linguaggio deciso da una macchina di Turing T  deterministica tale che } \forall x \in \Sigma^*[dspace(T,x)\in O(f(|x|))]}$
 <br>
 + $coNSPACE[f(n)]=\set{L\subseteq \Sigma^*: L^c \text{ è un linguaggio accettato da una macchina di Turing NT non deterministica tale che } \forall x \in L^c[nspace(NT,x)\in O(f(|x|))]}$  
-  
+
+### <span style="color:red"> Teorema  </span>  
+
+Sia $f:\N \rightarrow \N$ totale e calcolabile.  
+$DTIME[f(n)] \subseteq NTIME[f(n)]$
+$DSPACE[f(n)] \subseteq NSPACE[f(n)]$    
+
+#### <span style="color:yellowgreen"> dim  </span>
+
+Basta osservare che una macchina di Turing deterministica, non è altro che una macchina non deterministica con grado di non determinismo pari a 1. E se un linguaggio è deciso in k passi allora è anche accettato in k passi.  
+
+### <span style="color:red"> Teorema  </span>  
+
+Sia $f:\N \rightarrow \N$ totale e calcolabile.  
+$DTIME[f(n)] \subseteq DSPACE[f(n)]$
+$NTIME[f(n)] \subseteq NSPACE[f(n)]$    
+
+#### <span style="color:yellowgreen"> dim  </span>
+
+Sia $L \subseteq \Sigma^*$ e $L \in DTIME[f(n)] \implies \exist T \text{ macchina di Turing deterministica }, k \in \N: \forall x \in \Sigma^*[o_T(x)=q_A \iff x \in L \land \ o_T(x)=q_R \iff x \notin L \land \ dtime(T,x)\in O(f(|x|))]$.    
+Siccome $dspace(T,x) \leq dtime(T,x)$  , abbiamo che $dspace(T,x) \in O(f(|x|))$.  
+Dunque $L \in DSPACE[f(n)]$
+
+### <span style="color:red"> Teorema  </span>  
+
+Sia $f:\N \rightarrow \N$ totale e calcolabile.  
+$DSPACE[f(n)] \subseteq EXPTIME[f(n)]$
+$NSPACE[f(n)] \subseteq NEXPTIME[f(n)]$    
+
+#### <span style="color:yellowgreen"> dim  </span>
+
+Sia $L \subseteq \Sigma^*$ e $L \in DSPACE[f(n)] \implies \exist T \text{ macchina di Turing deterministica }, k \in \N: \forall x \in \Sigma^*[o_T(x)=q_A \iff x \in L \land \ o_T(x)=q_R \iff x \notin L \land \ dspace(T,x)\in O(f(|x|))]$.    
+Siccome $dtime(T,x) \leq dspace(T,x)|Q|(|\Sigma|+1)^{dspace(T,x)}$  , ù
+abbiamo che   
+$dtime(T,x) \leq |Q|2^{log(dspace(T,x))+log((|\Sigma|+1)){dspace(T,x)}}$.  
+dunque $dtime(T,x) \leq |Q|2^{O({f(|x|)})}$
+dunque $dtime(T,x) \in O(2^{O({f(|x|)})})$
+
+
+Dunque $L \in DTIME[2^{f(|x|)}]$  
+
+### <span style="color:red"> Teorema  </span>  
+
+Sia $f:\N \rightarrow \N$ totale e calcolabile.  
+$coDTIME[f(n)] = DTIME[f(n)]$
+$coDSPACE[f(n)] = DSPACE[f(n)]$    
+
+#### <span style="color:yellowgreen"> dim  </span>
+
+Sia $L \subseteq \Sigma^*$ e $L \in coDTIME[f(n)]$ allora $L^c \in DTIME[f(n)]$  dunque esiste una macchina di Turing $T'$ che decide $L^c$ e $\forall x \in
+\Sigma^*[dtime(T',x)\in O(f(|x|))]$. Da $T'$ derivo una nuova macchina di Turing $T$ invertendo però gli stati finali di $T'$. Dunque se $T'(x)$ accetta $T(x)$ rigetta. Osserviamo che $dtime(T',x)=dtime(T,x)$ dunque $DTIME[f(n)] \subseteq coDTIME[f(n)]$. La dimostrazione che $coDTIME[f(n)]\subseteq DTIME[f(n)]$ 
+
+
 ### <span style="color:red"> Teorema  </span>  
 
 Sia $f: \N \rightarrow \N$ una funzione time-constructible
