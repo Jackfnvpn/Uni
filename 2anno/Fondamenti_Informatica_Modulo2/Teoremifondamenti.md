@@ -1,3 +1,5 @@
+<span style="font-size:130%">
+
 # Teoremi Fondamenti  
 
 ## Teoremi Dispensa 3  
@@ -874,3 +876,4 @@ $dtime(T_{20}, x) \leq |x|^k + |f_{21}(x)|h \leq |x|^k + |x|^{kh} \leq 2|x|^{kh}
 Essendo $h$ e $k$ due valori costanti (indipendenti dall’input x), questo dimostra che $f_{20} \in \bold{FP}$.
 
 Quindi, abbiamo dimostrato che $\Gamma_2 \leq \Gamma_0$, e, poichè $\Gamma_2$ è un qualunque problema in $\bold{NP}$, questo prova che ogni problema in $\bold{NP}$ è riducibile polinomialmente a $\Gamma_0$. Dall’appartenenza di $\Gamma_0$ a $\bold{NP}$ segue che $\Gamma_0$ è $\bold{NP}$-completo.  
+<\span>
