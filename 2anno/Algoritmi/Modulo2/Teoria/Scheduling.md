@@ -28,7 +28,7 @@ Considera i jobs in un qualsiasi ordine e prende ogni job disponibile compatibil
   Considera i job in ordine crescente di tempo di inizio
 
 + ### Tempo di fine $[\circledcirc]$
-  Considera i job $[X]$in ordine crescente di tempo di fine
+  Considera i job in ordine crescente di tempo di fine
 
 + ### Intervallo più corto $[X]$
   Considera i job in ordine crescente di tempo di fine - tempo d'inizio
