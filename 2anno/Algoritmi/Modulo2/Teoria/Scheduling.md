@@ -44,7 +44,7 @@ Considera i jobs in un qualsiasi ordine e prende ogni job disponibile compatibil
 
 ## Analisi algoritmo  
 
-Sia $i_1,...,i_k$ l'insieme di jobs scelti dal greedy  (Tempo di fine)
+Sia $i_1,...,i_k$ l'insieme di jobs scelti dal greedy  (Tempo di fine)  
 Sia $j_1,...,j_m$ l'insieme di jobs scelti dall'ottimo  (Tempo di fine)
 
 > [!NOTE]
@@ -62,7 +62,7 @@ Per ogni $r=1,2,...,k$ noi abbiamo $f(i_r) \leq f(j_r)$
 L'algoritmo è **ottimo**.   
 ##### *dim*  
 
-Sia $i_1,...,i_k$ l'insieme di jobs scelti dal greedy  (Tempo di fine)
+Sia $i_1,...,i_k$ l'insieme di jobs scelti dal greedy  (Tempo di fine)  
 Sia $j_1,...,j_m$ l'insieme di jobs scelti dall'ottimo  (Tempo di fine)
 
 Assumiamo che il greedy non sia ottimale, dunque $m > k$, applicando il Lemma con $r=k$, abbiamo che $f(i_k)\leq f(j_k)$. Siccome $m > k$, significa che l'algoritmo ottimo sceglie un job $k+1$ che inizia dopo la fine di $j_k$ ma anche dopo $i_k$ (per il Lemma). Di conseguenza il job $j_{k+1}$ è compatibile anche con i job selezionati dal greedy, dunque il greedy sceglierebbe anche il job $j_{k+1}$ ottenendo un insieme di job ottimo.    
