@@ -57,7 +57,7 @@ Dato $C$ un qualsiasi ciclo in $G$ e dato $f$ l'arco di peso massimo appartenent
 + Dunque $T'$ è un MST non contenente $f$  
 
 ## Algoritmo di Kruskal  
-Inizia con $T=\empty$. Considera archi in ordine crescente di costo. Inserisce l'arco $e$ in $T$ fino a quando non si crea un ciclo.  
+Inizia con $T$ vuoto. Considera archi in ordine crescente di costo. Inserisce l'arco $e$ in $T$ fino a quando non si crea un ciclo.  
 
 > [!IMPORTANT] 
 > Un efficiente implementazione dell'algoritmo di Kruskal utilizza la UnionFind:  
