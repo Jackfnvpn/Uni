@@ -156,7 +156,7 @@ Dato $C'$ il clustering $C'_1,...,C'_k$ formato eliminando i $k-1$ archi del MST
 
 #### dim
 + Dato $C$ che denota un qualunque altro clustering $C_1,...,C_k$.  
-+ Lo spacing di $C'$ è la lunghezza $d^{*}$ dei k-1 degli archi più "costosi" del MST.  
++ Lo spacing di $C'$ è la lunghezza $d'$ dei k-1 degli archi più "costosi" del MST.  
 + Dati $p_i,p_j$ nello stesso cluster in $C'$,detto $C'_r$, ma in due diversi clusters in $C$, detti $C_s$ e $C_t$.  
 + Un qualsiasi arco $(p,q)$ nel percorso da $p_i,p_j$ in $C'_r$ si estende su due diversi clusters in $C$.  
 + Tutti gli archi nel percorso $p_i,p_j$ hanno lunghezza $\leq d'$ dato che l'algoritmo di Kruskal li ha scelti.  
