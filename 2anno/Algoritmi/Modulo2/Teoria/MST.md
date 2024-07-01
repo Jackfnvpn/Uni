@@ -131,7 +131,7 @@ Dividere oggetti in $k$ gruppi non vuoti
 >La funzione di distanza deve soddisfare rigide proprietà:  
 >1. $d(p_i,p_j)=0 \iff p_i=p_j$
 >2. $d(p_i,p_j)\geq 0$
->3. $d(p_i,p_j)=$(p_j,p_i)$ 
+>3. $d(p_i,p_j)=(p_j,p_i)$ 
 
 Lo **spacing** è la minima distanza tra una coppia di oggetti in clusters differenti.
 
@@ -152,12 +152,12 @@ Dato un intero $k$, trovare un $k$-clustering  che massimizza lo spacing
 > Eseguendo l'algortimo di Kruskal fino alla fine, implicitamente produce un Clustering Gerarchico.  
 
 ### Teorema  
-Dato $C^*$ il clustering $C^*_1,...,C^*_k$ formato eliminando i $k-1$ archi del MST più "costosi". $C^*$ è un $k$-clustering che massimizza lo spacing.  
+Dato $C^{*}$ il clustering $C^{*}_1,...,C^{*}_k$ formato eliminando i $k-1$ archi del MST più "costosi". $C^{*}$ è un $k$-clustering che massimizza lo spacing.  
 
 #### dim
 + Dato $C$ che denota un qualunque altro clustering $C_1,...,C_k$.  
-+ Lo spacing di $C^*$ è la lunghezza $d^*$ dei k-1 degli archi più "costosi" del MST.  
-+ Dati $p_i,p_j$ nello stesso cluster in $C^*$,detto $C^*_r$, ma in due diversi clusters in $C$, detti $C_s$ e $C_t$.  
-+ Un qualsiasi arco $(p,q)$ nel percorso da $p_i,p_j$ in $C^*_r$ si estende su due diversi clusters in $C$.  
-+ Tutti gli archi nel percorso $p_i,p_j$ hanno lunghezza $\leq d^*$ dato che l'algoritmo di Kruskal li ha scelti.  
-+ Spacing di $C$ è $\leq d^*$ dato che $p$ e $q$ di trovano in due diversi clusters.
++ Lo spacing di $C^{*}$ è la lunghezza $d^{*}$ dei k-1 degli archi più "costosi" del MST.  
++ Dati $p_i,p_j$ nello stesso cluster in $C^{*}$,detto $C^{*}_r$, ma in due diversi clusters in $C$, detti $C_s$ e $C_t$.  
++ Un qualsiasi arco $(p,q)$ nel percorso da $p_i,p_j$ in $C^{*}_r$ si estende su due diversi clusters in $C$.  
++ Tutti gli archi nel percorso $p_i,p_j$ hanno lunghezza $\leq d^{*}$ dato che l'algoritmo di Kruskal li ha scelti.  
++ Spacing di $C$ è $\leq d^{*}$ dato che $p$ e $q$ di trovano in due diversi clusters.
