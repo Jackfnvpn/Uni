@@ -91,8 +91,8 @@ Se aggiungessimo l'arco $(x,y)$ ,scartato dall'algoritmo, nell'albero MST, quell
 
 ### Complessità  
 $O(m \ logn \ + UF(m,n))$  
-+ Usando QuickFind con union by size :$O(m  logn  + m+ n logn)=O(m  logn)$
-+ Usando QuickUnion con union by size :$O(m  logn  + n logn+ n) =O(m  logn)$
++ Usando QuickFind con union by size :$O(mlogn+m+nlogn)=O(mlogn)$
++ Usando QuickUnion con union by size :$O(mlogn+ n logn+ n) =O(mlogn)$
 
 ## Algoritmo di Prim  
 Inizia con un qualunque nodo radice $s$ e in modo greedy forma l'albero $T$ da $s$ verso gli altri nodi. Ad ogni passo, aggiunge l'arco più economico $e$ a $T$ che ha esattamente un endpoint in $T$  
