@@ -38,23 +38,23 @@ Il corrispondente **cutset** $D$ di un taglio $S$ è un sottoinsieme di archi co
 ### Proprietà taglio e ciclo
 
 #### Proprietà del taglio
-Dato $S$ un qualsiasi sottoinsieme dei nodi e dato $e$ un arco di costo minimo con esattamente un endpoint in $S$. Allora esiste un MST $T^*$ che contiene $e$.  
+Dato $S$ un qualsiasi sottoinsieme dei nodi e dato $e$ un arco di costo minimo con esattamente un endpoint in $S$. Allora esiste un MST $T'$ che contiene $e$.  
 ##### dim
-+ Supponiamo che $e$ non sia in $T^*$. 
-+ Aggiungere $e$ a $T^*$ crea un ciclo $C$ in $T^*$.
++ Supponiamo che $e$ non sia in $T'$. 
++ Aggiungere $e$ a $T'$ crea un ciclo $C$ in $T'$.
 + L'arco $e$ è sia nel ciclo $C$ che nel cutset $D$ corrispondente a $S$, allora esiste un altro arco $f$ che è sia nel ciclo $C$ che in $D$.  
-+ $T'=T^* \cup \set{e}-\set{f}$ è anche uno spanning tree.  
-+ Siccome $c_e \leq c_f$ (da ipotesi $e$ ha costo minimo), $cost(T')\leq cost(T^*)$.  
-+ Dunque $T'$ è un MST contenente $e$  
++ $T''=T' \cup \set{e}-\set{f}$ è anche uno spanning tree.  
++ Siccome $c_e \leq c_f$ (da ipotesi $e$ ha costo minimo), $cost(T')\leq cost(T')$.  
++ Dunque $T''$ è un MST contenente $e$  
 #### Proprietà del ciclo  
-Dato $C$ un qualsiasi ciclo in $G$ e dato $f$ l'arco di peso massimo appartenente a $C$. Allora esiste un MST $T^*$ che non contiene $f$.  
+Dato $C$ un qualsiasi ciclo in $G$ e dato $f$ l'arco di peso massimo appartenente a $C$. Allora esiste un MST $T'$ che non contiene $f$.  
 ##### dim  
-+ Supponiamo che $f$ sia in $T^*$. 
-+ Eliminando $f$ da $T^*$ creiamo un taglio $S$ in $T^*$.  
++ Supponiamo che $f$ sia in $T'$. 
++ Eliminando $f$ da $T'$ creiamo un taglio $S$ in $T'$.  
 + L'arco $f$ è sia nel ciclo $C$ che nel cutset $D$ corrispondente a $S$, allora esiste un altro arco $e$ che è sia nel ciclo $C$ che in $D$.  
-+ $T'=T^* \cup \set{e}-\set{f}$ è anche uno spanning tree.  
-+ Siccome $c_e \leq c_f$ (da ipotesi $e$ ha costo minimo), $cost(T')\leq cost(T^*)$.  
-+ Dunque $T'$ è un MST non contenente $f$  
++ $T''=T' \cup \set{e}-\set{f}$ è anche uno spanning tree.  
++ Siccome $c_e \leq c_f$ (da ipotesi $e$ ha costo minimo), $cost(T')\leq cost(T')$.  
++ Dunque $T''$ è un MST non contenente $f$  
 
 ## Algoritmo di Kruskal  
 Inizia con $T$ vuoto. Considera archi in ordine crescente di costo. Inserisce l'arco $e$ in $T$ fino a quando non si crea un ciclo.  
@@ -152,12 +152,12 @@ Dato un intero $k$, trovare un $k$-clustering  che massimizza lo spacing
 > Eseguendo l'algortimo di Kruskal fino alla fine, implicitamente produce un Clustering Gerarchico.  
 
 ### Teorema  
-Dato $C^{*}$ il clustering $C^{*}_1,...,C^{*}_k$ formato eliminando i $k-1$ archi del MST più "costosi". $C^{*}$ è un $k$-clustering che massimizza lo spacing.  
+Dato $C'$ il clustering $C'_1,...,C'_k$ formato eliminando i $k-1$ archi del MST più "costosi". $C'$ è un $k$-clustering che massimizza lo spacing.  
 
 #### dim
 + Dato $C$ che denota un qualunque altro clustering $C_1,...,C_k$.  
-+ Lo spacing di $C^{*}$ è la lunghezza $d^{*}$ dei k-1 degli archi più "costosi" del MST.  
-+ Dati $p_i,p_j$ nello stesso cluster in $C^{*}$,detto $C^{*}_r$, ma in due diversi clusters in $C$, detti $C_s$ e $C_t$.  
-+ Un qualsiasi arco $(p,q)$ nel percorso da $p_i,p_j$ in $C^{*}_r$ si estende su due diversi clusters in $C$.  
-+ Tutti gli archi nel percorso $p_i,p_j$ hanno lunghezza $\leq d^{*}$ dato che l'algoritmo di Kruskal li ha scelti.  
-+ Spacing di $C$ è $\leq d^{*}$ dato che $p$ e $q$ di trovano in due diversi clusters.
++ Lo spacing di $C'$ è la lunghezza $d^{*}$ dei k-1 degli archi più "costosi" del MST.  
++ Dati $p_i,p_j$ nello stesso cluster in $C'$,detto $C'_r$, ma in due diversi clusters in $C$, detti $C_s$ e $C_t$.  
++ Un qualsiasi arco $(p,q)$ nel percorso da $p_i,p_j$ in $C'_r$ si estende su due diversi clusters in $C$.  
++ Tutti gli archi nel percorso $p_i,p_j$ hanno lunghezza $\leq d'$ dato che l'algoritmo di Kruskal li ha scelti.  
++ Spacing di $C$ è $\leq d'$ dato che $p$ e $q$ di trovano in due diversi clusters.
