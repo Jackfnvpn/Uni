@@ -50,7 +50,7 @@ Dato $S$ un qualsiasi sottoinsieme dei nodi e dato $e$ un arco di costo minimo c
 Dato $C$ un qualsiasi ciclo in $G$ e dato $f$ l'arco di peso massimo appartenente a $C$. Allora esiste un MST $T^*$ che non contiene $f$.  
 ##### dim  
 + Supponiamo che $f$ sia in $T^*$. 
-+ Eliminando $f$ da $T^*$ creiamo un taglio $S$in $T^*$.  
++ Eliminando $f$ da $T^*$ creiamo un taglio $S$ in $T^*$.  
 + L'arco $f$ è sia nel ciclo $C$ che nel cutset $D$ corrispondente a $S$, allora esiste un altro arco $e$ che è sia nel ciclo $C$ che in $D$.  
 + $T'=T^* \cup \set{e}-\set{f}$ è anche uno spanning tree.  
 + Siccome $c_e \leq c_f$ (da ipotesi $e$ ha costo minimo), $cost(T')\leq cost(T^*)$.  
