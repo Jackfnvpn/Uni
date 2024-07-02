@@ -154,7 +154,7 @@ I seguenti tre enunciati sono equivalenti:
 
 Conseguenza della dualità debole  
 
-[2 $\implies$ 3]  (dimostriamo per contrapposizione [$\neg$3 $\implies$ $\neg$2])  
+[2 $\implies$ 3]  (dimostriamo per contrapposizione [$\neg$ 3 $\implies$ $\neg$ 2])  
 
 Supponiamo che ci sia un cammino aumentante rispetto a $f$.  
 Possiamo migliorare il flusso $f$ inviando flusso lungo questo percorso.  
