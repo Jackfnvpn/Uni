@@ -154,7 +154,7 @@ I seguenti tre enunciati sono equivalenti:
 
 Conseguenza della dualità debole  
 
-[2 $\implies$ 3]  (dimostriamo per contrapposizione [$\neg$ 3 $\implies$ $\neg$ 2])  
+[2 $\implies$ 3]  (dimostriamo per contrapposizione [$\neg$3 $\implies$ $\neg$2])  
 
 Supponiamo che ci sia un cammino aumentante rispetto a $f$.  
 Possiamo migliorare il flusso $f$ inviando flusso lungo questo percorso.  
@@ -168,10 +168,9 @@ Per definizione $s \in A$
 Per definizione di flusso $f$ $t \notin A$  (non ci sono più cammini aumentanti in $G_f$ dunque $t$ non è raggiungibile da $s$ e dunque non è in $A$) 
 
 
-$val(f)= \sum_{e \ out \ of \ A}f(e)-\sum_{e \ in \ to \ A}f(e)
-\\\
-\\
-=\sum_{e \ out \ of \ A}c(e)-0 =cap(A,B)$  
+$val(f)= \sum_{e \ out \ of \ A}f(e)-\sum_{e \ in \ to \ A}f(e)$
+
+$=\sum_{e \ out \ of \ A}c(e)-0 =cap(A,B)$  
 
 ![IMG20](./Screen/flow5.png)  
 
