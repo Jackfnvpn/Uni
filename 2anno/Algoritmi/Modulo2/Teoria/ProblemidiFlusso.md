@@ -111,23 +111,25 @@ Dato $f$ un qualsiasi flusso e dato $(A,B)$ un qualsiasi taglio. Allora il valor
 ![IMG19](./Screen/flow_valuelemma.png)  
 ##### dim
 
-$val(f)=
-\\\
-\\
-=\sum_{e \ out \ to \ s}f(e)-\sum_{e \ in \ of \ s}f(e)
-\\\
-\\  
-= \sum_{v \in A}(\sum_{e \ out \ of \ v}f(e)-\sum_{e \ in \ to \ v}f(e)) \ (\text{per la conservazione del flusso questa differenza sarà sempre uguale a 0 tranne per il nodo }s)
-\\\  
-\\
-=\sum_{e \ out \ of \ A}f(e)-\sum_{e \ in \ to \ A}f(e) \ (\text{Questo invece perché A contiene } s)$
+$val(f)$
+
+$=\sum_{e \ out \ to \ s}f(e)-\sum_{e \ in \ of \ s}f(e)$
+
+
+$= \sum_{v \in A}(\sum_{e \ out \ of \ v}f(e)-\sum_{e \ in \ to \ v}f(e)) \ (\text{per la conservazione del flusso questa differenza sarà sempre uguale a 0 tranne per il nodo }s)$
+
+$=\sum_{e \ out \ of \ A}f(e)-\sum_{e \ in \ to \ A}f(e) \ (\text{Questo invece perché A contiene } s)$
 
 #### Dualità debole  
 Dato $f$ un qualsiasi flusso e $(A,B)$ un taglio qualsiasi. Allora $val(f) \leq cap(A,B)$  
 ##### dim  
-$val(f)= \\\ \\ =\sum_{e \ out \ of \ A}f(e)-\sum_{e \ in \ to \ A}f(e)
-\\\ \\ \leq \sum_{e \ out \ of \ A}f(e)  
-\\\ \\ \leq \sum_{e \ out \ of \ A}c(e) = cap(A,B)$   
+$val(f)$  
+
+$=\sum_{e \ out \ of \ A}f(e)-\sum_{e \ in \ to \ A}f(e)$  
+
+$\leq \sum_{e \ out \ of \ A}f(e)$  
+
+$\leq \sum_{e \ out \ of \ A}c(e) = cap(A,B)$   
 
 #### Corollario  
 Sia $f$ un qualsiasi flusso e $(A,B)$ un qualsiasi taglio.  
