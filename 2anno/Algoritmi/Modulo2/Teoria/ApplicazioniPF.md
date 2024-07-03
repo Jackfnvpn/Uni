@@ -200,4 +200,4 @@ Team 4 non è eliminato se e soltanto se il massimo flusso satura tutti gli arch
 numero di vittorie per la squadra $x$ o la squadra $y$  
 + Capacità degli archi $(x,y)$ assicurano che nessuna squadra vinca troppe partite.  
 
-Se c'è  un arco che lascia $s$ non saturato ma non riesco più a spinegere flusso perché gli archi che vanno verso $t$ sono saturi , significa che la coppia di teams nel nodo collegato all'arco non saturo può ancora effettuare una partita, e uno dei due può superare il numero di vittorie del team 4.2
+Se c'è  un arco che lascia $s$ non saturato ma non riesco più a spinegere flusso perché gli archi che vanno verso $t$ sono saturi , significa che la coppia di teams nel nodo collegato all'arco non saturo può ancora effettuare una partita, e uno dei due può superare il numero di vittorie del team 4
