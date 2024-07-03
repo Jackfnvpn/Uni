@@ -138,7 +138,7 @@ Lo **spacing** è la minima distanza tra una coppia di oggetti in clusters diffe
 Dato un intero $k$, trovare un $k$-clustering  che massimizza lo spacing  
 ![IMG7](./Screen/clustering.png)  
 
-### Single-linkage k-clustering algorithm  
+### Single-linkage $k$-clustering algorithm  
 
 1. Crea un grafo con insieme di vertici $U$, corrispondenti agli $n$ clusters;  
 2. Trova la coppia di oggetti tra loro più vicini, tale che ogni ogni oggetto è in un clusters diverso, e aggiungi un arco tra loro;
@@ -156,7 +156,7 @@ Dato $C'$ il clustering $C'_1,...,C'_k$ formato eliminando i $k-1$ archi del MST
 
 #### dim
 + Dato $C$ che denota un qualunque altro clustering $C_1,...,C_k$.  
-+ Lo spacing di $C'$ è la lunghezza $d'$ dei k-1 degli archi più "costosi" del MST.  
++ Lo spacing di $C'$ è la lunghezza $d'$ dei $k-1$ degli archi più "costosi" del MST.  
 + Dati $p_i,p_j$ nello stesso cluster in $C'$,detto $C'_r$, ma in due diversi clusters in $C$, detti $C_s$ e $C_t$.  
 + Un qualsiasi arco $(p,q)$ nel percorso da $p_i,p_j$ in $C'_r$ si estende su due diversi clusters in $C$.  
 + Tutti gli archi nel percorso $p_i,p_j$ hanno lunghezza $\leq d'$ dato che l'algoritmo di Kruskal li ha scelti.  

@@ -53,10 +53,11 @@ Sia $j_1,...,j_m$ l'insieme di jobs scelti dall'ottimo  (Tempo di fine)
 #### <span style="color:yellowgreen"> Lemma </span> 
 Per ogni $r=1,2,...,k$ noi abbiamo $f(i_r) \leq f(j_r)$  
 ##### *dim*
-+ $r=1$ Ovvio. Osserviamo che il primo job dell'algoritmo greedy finisce prima del primo task del ottimo. Questo perchè i job sono ordinati in modo crescente per tempo finale, e il greedy va a scegliere il più piccolo in assoluto.    
++ $r=1$ Ovvio. Osserviamo che il primo job dell'algoritmo greedy finisce prima del primo job del ottimo. Questo perchè i job sono ordinati in modo crescente per tempo finale, e il greedy va a scegliere il più piccolo in assoluto.    
     
-+ $r>1$ Supponiamo vera per $r-1$ la proprietà $f(i_{r-1}) \leq f(j_{r-1})$. Adesso l'ottimo sceglie il job $j_r$ , che a sua volta è compatibile con i job selezionati dal greedy. Quindi il greedy, avendo i task ordinati per finish time, per forza andrà a guardare task con $f(i_r) \leq f(j_r)$ andando a selezionare o uno che finisce prima, quindi $f(i_r)$ oppure proprio $f(j_r)$.  
-  
++ $r>1$ Supponiamo vera per $r-1$ la proprietà $f(i_{r-1}) \leq f(j_{r-1})$. Adesso l'ottimo sceglie il job $j_r$ , che a sua volta è compatibile con i job selezionati dal greedy (siccome $f(i_{r-1}) \leq f(j_{r-1})$). Quindi il greedy, avendo i job ordinati per finish time, per forza andrà a guardare job con $f(i_r) \leq f(j_r)$ andando a selezionare o uno che finisce prima, quindi $f(i_r)$ oppure proprio $f(j_r)$.  
+
+![IMG10](./Scree/scheduling1.png)
 #### <span style="color:red"> Teorema </span>  
 
 L'algoritmo è **ottimo**.   
@@ -66,6 +67,8 @@ Sia $i_1,...,i_k$ l'insieme di jobs scelti dal greedy  (Tempo di fine)
 Sia $j_1,...,j_m$ l'insieme di jobs scelti dall'ottimo  (Tempo di fine)
 
 Assumiamo che il greedy non sia ottimale, dunque $m > k$, applicando il Lemma con $r=k$, abbiamo che $f(i_k)\leq f(j_k)$. Siccome $m > k$, significa che l'algoritmo ottimo sceglie un job $k+1$ che inizia dopo la fine di $j_k$ ma anche dopo $i_k$ (per il Lemma). Di conseguenza il job $j_{k+1}$ è compatibile anche con i job selezionati dal greedy, dunque il greedy sceglierebbe anche il job $j_{k+1}$ ottenendo un insieme di job ottimo.    
+
+![IMG11](./Scree/scheduling2.png)
 
 # Interval Partitioning  
 
@@ -124,10 +127,10 @@ Considera le lezioni in un qualsiasi ordine. Assegna ogni lezione ad una classe 
 > [!IMPORTANT] 
 > L'algoritmo non schedula mai due lezioni incompatibili nella stessa classe  
 
-#### <span style="color:red">Teorema</span>
+### <span style="color:red">Teorema</span>
 L'algoritmo è **ottimo**  
 ##### *dim*  
 Sia $d$ il numero di classi allocate dall'algoritmo.  
 La classe $d$ è stata aperta perché avevamo bisogno di schedulare una lezione $j$ incompatibile con una qualsiasi lezione in una delle $d-1$ classi.  
-Così ci sono $d$ lezioni e ogniuna finisce dopo $s_j$.  
-Dato che abbiamo ordinato in base al tempo d'inizio, ogniuno di questi intervalli iniziano prima di $s_j$. Dunque abbiamo $d$ intervalli che si sovrappongono al tempo $s_j + \epsilon$. Di conseguenza si usano al più $d$ classi.
+Dunque ci sono $d$ lezioni e ogniuna finisce dopo $s_j$.  
+Dato che abbiamo ordinato in base al tempo d'inizio, ognuno di questi intervalli non iniziano più tardi di $s_j$. Dunque abbiamo $d$ intervalli che si sovrappongono al tempo $s_j + \epsilon$. Di conseguenza si usano almeno $d$ classi.
