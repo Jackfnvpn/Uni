@@ -118,7 +118,9 @@ return T
 ### Correttezza
 Immediata conseguenza della proprietà del taglio, usata esattamente $n-1$ volte.  
 ### Complessità  
-$O(m+n\ logn)$ con heap di fibonacci  
+$O(m+n)$ passi più il costo delle operazioni su coda con priorità
+$n$ insert, $n$ delete min, $m$ decrease key  
+$O(n^2)$ con array, $(O(mlogn))$ con heap binari , $O(m+n\ logn)$ con heap di fibonacci  
 
 ## Clustering  
 Dato un insieme $U$ di $n$ oggetti etichettati $p_1,...,p_n$, classificarli in gruppi coerenti  
@@ -156,8 +158,12 @@ Dato $C'$ il clustering $C'_1,...,C'_k$ formato eliminando i $k-1$ archi del MST
 
 #### dim
 + Dato $C$ che denota un qualunque altro clustering $C_1,...,C_k$.  
-+ Lo spacing di $C'$ è la lunghezza $d'$ dei $k-1$ degli archi più "costosi" del MST.  
++ Lo spacing di $C'$ è la lunghezza $d'$ del $k-1$-esimo arco più "costoso" del MST.  
 + Dati $p_i,p_j$ nello stesso cluster in $C'$,detto $C'_r$, ma in due diversi clusters in $C$, detti $C_s$ e $C_t$.  
 + Un qualsiasi arco $(p,q)$ nel percorso da $p_i,p_j$ in $C'_r$ si estende su due diversi clusters in $C$.  
-+ Tutti gli archi nel percorso $p_i,p_j$ hanno lunghezza $\leq d'$ dato che l'algoritmo di Kruskal li ha scelti.  
-+ Spacing di $C$ è $\leq d'$ dato che $p$ e $q$ di trovano in due diversi clusters.
++ Tutti gli archi nel percorso $p_i,p_j$ hanno lunghezza $\leq d'$ da quando l'algoritmo di Kruskal li ha scelti.  
++ Spacing di $C$ è $\leq d'$ dato che $p$ e $q$ di trovano in due diversi clusters.  
+
+Dunque preso un qualsiasi arco $(p,q)$ esso avrebbe lunghezza minore uguale a $d'$ poiché questo è il valore della lunghezza dell $k-1$-esimo arco più costoso.
+
+![IMG30](./Screen/clustering4.png)
