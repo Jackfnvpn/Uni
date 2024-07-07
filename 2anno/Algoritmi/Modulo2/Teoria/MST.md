@@ -91,8 +91,9 @@ Se aggiungessimo l'arco $(x,y)$ ,scartato dall'algoritmo, nell'albero MST, quell
 
 ### Complessità  
 $O(m \ logn \ + UF(m,n))$  
-+ Usando QuickFind con union by size :$O(mlogn+m+nlogn)=O(mlogn)$
-+ Usando QuickUnion con union by size :$O(mlogn+ n logn+ n) =O(mlogn)$
++ Usando QuickFind con union by size: $ O(mlogn+m+nlogn)=O(mlogn) $  
+
++ Usando QuickUnion con union by size: $O(mlogn+ n logn+ n) =O(mlogn) $
 
 ## Algoritmo di Prim  
 Inizia con un qualunque nodo radice $s$ e in modo greedy forma l'albero $T$ da $s$ verso gli altri nodi. Ad ogni passo, aggiunge l'arco più economico $e$ a $T$ che ha esattamente un endpoint in $T$  
@@ -120,13 +121,13 @@ Immediata conseguenza della proprietà del taglio, usata esattamente $n-1$ volte
 ### Complessità  
 $O(m+n)$ passi più il costo delle operazioni su coda con priorità
 $n$ insert, $n$ delete min, $m$ decrease key  
-$O(n^2)$ con array, $(O(mlogn))$ con heap binari , $O(m+n\ logn)$ con heap di fibonacci  
+$O(n^2)$ con array, $O(m \ logn)$ con heap binari , $O(m+n\ logn)$ con heap di fibonacci  
 
 ## Clustering  
 Dato un insieme $U$ di $n$ oggetti etichettati $p_1,...,p_n$, classificarli in gruppi coerenti  
 
 La **funzione di distanza** è un valore numerico che specifica la "vicinanza" di due oggetti  
-
+ 
 #### $k$-clustering: 
 Dividere oggetti in $k$ gruppi non vuoti  
 >[!NOTE]

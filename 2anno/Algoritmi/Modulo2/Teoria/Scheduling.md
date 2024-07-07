@@ -118,7 +118,7 @@ Considera le lezioni in un qualsiasi ordine. Assegna ogni lezione ad una classe 
 ## Un lowerbound per la soluzione ottima 
 
 > [!IMPORTANT]
-> La **profondità** di un insieme di intervalli aperti è il massimo numero di intervalli che contengono un qualsiasi punto dato.  
+> La **profondità** di un insieme di intervalli aperti è il massimo numero di intervalli che contengono un punto dato.  
 
 **Il numero di classi necessario è maggiore uguale alla profondità**
 
@@ -133,4 +133,5 @@ L'algoritmo è **ottimo**
 Sia $d$ il numero di classi allocate dall'algoritmo.  
 La classe $d$ è stata aperta perché avevamo bisogno di schedulare una lezione $j$ incompatibile con una qualsiasi lezione in una delle $d-1$ classi.  
 Dunque ci sono $d$ lezioni e ogniuna finisce dopo $s_j$.  
-Dato che abbiamo ordinato in base al tempo d'inizio, ognuno di questi intervalli non iniziano più tardi di $s_j$. Dunque abbiamo $d$ intervalli che si sovrappongono al tempo $s_j + \epsilon$. Di conseguenza si usano almeno $d$ classi.
+Dato che abbiamo ordinato in base al tempo d'inizio, ognuno di questi intervalli non iniziano più tardi di $s_j$. Dunque abbiamo $d$ intervalli che si sovrappongono al tempo $s_j + \epsilon$. Di conseguenza si usano al più $d$ classi. 
+**Osservazione chiave:** tutte le schedulazioni usano almeno $d$ classi.
