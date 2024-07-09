@@ -69,7 +69,9 @@ $
     c(e)-f(e) \ if \ e \in E \\
     f(e^{reverse})\ if \ e^{reverse}\in E 
     \end{cases}
-$    
+$      
+
+Allora $e$ ricorda non sono gli archi in $G$ ma $G_f$ in questo caso. Dunque se ho un arco originale, quindi un arco che sta sia in $G_f$ che in $G$ ho come peso la differenza fra capacità e flusso. Se invece un'arco in $G_f$ è al contrario in $G$ ($e^{reverse}$ sarebbe  l'arco in $G$ ho la quantità di flusso che passa lungo quell'arco in $G$ al contrario rispetto a quello che sta in $G_f$ ovvero $e$ :))
 
 ![IMG13](./Screen/reverseedge.png)  
 
