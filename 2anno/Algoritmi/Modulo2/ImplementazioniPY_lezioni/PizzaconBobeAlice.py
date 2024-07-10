@@ -4,7 +4,7 @@ def opt(g:list[int])->int:
     for i in range(n):
         M[i][i]=g[i]
     for d in range(1,n):
-        for i in range(n-d): # scorrimento in diagonale  
+        for i in range(n-d): 
             j=i+d
             M[i][j]=max(g[i]+M[i+2][j-1],g[j]+M[i+1][j-2])
     return M
