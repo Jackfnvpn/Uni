@@ -240,3 +240,97 @@ Se $d[w]$ non è aggiornata nell'iterazione $i-1$ non ha senso considerare gli a
 ### Algoritmo  
 
 ![bell4](./Screen/bellman6.png)
+
+#### Lemma   
+
+Per ogni nodo $v : d[v]$ è la lunghezza di un percorso $v \rightarrow t$.  
+
+#### Lemma  
+Per ogni nodo $v: d[v]$ è monotona decresecente  
+
+#### Lemma  
+Dopo il passo $i, d[v] \leq$ lunghezza del cammino minimo $v \rightarrow t$ usando al più $i$ archi  
+
+##### dim  (induzione)  
++ Caso base: $i=0$
++ Assumi vero dopo il passo $i$:  
+  + Dato $P$ un qualsiasi cammino da $v \rightarrow t$ con $\leq i+1$ archi
+  + Dato $(u,w)$ il primo arco in $P$ e dato $P'$ un sottocammino da $w$ a $t$  
+  + Per ipotesi induttiva alla fine della passata $i$, $d[w]\leq l(P')$ perché $P'$ è un percorso $w \rightarrow t$ con $\leq i$ archi.  E per via del Lemma 4 sarà sempre così perché può solo decrementare la stima  
+  + Dopo consideriamo l'arco $(v,w)$ al passo $i+1:$
+    + $d[v] \leq l_{vw}+d[w]\leq l_{vw}+l(P')=l(P)$  
+
+### Correttezza 
+#### Teorema  
+Supponendo che non ci siano cicli negativi, Bellman-Ford-Moore calcola le lunghezze dei cammini $v \rightarrow t$ in tempo $O(mn)$ e nello spazio  $\Theta(n)$.
+##### dim
+Per il Lemma 2 ho che il cammino minimo esiste e usa al più $n-1$ archi, per il Lemma 5 la stima del cammino minimo per un nodo $v$ verso $t$ e la minore possibile utilizzando $n-1$ archi.
+
+>[!NOTE]
+> Bellman-Ford-Moore è in genere più veloce nella pratica.
+> L'arco $(v, w)$ viene considerato nel passaggio $i + 1$ solo se $d[w]$ viene
+> aggiornato nel passaggio $i$.
+> Se il percorso più breve ha $k$ archi, l'algoritmo lo trova dopo $\leq
+>  k$ passaggi  
+
+#### Claim  
+Durante Bellman-Ford-Moore, seguendo il $successore[v]$ i puntatori danno un percorso diretto da $v$ a $t$ di lunghezza $d[v]$  
+
+#### FALSO!  
+1. La lunghezza del percorso del successore da $v \rightarrow t$ potrebbe essere strettamente più piccola di $d[v]$  
+![IMG90](./Screen/bellman8.png)
+![IMG91](./Screen/bellman9.png)  
+
+2. Se ci sono cicli negativi, il sottografo dei successori può avere un ciclo diretto
+![IMG91](./Screen/bellman10.png)
+![IMG92](./Screen/bellman11.png)    
+
+#### Lemma 
+Un qualsiasi ciclo diretto $W$ in un grafo dei successori è un ciclo negativo  
+##### dim  
+Se $successore[v]=w$, noi dobbiamo avere che $d[v] \geq d[w]+l{vw}$ (le stime sono uguali solo quando $d[w]$ è impostato e $d[w]$ può solo decrescere e $d[w]$ decresce solo quando il $sucessore[v]$ è reimpostato).  
+Dato $v_1 \rightarrow v_2 \rightarrow ... \rightarrow v_k \rightarrow v_1$ è una sequenza di nodi in un ciclo diretto $W$.  
+Supponiamo che $(v_k, v_1)$ sia l'ultimo arco in $W$ aggiunto al grafo dei successori  
+Abbiamo che:  
++ $d[v_1] \geq d[v_2]+l(v_1,v_2)$
++ $d[v_2] \geq d[v_3]+l(v_2,v_3)$
+.
+.
+.
++ $d[v_{k-1}] \geq d[k]+l(v_{k-1},v_k)$
++ $ d[v_k] > d[v_1]+l(v_k,v_1)$  
+
+La somma delle disuguaglianze produce $l(v_1,v_2)+l(v_2,v_3)+l(v_{k-1},v_k)+l(v_k,v_1) < 0$  
+
+#### Teorema  
+Supponendo che non ci siano cicli negativi, Bellman-Ford-Moore trova
+cammini $v\rightarrow t$ più brevi per ogni nodo $v$ in tempo $O(mn)$ e spazio extra $\Theta(n)$  
+##### dim  
+Il grafo dei successori non può avere cicli diretti [Lemma6]  
+
+
+
+### Algoritmo cicli negativi  
+![IMG100](./Screen/bellman13.png)  
+
+
+Dopo aver eseguito le $n-1$ passate, viene fatta un ulteriore passata, diciamo se posso migliorare ancora le stime $d[v]>d[w]+l_{vw}$ allora vi è un ciclo negativo.  
+
+#### Lemma
+Se c'è un ciclo negativo (che può raggiungere $t$) il (modificato)
+l'algoritmo lo segnala.  
+##### dim  
+Se non ci sono cicli negativi dopo $n$ passate non succede nulla.  
+Dato $v_1 \rightarrow v_2 \rightarrow ... \rightarrow v_k \rightarrow v_1$ è una sequenza di nodi in un ciclo diretto negativo $W$.  
+Assumiamo per contraddizione che l'algoritmo non restituisca l'esistenza del ciclo  (la condizione dell'ultimo IF è sempre falsa).  
+Allora:  
+
++ $d[v_1] \leq d[v_2]+l(v_1,v_2)$
++ $d[v_2] \leq d[v_3]+l(v_2,v_3)$
+.
+.
+.
++ $d[v_{k-1}] \leq d[k]+l(v_{k-1},v_k)$
++ $ d[v_k] \leq d[v_1]+l(v_k,v_1)$  
+
+La somma delle disuguaglianze produce $l(v_1,v_2)+l(v_2,v_3)+l(v_{k-1},v_k)+l(v_k,v_1) \geq 0$ ($W$ non può essere un ciclo negativo: ASSURDO!)  
