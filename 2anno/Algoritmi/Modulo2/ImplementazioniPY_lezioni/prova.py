@@ -1,28 +1,24 @@
-def min_cost_to_monitor_corridor(cost_matrix):
-    n = len(cost_matrix)
-    dp = [float('inf')] * n
+def minimo_costo_traversata(n, costs):
+    OPT = [[0]*n for _ in range(4)]
+  
+    for i in range(n): 
+        for c in range(4):
+            if i==0:
+                OPT[c][i]=0
+            if c < 1:
+                OPT[c][i]=OPT[c][i-1]
+            else: 
+                OPT[c][i]=min(costs[0][i-1]+costs[0][i-2]+OPT[c][i-2],
+                    costs[0][i-1]+costs[1][i-2]+OPT[c-1][i-2],
+                    costs[1][i-1]+costs[1][i-2]+OPT[c][i-2],
+                    costs[1][i-1]+costs[0][i-2]+OPT[c-1][i-2]) 
+                  
+    return OPT[c][n-1]
 
-    # Initialize the last room cost
-    dp[-1] = cost_matrix[-1][0]
-
-    # Fill the dp table from right to left
-    for i in range(n-2, -1, -1):
-        for r in range(n-i):
-            if i + r + 1 < n:
-                dp[i] = min(dp[i], cost_matrix[i][r] + dp[i + r + 1])
-            else:
-                dp[i] = min(dp[i], cost_matrix[i][r])
-
-    return dp[0]
-
-# Example cost matrix
-cost_matrix = [
-    [1, 3, 6, 10, 15],
-    [2, 4, 7, 11, float('inf')],
-    [3, 5, 8, float('inf'), float('inf')],
-    [4, 6, float('inf'), float('inf'), float('inf')],
-    [5, float('inf'), float('inf'), float('inf'), float('inf')],
+n = 5  
+costs = [
+    [3,2,7,6,1],
+    [5,4,8,3,2]
 ]
 
-print("Minimum cost to monitor the corridor:", min_cost_to_monitor_corridor(cost_matrix))
-
+print(minimo_costo_traversata(n, costs))

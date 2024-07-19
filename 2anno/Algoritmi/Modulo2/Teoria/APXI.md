@@ -87,7 +87,7 @@ Ordina $n$ jobs in ordine decrescente di tempo di elaborazione; quindi eseguire 
 
 ### Analisi  
 #### Lemma  
-Se ci sono più di $m$ posti di lavoro, $L' \geq 2 t_{m+1}$  
+Se ci sono più di $m$ macchine, $L' \geq 2 t_{m+1}$  
 ##### dim  
 Considera il tempo di elaborazione dei primi m+1 jobs $t_1 \geq t_2 \geq … \geq t_{m+1}$  
 Ciascuna richieda almeno $t_{m+1}$ tempo.  
@@ -99,7 +99,7 @@ La regola LPT è un algoritmo di $\frac{3}{2}$-approssimazione.
 ##### dim
 
 Considerare il carico $L[i]$ della macchina con collo di bottiglia $i$.
-Supponiamo che $j$ sia l'ultimo job schedulato sulla macchina $i  
+Supponiamo che $j$ sia l'ultimo job schedulato sulla macchina $i$  
 ![IMG102](./Screen/apx3.png)  
 
 L'analisi non è stretta  
