@@ -1,5 +1,7 @@
 # Livello di Applicazione  
+
 ## Princìpi delle applicazioni di rete  
+
 Il cuore dello sviluppo delle applicazioni di rete è costituito dalla creazione dei programmi che sono eseguiti dagli host e che comunicano tra loro via rete.  
 Per esempio nelle applicazioni web esistono due diversi programmi che comunicano tra loro: il browser, che viene eseguito dall'host dell'utente (pc,tablet,smartphone) e il web server che si trova nell'host solitamente anch'esso chiamato web server.  
 
@@ -13,6 +15,7 @@ Nello sviluppo di applicazioni, bisogna scrivere software in grado di funzionare
 Questo può essere scritto in Java, C, o Python e non occorre predisporre programmi per i dispositivi del nucleo di rete (router o commutatori) a livello di collegamento.  
 
 ### Architetture delle applicazioni di rete  
+
 Per lo sviluppatore di applicazioni, l'architettura di rete è fissata e fornisce alle applicazioni uno specifico insieme di servizi; il suo compito è progettare l'**architettura dell'applicazione** e stabilire la sua organizzazione sui vari host, basandosi su una delle due principali architetture di rete attualmente usate: client-server, peer_to_peer (P2P).  
 
 ![architettura client-serve,P2P](./Screen/serv_p2p.png)  
@@ -56,6 +59,7 @@ Come mostrato, una socket è l'interfaccia tra il livello di applicazione e di t
 
 Come nella posta tradizionale, affinché la consegna possa essere effettuata, il destinatario deve avere un indirizzo. Anche in Internet i processi riceventi devono averne uno.  
 Per identificare il processo ricevente, è necessario specificare due informazioni:  
+
 1. L'indirizzo dell'host  
 2. Un identificatore del processo ricevente sull'host di destinazione.  
 
@@ -118,6 +122,7 @@ UDP non include inoltre un meccanismo di controllo della congestione.
 I processi di rete comunicano tra loro inviando messaggi tra socket. Ma come sono strutturati questi messaggi, come vengono inviati? Queste domande ci conducono al campo dei protocolli di applicazione.  
 
 **Un protocollo a livello di applicazione** definisce come i processi di un'applicazione, in esecuzione su host diversi, si scambiano i messaggi.  In particolare un protcollo a livello di applicazione definisce:  
+
 + i tipi di messaggi scambiati (richiesta/risposta)  
 + la sintassi dei vari tipi di messaggio (campi nel messaggio)  
 + la semantica dei campi, ossia il significato delle informazioni  
@@ -163,18 +168,20 @@ In molte applicazioni per Internet, client e server comunicano per un lungo peri
 **HTTP con connessioni non persistenti**  
 
 Seguiamo passo dopo passo il trasferimento di una pagina web dal server al client nel caso di connessioni non persistenti. Ipotizziamo che l'URL del file HTML principale sia:  
+
 ```
 http://www.SomeSchool.edu/SomeDepartment/home.index
 ```
+
 Ecco cosa avviene:  
 
 1. Il processo client HTTP inizializza una connessione TCP con il server ```www.SomeSchool.edu``` sulla porta 80 (default HTTP). Associate alla connessione TCP ci saranno una socket per il client e una per il server.  
 2. Il client HTTP, tramite la propria socket, invia al server un messaggio di richiesta HTTP che include il percorso ```/SomeDepartment/home.index```  
-3. Il processo server HTTP riceve il messaggio di richiesta attraverso la propria socket associata alla connessione, recupera l'oggetto 
+3. Il processo server HTTP riceve il messaggio di richiesta attraverso la propria socket associata alla connessione, recupera l'oggetto
 ```SomeDepartment/home.index``` dalla memoria (centrale o di massa), lo incapsula in un messaggio di risposta HTTP che viene inviato al client attraverso la socket.  
 4. Il processo server HTTP comunica a TCP di chiudere la connessione. Questo però, non termina la connessione finché non sia certo che il client abbia ricevuto integro il messaggio di risposta.  
 5. Il client HTTP riceve il messaggio di risposta. La connessione TCP termina. Il messaggio indica che l'oggetto incapsulato è un file HTML. Il client estrae il file dal messaggio di risposta, esamina il file HTML e trova riferimenti ai 10 oggetti JPEG.  
-6. Vengono ripetuti i primi quattro passi per gli altri oggetti JPEG.   
+6. Vengono ripetuti i primi quattro passi per gli altri oggetti JPEG.
 
 Quando il browser riceve la pagina web, la visualizza all'utente.  
 I passi riportati illustrano l'utilizzo di connessioni non persistenti in cui ogni connessioni TCP viene chiusa dopo l'invio dell'oggetto da parte del server: vale a dire che ogniuna trasporta soltanto un messaggio di richiesta e uno di risposta.  
@@ -215,7 +222,7 @@ Il messaggio è scritto in testo ASCII.
 Inoltre consiste di cinque righe, ciascuna seguita da un carattere di ritorno a capo e un carattere di nuova linea.  
 La prima riga è detta **riga di richiesta**, quelle successive **righe d'intestazione**. La riga di richiesta presenta tre campi: il metodo, il campo URL e il campo versione di HTTP.  
 Il campo metodo può assumere diversi valori: GET, HEAD, PUT, DELETE.  
-La maggioranza dei messaggi di richiesta HTTP usa il metodo GET.   
+La maggioranza dei messaggi di richiesta HTTP usa il metodo GET.
 La versione è autoesplicativa (HTTP/1.1). Il browser sta richiedendo l'oggetto ```/somedir/page.html```.  
 
 Consideriamo ora le righe d'intestazione.  
@@ -247,14 +254,15 @@ Content-Lenght: 6821
 Content-Type: text/html  
 (data data data data ...)
 ```
+
 Osseriviamo tre sezioni: una **riga di stato** iniziale, sei **righe d'intestazione** e il **corpo**. Quest'ultimo contiene l'oggetto richiesto.  
 La riga di stato presenta tre campi: la versione del protocollo, e che va tutto bene (OK).  
-Osseriviamo ora le righe d'intestazione.   
+Osseriviamo ora le righe d'intestazione.
 Il server utilizza la riga d'intestazione ```Connection: close``` per comunicare al client che ha intenzione di chiudere la connessione TCP dopo l'invio del messaggio.  
-```Date: ``` indica l'ora e la data di creazione e invio da parte del server.  
-```Server: ``` indica che il messaggio è stato generato da un web server Apache.  
+```Date:``` indica l'ora e la data di creazione e invio da parte del server.  
+```Server:``` indica che il messaggio è stato generato da un web server Apache.  
 ```Last-Modified:``` indica l'istante e la data in cui l'oggetto p stato creato o modificato l'ultima volta.  
-```Content-Lenght: ``` contiene il numero di byte dell'oggetto inviato  
+```Content-Lenght:``` contiene il numero di byte dell'oggetto inviato  
 ```Content-Type:``` indica che l'oggetto nel corpo testo è HTML.  
 
 ![Formato messaggi risposta](./Screen/formatomexrispHTTP.png)  
@@ -267,6 +275,3 @@ Il codice di stato e l'espressione associata indicano il risultato della richies
 + 3XX: Il client deve eseguire ulteriori azioni per soddisfare la richiesta  
 + 4XX: La richiesta è sintatticamente scorretta o non può essere soddisfatta  
 + 5XX: Il server ha fallito nel soddisfare una richiesta apparentemente valida.  
-
-
-
