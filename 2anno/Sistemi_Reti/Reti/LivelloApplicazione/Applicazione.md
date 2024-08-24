@@ -383,8 +383,6 @@ Per trattare il problema della sequenzialità , il DNS utilizza un grande numero
 Esiste un altro importante DNS, il**DNS server locale**, che non appartiene strettamente alla gerarchia di server, ma che è comunque centrale nell'architettura DNS. Ciascun ISP (università, ISP residenziale,...) ha un DNS server locale. Quando un host si connette a un ISP, quest'ultimo gli fornisce un indirizzo IP tratto da uno o più dei suoi DNS server locali.
 Quando un host effettua una richiesta DNS, la query viene inviata al DNS server locale, che opera da proxy e inoltra la query alla gerarchia dei DNS server.  
 
-
-
 ### DNS caching  
 
 L'idea alla base del **DNS caching** è molto semplice. In una concatenazione di richieste , il DNS server che riceve una risposta DNS, può mettere in cache le informazioni contenute.
@@ -401,10 +399,41 @@ Un record di risorsa contiene i seguenti campi:
 **TTL** è il time to live, ossia il tempo residuo di vita di un record e determina quando una risorsa vada rimossa dalla cache.
 Il significato di name e value dipende da type:
 
-+ **Type=A**: allora name è il nome dell'host e value il suo indirizzo IP *(relay1.bar.foo.com, 145.37.93.126, A)*.
-+ **Type=NS**: allora name è un dominio e value è l'hostname del DNS server autoritativo che sa come ottenere gli indirizzi IP degli host nel dominio (foo.com, dns.foo.com,NS).
-+ **Type=CNAME**: allora value rappresenta il nome canonico dell'host per il sinonimo name (foo.com, relay1.bar.foo.com,CNAME).
-+ **Type=MX**: allora value è il nome canonico di un mail server che ha il sinonimo name. (foo.com, mail.baCi sono coppie di host connnessi in modo intermittente, chiamati peer, che comunicano direttamente l'uno con l'altro. I peer non appartengono ai fornitori dei servizi, ma sono computer, telefoni controllati dagli utenti.r.foo.com,MX). Questo tipo di record consente agli hostname dei mail server di avere sinonimi semplici.  
++ #### Record di tipo A (Address Record):
+
+  + Name: Nome dell'host (hostname).
+  + Value: Indirizzo IP associato a quell'hostname.
+  + Utilizzo: Mappa un nome di dominio (ad esempio, www.example.com) a un indirizzo IP (ad esempio, 192.0.2.1).
+
+  >Esempio:  
+  >(relay1.bar.foo.com, 145.37.93.126, A)
+
++ #### Record di tipo NS (Name Server Record):
+
+  + Name: Nome del dominio.
+  + Value: Hostname del server DNS autoritativo per quel dominio.
+  + Utilizzo: Indica quale server DNS è responsabile della risoluzione dei nomi all'interno di un dominio specifico. Questo è essenziale per la gerarchia del DNS, poiché permette di delegare la gestione di un dominio a un server DNS specifico.
+
+  >Esempio:  
+  >(foo.com, dns.foo.com, NS)
+
++ #### Record di tipo CNAME (Canonical Name Record):
+
+  + Name: Nome sinonimo (alias).
+  + Value: Nome canonico (nome ufficiale e completo) dell'host.
+  + Utilizzo: Permette di associare un alias a un nome canonico. Questo è utile per riferirsi a un host con nomi diversi, senza dover mantenere più record A separati.
+
+  >Esempio:  
+  >(foo.com, relay1.bar.foo.com, CNAME)
+
++ #### Record di tipo MX (Mail Exchange Record):
+
+  + Name: Nome del dominio che riceve la posta.
+  + Value: Nome canonico del server di posta responsabile per il dominio.
+  + Utilizzo: Indica quale server di posta elettronica (mail server) è responsabile per la ricezione delle email per un dominio specifico. Questo è essenziale per il routing delle email all'interno di Internet.
+
+  >Esempio:  
+  >(foo.com, mail.bar.foo.com, MX)
 
 ### Messaggi DNS  
 Ci sono due tipi di messaggi DNS: **query** e **risposte**. La semantica dei campi dei messaggi DNS è la seguente:
