@@ -454,14 +454,55 @@ Ci sono coppie di host connnessi in modo intermittente, chiamati peer, che comun
 ### Client-Server vs P2P
 Sia $F$ la dimensione del file. Sia $N$ il numero di copie che devono essere trasmesse. Siano $u_{s}$ la velocità di upload del server, $u_{i}$ la velocità di upload dell' $i-esimo$ peer, e $d_{i}$ la velocità di download dell' $i-esimo$ peer. 
 
-1. Distribuzione file client-server
-    - Il server deve inviare (caricare) in sequenza $N$ copie di file. Per inviare $N$ copie, impiega $\frac{N\cdot F}{u_{s}}$.
-    - Ogni client deve scaricare una copia del file. Sia $d_{min}$ la banda di donwload più bassa. Allora il tempo di download per il client con la banda minima è almeno $\frac{F}{d_{min}}$.
-    - $D_{c-s} \geq max$ { $\frac{N \cdot F}{u_{s}}$, $\frac{F}{d_{min}}$ }.
-2. Distribuzione file P2P
-   - Il server deve trasmettere almeno un copia del file: $\frac{F}{u_{s}}$. 
-   - Ogni client deve scaricare una copia del file: $\frac{F}{d_{min}}$. Come aggregato devono scaricare $N\cdot F$ bit. Capacità totale di upload è $u_{s} + \sum_{i}u_{i}$.
-   - $D_{P2P} \geq max$ { $\frac{F}{u_{s}}$, $\frac{F}{d_{min}}$, $\frac{N\cdot F}{u_{s} + \sum_{i}u_{i}}$ }  
+## Confronto tra Paradigma Client-Server e P2P: Distribuzione di un File
+
+Il confronto tra il paradigma client-server e il paradigma peer-to-peer (P2P) nella distribuzione di un file può essere formalizzato considerando i tempi necessari per distribuire un file di dimensione \( F \) a \( N \) client. Vediamo i dettagli per entrambi i paradigmi:
+
+### 1. Distribuzione File in Client-Server
+
+Nel modello client-server, un singolo server è responsabile di inviare il file a ciascuno dei \( N \) client.
+
+#### Tempo di Upload del Server:
+- Il server deve inviare ( $N$) copie del file. Se la velocità di upload del server è \( $u_s$ \), il tempo totale richiesto per caricare \( $N$) copie del file è:  
+  $T_{\text{upload}} = \frac{N \cdot F}{u_s}$
+
+#### Tempo di Download per i Client:
+- Ogni client deve scaricare una copia del file. Il tempo minimo richiesto per scaricare il file è limitato dal client con la velocità di download più bassa \( $d_{\text{min}}$ \), quindi:  
+  $T_{\text{download}} = \frac{F}{d_{\text{min}}}$
+
+#### Tempo Totale:
+- Il tempo totale per distribuire il file nel modello client-server sarà il massimo tra il tempo necessario al server per caricare il file e il tempo minimo necessario al client più lento per scaricarlo:
+  $D_{\text{c-s}} \geq \max \left\{ \frac{N \cdot F}{u_s}, \frac{F}{d_{\text{min}}} \right\}$
+
+### 2. Distribuzione File in P2P
+
+Nel modello peer-to-peer (P2P), il file è distribuito tra i peer stessi dopo che il server ha inviato almeno una copia completa del file.
+
+#### Tempo di Upload del Server:
+- Il server deve trasmettere almeno una copia completa del file per far sì che i peer possano iniziare a condividerlo. Il tempo necessario è:  
+  $T_{\text{upload-server}} = \frac{F}{u_s}$
+
+#### Tempo di Download per i Client:
+- Analogamente al modello client-server, ogni client deve scaricare una copia del file, e il tempo minimo per completare il download dipende dalla velocità di download più lenta:  
+  $T_{\text{download}} = \frac{F}{d_{\text{min}}}$
+
+#### Tempo di Distribuzione Aggregata:
+- Dopo che il server ha distribuito il file, i peer contribuiscono con la loro capacità di upload. Il tempo totale necessario per distribuire \( N \) copie del file dipende dalla capacità di upload aggregata del sistema $( u_s + \sum_{i} u_i )$:  
+  $T_{\text{agg}} = \frac{N \cdot F}{u_s + \sum_{i} u_i}$
+
+#### Tempo Totale:
+- Il tempo totale per distribuire il file nel modello P2P sarà il massimo tra il tempo necessario al server per inviare la prima copia, il tempo minimo necessario al client più lento per scaricare il file, e il tempo di distribuzione aggregata:  
+  $D_{\text{P2P}} \geq \max \left\{ \frac{F}{u_s}, \frac{F}{d_{\text{min}}}, \frac{N \cdot F}{u_s + \sum_{i} u_i} \right\}$
+
+### Confronto tra Client-Server e P2P
+
+- **Scalabilità**: Il modello P2P è generalmente più scalabile rispetto al modello client-server perché sfrutta la capacità di upload aggregata di tutti i peer. Man mano che il numero di peer aumenta, la capacità di upload complessiva cresce, riducendo il tempo di distribuzione totale.
+  
+- **Bottleneck del Server**: Nel modello client-server, il server può diventare un collo di bottiglia se deve caricare molte copie del file, soprattutto se \( u_s \) è limitato. Nel modello P2P, il server carica solo una copia del file, e il resto è gestito dai peer.
+
+- **Efficienza del Download**: In entrambi i modelli, il tempo minimo di download è limitato dalla velocità di download del peer più lento \( d_{\text{min}} \). Tuttavia, nel P2P, i peer possono scaricare parti del file da altri peer, migliorando potenzialmente la velocità di download complessiva.
+
+In sintesi, il modello P2P offre vantaggi significativi in termini di scalabilità e utilizzo efficiente della banda di rete, specialmente in scenari con un elevato numero di client. Tuttavia, può essere più complesso da gestire rispetto a un'architettura client-server centralizzata.
 
 **BitTorrent**
 
