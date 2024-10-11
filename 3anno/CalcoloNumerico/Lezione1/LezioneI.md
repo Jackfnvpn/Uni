@@ -26,14 +26,12 @@ $\text{Siano } (x_0,y_0),(x_1,y_1),...,(x_n,y_n) \in \R^2 \ t.c \ x_0,x_1,...,x_
 Sia $p(x)=a_0+a_1x+a_2x^2+...+a_nx^n$ un polinomio in $R_n[x]$.  
 $p(x)$ soddisfa la proprietà sopra indicata in blu se e solo se:  
 
-$
-\begin{cases}
+$\begin{cases}
 a{_0}+a_1 x{_0} + a_2 x{_0}^2 +...+a_nx{_0}^n = y_0 \\
 a_0+a_1 x{_1} + a_2 x{_1}^2 +...+a_nx{_1}^n = y_1 \\
 \vdots  \\
 a_0+a_1{x_n} + a_2 {x_n}^2 +...+a_n{x_n}^n = y_n \\
-\end{cases}
-$  
+\end{cases}$  
 
 cioè se e solo se il suo vettore dei coefficienti $(a_0,a_1,a_2,...,a_n)^T$ soddisfa il sistema lineare precedente  
 
