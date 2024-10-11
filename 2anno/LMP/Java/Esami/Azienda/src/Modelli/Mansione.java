@@ -1,0 +1,5 @@
+package Modelli;
+
+public enum Mansione {
+    ALGORITMISTA,SISTEMISTA,MECCANICO,COMMERCIALISTA,LETTERATURA
+}
