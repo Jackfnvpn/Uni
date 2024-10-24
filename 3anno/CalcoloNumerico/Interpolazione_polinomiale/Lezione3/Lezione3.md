@@ -97,19 +97,56 @@ Sia $f(x)=e^{x^2}$ e sia $p(x)$ il suo polinomio d'interpolazione sui nodi $x_0=
 + Fornire una stima dell'errore d'interpolazione $\begin{vmatrix} f(x)-p(x) \end{vmatrix}$, cioè determinare una costante $C \ t.c \ \begin{vmatrix}f(x)-p(x) \end{vmatrix} \leq C \forall x \in [0,1]$  
 + Stimare l'errore che si commette  approssimando $\sqrt[9]{e}$ con $p(\frac{1}{3})$ senza calcolare ne $\sqrt[9]{e}$ ne $p(\frac{1}{3})$.  
 
-#### Sol.  
-+ Applicando il teorema precedente con $f(x)=e^{x^2} , [a,b]=[0,1], n=2. \ \forall x \in [0,1]$   
-  $(\$)$   $\begin{vmatrix}f(x)-p(x)\end{vmatrix}=\begin{vmatrix}\frac{f'''(\xi)}{3!} x(x-\frac{1}{2})(x-1) \end{vmatrix} \ \ \ (\xi \in (0,1))$  
-  Calcoliamo le derivate  
-  $f'(x)=2xe^{x^2}\\
-  f''(x)=2xe^{x^2}+2x\cdot 2xe^{x^2}=(2+4x^2)e^{x^2}\\
-  f'''(x)=8xe^{x^2}+(2+4x^2)2xe^{x^2}=(8x^3+12x)e^{x^2}$  
+#### Sol.   
 
-  $\forall x \in [0,1]$  
-  $\begin{vmatrix} f'''(x)\end{vmatrix}=\begin{vmatrix}(8x^3+12x)e^{x^2}\end{vmatrix}=(8x^3+12x)e^{x^2}\leq 20e$ 
+**1˚punto**  
 
-  torando a $\$ \ \forall x \in [0,1]$  abbiamo:  
-   $|f(x)-p(x)|=\frac{|f'''(\xi)|}{6} |x| |(x-\frac{1}{2})||(x-1)|\leq \frac{20e}{6}\cdot 1 \cdot \frac{1}{2}\cdot 1 \approx 4.530$  
+Applicando il teorema precedente con $f(x)=e^{x^2} , [a,b]=[0,1], n=2. \ \forall x \in [0,1]$   
+$(\$)$   $\begin{vmatrix}f(x)-p(x)\end{vmatrix}=\begin{vmatrix}\frac{f'''(\xi)}{3!} x(x-\frac{1}{2})(x-1) \end{vmatrix} \ \ \ (\xi \in (0,1))$  
+Calcoliamo le derivate  
+$f'(x)=2xe^{x^2}\\
+f''(x)=2xe^{x^2}+2x\cdot 2xe^{x^2}=(2+4x^2)e^{x^2}\\
+f'''(x)=8xe^{x^2}+(2+4x^2)2xe^{x^2}=(8x^3+12x)e^{x^2}$  
 
-   Stima più precisa : $\forall x \in [0,1]$ vale:  
-   $|f(x)-p(x)|=\frac{|f'''(\xi)|}{6} |x(x-\frac{1}{2})(x-1)|$
+$\forall x \in [0,1]$  
+$\begin{vmatrix} f'''(x)\end{vmatrix}=\begin{vmatrix}(8x^3+12x)e^{x^2}\end{vmatrix}=(8x^3+12x)e^{x^2}\leq 20e$ 
+
+torando a $\$ \ \forall x \in [0,1]$  abbiamo:  
+$|f(x)-p(x)|=\frac{|f'''(\xi)|}{6} |x| |(x-\frac{1}{2})||(x-1)|\leq \frac{20e}{6}\cdot 1 \cdot \frac{1}{2}\cdot 1 \approx 4.530$  
+
+Stima più precisa : $\forall x \in [0,1]$ vale:  
+$|f(x)-p(x)|=\frac{|f'''(\xi)|}{6} |x(x-\frac{1}{2})(x-1)|\leq \\$
+
+$\leq \frac{20e}{6} \ max_{y\in[0,1]}\ |y(y-\frac{1}{2})(y-1)| \ \ (\$\$)$  
+
+
+come prima, calcoliamo  $|y(y-\frac{1}{2})(y-1)| =\omega(y)$:  
+
+$\omega(y)=y(y-\frac{1}{2})(y-1)=y^3-\frac{3}{2}y^2+\frac{1}{2}y$     
+
+$\omega'(y)=3y^2-3y+\frac{1}{2}$  
+
+$\omega'(y)=0 \iff y=y_{1,2}=\frac{3 \plusmn \sqrt{9-6}}{6}=\frac{3\plusmn\sqrt{3}}{6} \in [0,1]$  
+
+
+$max_{y \in [0,1]}\ |\omega(y)|=max(|\omega(0)|,|\omega(1)|,|\omega(frac{3+\sqrt{3}}{6})|,\omega(frac{3-\sqrt{3}}{6}))=\frac{\sqrt{3}}{36}$  
+
+Sostituendo in $\$\$$ si ottiene $\forall x \in [0,1]$:  
+$|f(x)-p(x)|\leq \frac{20e}{6}\cdot \frac{\sqrt{3}}{36} \approx 0.436$
+
+**2˚punto**  
+
+Dobbiamo stimare  
+
+$|\sqrt[9]{e}-p(\frac{1}{3})|=|e^{\frac{2}{3}}-p(\frac{1}{3})|=|f(\frac{1}{3})-p(\frac{1}{3})|$  
+
+siccome $\frac{1}{3}$ sta in $[0,1]$, per la stima precedente vale $|f(\frac{1}{3})-p(\frac{1}{3})| \leq 0.436$.  
+
+In alternativa volendo ottenere una stima più precisa, applichiamo il teorema precedente direttamente con $x=\frac{1}{3}:$  
+
+$|f(\frac{1}{3})-p(\frac{1}{3})|=|\frac{f'''(\xi)}{3!}(\frac{1}{3}-0)(\frac{1}{3}-\frac{1}{2})(\frac{1}{3}-1)| \ \ \xi \in (0,1)$  
+
+$=\frac{|f'''(\xi)|}{6}\cdot \frac{1}{3} \cdot \frac{1}{6} \cdot \frac{2}{3} \leq \frac{20e}{6} \cdot \frac{1}{3} \cdot \frac{1}{6} \cdot \frac{2}{3} \approx 0.336$  
+
+
+
