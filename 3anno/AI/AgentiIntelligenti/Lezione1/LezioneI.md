@@ -62,4 +62,4 @@ Se l'agente non dispone di sensori, l'ambiente è **inosservabile**.
 
 >Il caso più difficile è quello *parzialmente osservabile, multiagente, non deterministico, sequenziale, dinamico, continuo e ignoto*.  
 
-<img src="screen/simage4.png" width=500>
+<img src="screen/image4.png" width=500>
