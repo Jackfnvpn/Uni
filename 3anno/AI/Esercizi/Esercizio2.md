@@ -36,7 +36,7 @@ Lo score dell'agente è rappresentato dal costo totale del cammino seguito da sp
 
 $(NA,(V,G,O,P),CT) \leftarrow GET$-$PERCEPT(spiderman,stato)$ // siccome l'ambiente è comp-oss , GET-PERCEPT restituirà direttamente lo stato
 
-Action $\leftarrow$ $PROGRAM$-$AGENT((NA,(V,G,O,P),CT))$  
+Action $\leftarrow$ $SPIDERMAN$-$AGENT((NA,(V,G,O,P),CT))$  
 state $\leftarrow UPDATE$- $FN($Action,$(NA,(V,G,O,P),CT) )$
 CT $\leftarrow PERFORMANCE$-$FN($CT,state$)$
 
@@ -46,31 +46,31 @@ CT $\leftarrow PERFORMANCE$-$FN($CT,state$)$
 
 ## CICLO DI VITA DELL'AGENTE  
 
-**function** spiderman$((NA,(V,G,O,P),CT) )$ **returns** action:
+**function** $SPIDERMAN$-$AGENT$$((NA,(V,G,O,P),CT) )$ **returns** action:
 **persistent**  
-    seq1,seq2,seq3,seq4; sequenze di azioni  
+    seq; sequenza di azioni  
     state;
-    goal=[G,V,O,P]  
+    goal=[G,V,O];
+    final_goal=[P];  
     problem;
 
-if  seq1 or seq2 or seq3 or seq4 is empty():
+if  seq is empty() and goal is not_empty():
 
-$NG^* \leftarrow FORMULATEGOAL((NA,(V,G,O,P),CT),goal)$ // sceglie il nodo goal più vicino a spiderman in un certo stato, e lo toglie dalla lista goal.  
-problem $\leftarrow FORMULATEPROBLEM($state$,NG^*)$
-seq1 $\leftarrow A^*(problem)$ con $h$ distanza di linea d'aria.
+$NG^* \leftarrow$ FORMULATEGOAL$((NA,(V,G,O,P),CT),goal)$ // sceglie il nodo goal più vicino a spiderman in un certo stato, e lo toglie dalla lista goal.  
+problem $\leftarrow$ FORMULATEPROBLEM$(state,NG^*)$
+seq $\leftarrow A^*(problem)$ con $h$ distanza di linea d'aria.
 
-$NG1^* \leftarrow FORMULATEGOAL((NA=NG^*,(V,G,O,P),CT),goal)$ // sceglie il nodo goal più vicino a spiderman in un certo stato, e lo toglie dalla lista goal.  
-problem $\leftarrow FORMULATEPROBLEM((NA=NG^*,(V,G,O,P),CT)$$,NG1^*)$
-seq2 $\leftarrow A^*(problem)$ con $h$ distanza di linea d'aria  
+else 
 
-$NG2^* \leftarrow FORMULATEGOAL((NA=NG1^*,(V,G,O,P),CT),goal)$ // sceglie il nodo goal più vicino a spiderman in un certo stato, e lo toglie dalla lista goal.  
-problem $\leftarrow FORMULATEPROBLEM((NA=NG1^*,(V,G,O,P),CT)$$,NG2^*)$
-seq3 $\leftarrow A^*(problem)$ con $h$ distanza di linea d'aria  
+$NG^* \leftarrow$ FORMULATEGOAL$((NA,(V,G,O,P),CT))$ 
+problem $\leftarrow$ FORMULATEPROBLEM$(state,NG^*)$
+seq $\leftarrow A^*(problem)$ con $h$ distanza di linea d'aria.
 
-$NG3^* \leftarrow FORMULATEGOAL((NA=NG2^*,(V,G,O,P),CT),goal)$ // sceglie il nodo goal più vicino a spiderman in un certo stato, e lo toglie dalla lista goal.  
-problem $\leftarrow FORMULATEPROBLEM((NA=NG2^*,(V,G,O,P),CT)$$,NG3^*)$
-seq4 $\leftarrow A^*(problem)$ con $h$ distanza di linea d'aria  
 
-plan=seq1+seq2+seq3+seq4  
+if $NA=NG^*$ then 
+     action=STOP  
+else:
+action=seq[1]
+seq=REST(seq)
 
-if 
+return action
