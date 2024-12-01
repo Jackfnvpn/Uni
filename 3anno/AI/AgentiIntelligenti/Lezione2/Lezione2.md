@@ -73,4 +73,4 @@ Spesso gli agenti reattivi semplici non sono in grado di evitare cicli infiniti 
 
 Evitare i cicli infiniti è possibile quando l’agente è in grado di **randomizzare** le sue azioni, scegliendone una in modo casuale.  
 
-
+#### Agenti reattivi basati su modello
