@@ -1,0 +1,68 @@
+package Services;
+import Models.Dipendente;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+public class ManageDipendente {
+	
+	public enum Dipartimento{
+		MARKETING, RISORSE_UMANE, SVILUPPO
+	}
+	
+	public enum Mansione{
+		SEGRETARIO, RESPONSABILE_AMMINISTRATIVO, RESPONSABILE_VENDITE, MARKETING_SPECIALIST, HR_SPECIALIST,
+	    SVILUPPATORE_SOFTWARE
+	}
+	
+	
+	private static ArrayList<Dipendente> dipendenti = new ArrayList<Dipendente>();
+	
+	public void addDipendente(String nome, String cognome, LocalDate dataNascita, LocalDate dataAssunzione, int livello, Dipendente capo,Mansione mansione, Dipartimento dipartimento) {
+		Dipendente dipendente=new Dipendente( nome,  cognome,  dataNascita,  dataAssunzione,  livello,  capo, mansione, dipartimento);
+		this.dipendenti.add(dipendente);
+	} 
+	
+	public ArrayList<Dipendente> chainOfCommand(Dipendente dipendente){
+		ArrayList<Dipendente> capi = new ArrayList<Dipendente>();
+		cercaCapo(dipendente,capi);
+		return capi;
+	}	
+	public void cercaCapo(Dipendente dipendente,ArrayList<Dipendente> capi) {
+		if (dipendente==null) {
+			return;
+		} 
+		
+		else { 
+			capi.add(dipendente.getCapo());
+			this.cercaCapo(dipendente.getCapo(),capi);
+		}
+		
+	}
+	
+	public String cercaSostituto(Dipendente dipendente) {
+		
+		ArrayList<Dipendente> capiDipendente = this.chainOfCommand(dipendente);
+		
+		for(Dipendente impiegato:this.dipendenti) {
+			if (impiegato.getMansione()==dipendente.getMansione()) {
+				
+				if(impiegato.getCapo()==dipendente.getCapo())
+			}
+			
+			
+		}
+		
+		return "Non è possibile sostituire";
+		
+		//return impiegato;
+	}
+	
+	public HashMap<LocalDate,Dipendente>sameYear(){
+		for
+	}
+		
+	
+}
+	
+	
+

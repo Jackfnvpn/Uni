@@ -1,0 +1,14 @@
+package Models;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+public class Dvd extends Supporto{
+	
+	private LocalTime durata;
+
+	public Dvd(String titolo, String entePubblicante, LocalDate annoPubblicazione,LocalTime durata) {
+		super(titolo, entePubblicante, annoPubblicazione);
+		this.durata=durata;
+	}
+
+}

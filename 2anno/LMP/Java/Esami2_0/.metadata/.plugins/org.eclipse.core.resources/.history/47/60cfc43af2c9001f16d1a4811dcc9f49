@@ -1,0 +1,23 @@
+package Services;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+
+import Models.Dvd;
+import Models.Libro;
+
+public class GestionePrestiti {
+	ArrayList<Libro> listaLibro=new ArrayList<>();
+	ArrayList<Dvd> listaDvd=new ArrayList<>();
+	
+	
+	public void addLibro(String titolo, String entePubblicante, LocalDate annoPubblicazione,int numeroPagine,int numeroGiorni) {
+		Libro libro = new Libro(titolo,entePubblicante,annoPubblicazione,numeroPagine,numeroGiorni);
+		
+	}
+	
+	public void addDvd(String titolo, String entePubblicante, LocalDate annoPubblicazione,LocalTime durata, int numeroGiorni) {
+		Dvd dvd = new Dvd(titolo,entePubblicante,annoPubblicazione,durata,numeroGiorni);
+	}
+
+}

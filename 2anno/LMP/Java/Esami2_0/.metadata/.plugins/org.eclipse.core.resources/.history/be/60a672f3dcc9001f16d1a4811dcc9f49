@@ -1,0 +1,39 @@
+package Service;
+
+import java.time.LocalDate;
+import Enum.TipologiaSportivo;
+import Models.Sportivo;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class GestioneSportivo {
+	
+	ArrayList<Sportivo> sportivi = new ArrayList<Sportivo>();
+	
+	public void addSportivo(String nome, String cognome, LocalDate dataAssunzione, int numeroReti, int livelloStipendiale, TipologiaSportivo tipologia) {
+		Sportivo sportivo = new Sportivo( nome,  cognome,  dataAssunzione,  numeroReti,  livelloStipendiale,  tipologia);
+		sportivi.add(sportivo);
+	}
+	
+	
+	public HashMap<Sportivo,Integer> premio(int N) {
+		int count;
+		HashMap<Sportivo,Integer> sportiviPremio = new HashMap<>();
+		
+		for(Sportivo sportivo: sportivi) {
+			if (sportivo.getLivelloStipendiale()>=3) {
+				count=0;
+				for(int goal:sportivo.getNumeroReti().values()) {
+					if(goal>=N) {
+						count++;
+					}
+				}
+			}
+			sportiviPremio.put(sportivo, count);
+		}
+		return sportiviPremio;
+	}
+	
+	
+
+}

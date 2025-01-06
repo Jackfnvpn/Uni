@@ -1,0 +1,13 @@
+package Service;
+import Models.Prodotto;
+import java.util.HashMap;
+import java.util.ArrayList;
+
+public class GestioneProd {
+	HashMap<Prodotto, ArrayList<Prodotto>> archivioProd = new HashMap<Prodotto, ArrayList<Prodotto>>();
+	
+	public void addProdotto(int identificativo, String etichettaRif, double costoProd, double prezzo, String provenienza,int tempoReal,ArrayList<Prodotto> subComp) {
+		Prodotto prodotto = new Prodotto(identificativo,etichettaRif,costoProd,prezzo,provenienza,tempoReal);
+		
+	}
+}

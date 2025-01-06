@@ -1,0 +1,30 @@
+package Service;
+import Models.Prodotto;
+import java.util.HashMap;
+import java.util.ArrayList;
+
+public class GestioneProd {
+	HashMap<Prodotto, ArrayList<Prodotto>> archivioProd = new HashMap<Prodotto, ArrayList<Prodotto>>();
+	private int costoGiorn;
+	private int Guad;
+	
+	public void addProdotto(int identificativo, String etichettaRif, String provenienza,int tempoReal,ArrayList<Prodotto> subComp, int costoGiorn) {
+		Prodotto prodotto = new Prodotto(identificativo,etichettaRif,provenienza,tempoReal,subComp);
+		archivioProd.put(prodotto, subComp);
+	}
+	
+	public void setPrezzo(Prodotto prodotto) {
+		int somma=0;
+		for(Prodotto prodotto2:archivioProd.keySet()) {
+			if (prodotto.equals(prodotto2)){
+				somma=0;
+				for(Prodotto subProdotto2: prodotto2.getSubComp()) {
+					somma+=(subProdotto2.getTempoOrdineComp()+subProdotto2.getTempoReal());
+				}
+				prodotto.setCostoProd(somma);
+				prodotto.setPrezzo(somma*this.Guad);
+			}
+			
+		}
+	}
+}

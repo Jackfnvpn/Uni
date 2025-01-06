@@ -1,0 +1,48 @@
+package Service;
+import Models.Prodotto;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
+
+
+public class GestioneProd {
+	HashMap<Prodotto, ArrayList<Prodotto>> archivioProd = new HashMap<Prodotto, ArrayList<Prodotto>>();
+	private int costoGiorn;
+	private int Guad;
+	
+	public void addProdotto(int identificativo, String etichettaRif, String provenienza,int tempoReal,ArrayList<Componente> subComp, int costoGiorn) {
+		Prodotto prodotto = new Prodotto(identificativo,etichettaRif,provenienza,tempoReal,subComp,this.costoGiorn);
+		archivioProd.put(prodotto, subComp);
+	}
+	
+	public ArrayList<Prodotto> Ranking() {
+		ArrayList<Prodotto>prodottoRank = new ArrayList<>();
+		for(Prodotto prodotto: this.archivioProd.keySet()) {
+			prodottoRank.add(prodotto);
+		}
+		Collections.sort(prodottoRank,(p1,p2)->Double.compare((p1.getPrezzo()-p1.getCostoProd()), (p2.getPrezzo()-p2.getCostoProd())));
+		return prodottoRank;
+	}
+	
+	public void Comp() {
+		for(Prodotto prodotto: this.archivioProd.keySet()) {
+			System.out.println(prodotto);
+		}
+		
+	}
+	
+	public void setPrezzo(Prodotto prodotto) {
+		int somma=0;
+		for(Prodotto prodotto2:archivioProd.keySet()) {
+			if (prodotto.equals(prodotto2)){
+				somma=0;
+				for(Prodotto subProdotto2: prodotto2.getSubComp()) {
+					somma+=(subProdotto2.getTempoOrdineComp()+subProdotto2.getTempoReal());
+				}
+				prodotto.setCostoProd(somma);
+				prodotto.setPrezzo(somma*this.Guad);
+			}
+			
+		}
+	}
+}

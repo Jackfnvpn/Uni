@@ -1,0 +1,35 @@
+package Services;
+import Models.Dipendente;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+public class ManageDipendente {
+	private static HashMap<Dipendente,Integer> dipendenti = new HashMap<Dipendente,Integer>();
+	
+	public void addDipendente(String nome, String cognome, LocalDate dataNascita, LocalDate dataAssunzione, int livello, Dipendente capo) {
+		Dipendente dipendente=new Dipendente( nome,  cognome,  dataNascita,  dataAssunzione,  livello,  capo);
+		dipendenti.put(dipendente, 0);
+	} 
+	
+	public ArrayList<Dipendente> chainOfCommand(Dipendente dipendente){
+		ArrayList<Dipendente> capi = new ArrayList<Dipendente>();
+		cercaCapo(dipendente,capi);
+		return capi;
+	}	
+	public void cercaCapo(Dipendente dipendente,ArrayList<Dipendente> capi) {
+		if (dipendente==null) {
+			return;
+		} 
+		
+		else { 
+			capi.add(dipendente.getCapo());
+			this.cercaCapo(dipendente.getCapo(),capi);
+		}
+		
+	}
+		
+	
+}
+	
+	
+

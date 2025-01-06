@@ -1,0 +1,17 @@
+package src;
+import Services.ManageDipendente;
+import Enum.Mansione;
+import Enum.Dipartimento;
+
+public class Main {
+	ManageDipendente manageDip = new ManageDipendente();
+	
+	manageDip.addDipendente("Ionut", "Zbirciog", LocalDate.of(2002, 11, 9),LocalDate.of(2024, 11, 9),8,null, Dipartimento.MARKETING,Mansione.SEGRETARIO);
+	
+	Dipendente dipendente1=manageDip.getDipendente("Ionut","Zbirciog");
+	
+	manageDip.addDipendente("Adriano", "Porzia", LocalDate.of(2002, 10, 4),LocalDate.of(2023, 11, 9),7, Dipartimento.RISORSE_UMANE,Mansione.SEGRETARIO);
+	manageDip.addDipendente("Giacomo", "Pace", LocalDate.of(2002, 9, 9),LocalDate.of(2022, 11, 9),6, Dipartimento.MARKETING,Mansione.MARKETING_SPECIALIST);
+	
+
+}

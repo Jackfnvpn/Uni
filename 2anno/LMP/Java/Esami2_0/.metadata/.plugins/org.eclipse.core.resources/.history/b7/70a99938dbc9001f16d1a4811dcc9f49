@@ -1,0 +1,12 @@
+package Service;
+
+import java.time.LocalDate;
+import Enum.TipologiaSportivo;
+import Models.Sportivo;
+
+public class GestioneSportivo {
+	public void addSportivo(String nome, String cognome, LocalDate dataAssunzione, int numeroReti, int livelloStipendiale, TipologiaSportivo tipologia) {
+		Sportivo sportivo = new Sportivo( nome,  cognome,  dataAssunzione,  numeroReti,  livelloStipendiale,  tipologia)
+	}
+
+}

@@ -1,0 +1,23 @@
+package Main;
+import Models.Componente;
+import Models.Prodotto;
+import Service.GestioneProd;
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		GestioneProd gs = new GestioneProd();
+		
+		gs.setcostoGiorn(2);
+		gs.setFattoreGuadagno(4);
+		
+		Componente componente1= new Componente("Bullone","Roma",4,5.5);
+		Componente componente1= new Componente("Frizione","Roma",6,5.5);
+		Componente componente1= new Componente("Cambio","Roma",5,5.5);
+
+		
+		gs.addProdotto(1, "CL", "Roma", 5, null);
+	}
+
+}

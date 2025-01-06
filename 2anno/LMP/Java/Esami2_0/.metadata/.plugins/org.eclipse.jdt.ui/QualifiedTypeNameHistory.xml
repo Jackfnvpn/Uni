@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="Services.ManageDipendente"/>
+    <fullyQualifiedTypeName name="Enum.Mansione"/>
+    <fullyQualifiedTypeName name="Enum.Dipartimento"/>
+    <fullyQualifiedTypeName name="Models.Dipendente"/>
+    <fullyQualifiedTypeName name="Enum.TipologiaSportivo"/>
+    <fullyQualifiedTypeName name="Models.Sportivo"/>
+    <fullyQualifiedTypeName name="Models.Prestiti"/>
+    <fullyQualifiedTypeName name="Models.Supporto"/>
+    <fullyQualifiedTypeName name="Models.Dvd"/>
+    <fullyQualifiedTypeName name="Models.Libro"/>
+    <fullyQualifiedTypeName name="Services.GestionePrestiti"/>
+    <fullyQualifiedTypeName name="java.time.LocalTime"/>
+    <fullyQualifiedTypeName name="java.time.LocalDate"/>
+    <fullyQualifiedTypeName name="java.time.LocalDateTime"/>
+    <fullyQualifiedTypeName name="java.util.HashMap"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="Models.Componente"/>
+    <fullyQualifiedTypeName name="Models.Prodotto"/>
+    <fullyQualifiedTypeName name="Service.GestioneProd"/>
+    <fullyQualifiedTypeName name="java.lang.System"/>
+    <fullyQualifiedTypeName name="Models.Classe"/>
+    <fullyQualifiedTypeName name="Models.Studente"/>
+</qualifiedTypeNameHistroy>
