@@ -14,7 +14,6 @@
     <fullyQualifiedTypeName name="java.time.LocalTime"/>
     <fullyQualifiedTypeName name="java.time.LocalDate"/>
     <fullyQualifiedTypeName name="java.time.LocalDateTime"/>
-    <fullyQualifiedTypeName name="java.util.HashMap"/>
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="Models.Componente"/>
     <fullyQualifiedTypeName name="Models.Prodotto"/>
@@ -22,4 +21,8 @@
     <fullyQualifiedTypeName name="java.lang.System"/>
     <fullyQualifiedTypeName name="Models.Classe"/>
     <fullyQualifiedTypeName name="Models.Studente"/>
+    <fullyQualifiedTypeName name="Models.Articolo"/>
+    <fullyQualifiedTypeName name="Models.Leggi"/>
+    <fullyQualifiedTypeName name="Enum.TipologiaLegge"/>
+    <fullyQualifiedTypeName name="java.util.HashMap"/>
 </qualifiedTypeNameHistroy>
