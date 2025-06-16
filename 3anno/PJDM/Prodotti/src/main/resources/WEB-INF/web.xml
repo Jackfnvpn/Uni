@@ -1,0 +1,36 @@
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         version="4.0"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+         http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd">
+
+    <servlet>
+        <servlet-name>ProdottoServlet</servlet-name>
+        <servlet-class>com.example.prodotti.Servlet.ProdottoServlet</servlet-class>
+        <init-param>
+            <param-name>ip</param-name>
+            <param-value>127.0.0.1</param-value>
+        </init-param>
+        <init-param>
+            <param-name>port</param-name>
+            <param-value>3306</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dbName</param-name>
+            <param-value>prodotto</param-value>
+        </init-param>
+        <init-param>
+            <param-name>userName</param-name>
+            <param-value>root</param-value>
+        </init-param>
+        <init-param>
+            <param-name>password</param-name>
+            <param-value>Napoli1926!</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ProdottoServlet</servlet-name>
+        <url-pattern>/prodotti</url-pattern>
+    </servlet-mapping>
+</web-app>

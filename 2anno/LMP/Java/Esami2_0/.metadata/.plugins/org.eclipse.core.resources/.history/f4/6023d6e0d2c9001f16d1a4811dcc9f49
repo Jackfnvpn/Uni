@@ -1,9 +1,0 @@
-package src;
-import Services.ManageDipendente;
-public class Main {
-	ManageDipendente managedip = new ManageDipendente();
-	
-	managedip.
-	
-
-}

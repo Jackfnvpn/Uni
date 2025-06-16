@@ -126,3 +126,4 @@ $$\vec{y}^*A\vec{y}-\bar{\lambda}\vec{y}^*A(\lambda\vec{y})=\vec{y}^*A\vec{y}-|\
 
 $\implies 1-|\lambda|^2>0 \iff |\lambda|^2<1 \iff |\lambda|<1$.
 Dunque $|\lambda|<1 \implies \rho(G)<1.\\ \square$
+

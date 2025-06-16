@@ -1,0 +1,8 @@
+Matricola,Nome,Cognome,SalarioMensile,Qualifica,Extra1,Extra2
+00001,Mario,Rossi,3000,Dirigente,Acquisti
+00002,Luigi,Bianchi,1800,Programmatore,Python
+00003,Paolo,Verdi,2000,AgenteDiVendita,0.05,10
+00004,Pietro,Neri,1850,Programmatore,Java
+00005,Matteo,Marrone,1750,Programmatore,Java
+00006,Daniele,Arancioni,2100,AgenteDiVendita,0.1,15
+00007,Danilo,Gialli,3500,Dirigente,Sviluppo,30

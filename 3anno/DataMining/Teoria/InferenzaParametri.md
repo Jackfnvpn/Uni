@@ -1,0 +1,3 @@
+Un modello che costruiamo può assumere una delle seguenti forme:
++ Una funzione $y(\cdot)$ che per ogni elemento $\bold{x}$, restituisce un valore $y(\bold{x})$ come stima di $t$. Questa funzione agisce come predittore diretto, mappando le feature in ingresso nello spazio del target.
++ Una distribuzione di probabilità che associa a ciascun possibile valore $\overline{y}$ nel dominio del target la sua probabilità corrispondente $p(y=\overline{y},\bold{x})$. Questo approccio cattura l'incertezza insita nel compito di previsione.

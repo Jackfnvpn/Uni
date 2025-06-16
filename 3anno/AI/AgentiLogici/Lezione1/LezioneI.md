@@ -2,13 +2,18 @@ Gli **agenti basati sulla conoscenza** decidono quali azioni intraprendere utili
 Questi possono intraprendere nuove attività espresse sottoforma di obiettivi descritti esplicitamente, possono ottenere rapidamente nuove competenze ricevendo o apprendendo conoscenze aggiuntive e possono adattarsi ai cambiamenti dell'ambiente modificando e aggiornando la conoscenza rilevante.  
 
 Il componente più importante degli agenti basati su conoscenza è la **base di conoscenza**, costituita da un insieme di **formule**, espresse mediante un **linguaggio di rappresentazione della conoscenza**. Ogni formula rappresenta un'asserzione sul mondo. Quando una formula è data per buona senza essere ricavata da altre formule, la chiamiamo **assioma**.  
-La base di conoscenza deve prevedere dei meccanismi per aggiungere nuove formule e per le interrogazioni $(TELL, \text{ asserisci, aggiungi nuovi fatti }, ASK, \text{ chiedi })$: entrambe possono portare a un processo di **inferenza**, ovvero la derivazione di nuove formule a partire da quelle conosciute. L'inferenza deve soddisfare il requisito fondamentale che la risposta a ogni richiesta posta alla base di conoscenza sia una conseguenza di quello che le è stato detto in precedenza (il processo di inferenza non può inventarsi fatti).
+La base di conoscenza deve prevedere dei meccanismi per aggiungere nuove formule e per le interrogazioni $( \text{TELL, asserisci, aggiungi nuovi fatti },  \text{ASK, chiedi })$: entrambe possono portare a un processo di **inferenza**, ovvero la derivazione di nuove formule a partire da quelle conosciute. L'inferenza deve soddisfare il requisito fondamentale che la risposta a ogni richiesta posta alla base di conoscenza sia una conseguenza di quello che le è stato detto in precedenza (il processo di inferenza non può inventarsi fatti).
 L'agente mantiene in memoria una base di conoscenza che può contenere una **conoscenza iniziale**.
 
 Ogni volta che viene invocato, il programma agente fa 3 cose:
-+ Prima di tutto comunica le sue percezioni $(TELL)$ alla BC
-+ Chide alla BC quali azioni eseguire $(ASK)$
-+ Una volta che è stata scelta l'azione la registra con $TELL$ nella BC e la restituisce in modo che possa essere eseguita.    
++ Prima di tutto comunica le sue percezioni $(\text{TELL})$ alla BC
++ Chiede alla BC quali azioni eseguire $(\text{ASK})$
++ Una volta che è stata scelta l'azione la registra con $\text{TELL}$ nella BC e la restituisce in modo che possa essere eseguita.    
+
+### Approccio dichiarativo vs approccio procedurale
+La differenza principale è che la BC racchiude tutta la conoscenza necessaria a decidere l’azione da compiere in forma dichiarativa.
+L’alternativa (approccio procedurale) è scrivere un programma in cui il processo decisionale è cablato, una volta per tutte.
+L'approccio dichiarativo è più flessibile: più semplice acquisire conoscenza incrementalmente e modificare il comportamento con l’esperienza.
 
 ## LOGICA  
 Le formule sono espresse secondo le regole della **sintassi** del linguaggio di rappresentazione, quali di esse sono "ben formate" (x+y=4 si, x4y+= no).

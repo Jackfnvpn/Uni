@@ -10,7 +10,7 @@ Sia $x \in [a,b]$ fissato.
   In tal caso posso scegliere un qualsiasi $\xi \in (a,b)$ e sono sicuro che $€$ vale perché ottengo $0=0$ (perché il primo membro è 0 perché $p(x_i)=f(x_i)\forall i=0,\dots,n$ per definizione, mentre il 2 membro è $0$ perché la parte rossa si annulla)
 - ***Caso 2***: $x$ non coincide con uno dei nodi $x_0,x_1,\dots,x_n$  
   Definiamo   
-  $\pi(y)=(y-y_0)(y-y_1)\dots(y-y_n)$  
+  $\pi(y)=(y-x_0)(y-x_1)\dots(y-x_n)$  
 
   $r(y)=f(y)-p(y)$
 

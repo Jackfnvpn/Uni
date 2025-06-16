@@ -25,4 +25,8 @@
     <fullyQualifiedTypeName name="Models.Leggi"/>
     <fullyQualifiedTypeName name="Enum.TipologiaLegge"/>
     <fullyQualifiedTypeName name="java.util.HashMap"/>
+    <fullyQualifiedTypeName name="Models.Macchina"/>
+    <fullyQualifiedTypeName name="Services.GestioneMacchina"/>
+    <fullyQualifiedTypeName name="Enum.Disponibilita"/>
+    <fullyQualifiedTypeName name="Models.DisponibilitaMacchina"/>
 </qualifiedTypeNameHistroy>

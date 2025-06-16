@@ -1,9 +1,0 @@
-package Models;
-
-public class Componente {
-	private String nomeComp;
-	private String  luogoProv;
-	private int     tempoOrd;
-	private double  costo;
-
-}
