@@ -378,3 +378,22 @@ istanze della classe ViewGroup.LayoutParams
 
 ### Disegno delle view 
 Viene chiamato su tutto l'albero il metodo draw(), questo chiama il metodo onDraw
+
+
+## Fragment
+Un Fragment è una porzione modulare di UI che può essere riutilizzata in diverse Activity.
+
+Caratteristiche:
+
++ Può essere aggiunto/rimosso dinamicamente durante l’esecuzione.
+
++ Gestisce i propri eventi e ha un ciclo di vita dipendente dalla Activity a cui è associato.
+
++ Non può esistere da solo, è sempre legato a un'Activity.
+
+Ogni Activity ha un proprio FragmentManager, accessibile tramite 
++ getFragmentManager() per API < 28.
++ getSupportFragmentManager() con AppCompatActivity e AndroidX.
+
+Tiene traccia di tutti i fragment associati all’Activity.
+

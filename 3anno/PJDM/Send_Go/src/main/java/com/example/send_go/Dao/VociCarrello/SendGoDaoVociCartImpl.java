@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public class SendGoDaoVociCartImpl implements SendGoDaoVociCart {
     private Connection conn;
 
-    public SendGoDaoVociCartImpl(String ip, String port, String dbName, String userName, String pwd) throws SQLException{
+    public SendGoDaoVociCartImpl(String ip, String port, String dbName, String userName, String pwd){
         try {
 
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -22,13 +22,8 @@ public class SendGoDaoVociCartImpl implements SendGoDaoVociCart {
             conn = DriverManager.getConnection("jdbc:mysql://" + ip + ":" + port + "/" + dbName
                             + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
                     userName, pwd);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            throw new SQLException("Errore nella connessione al database", e);
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Driver MySQL non trovato", e);
         }
     }
 
@@ -98,6 +93,29 @@ public class SendGoDaoVociCartImpl implements SendGoDaoVociCart {
             return -1;
         }
         return result;
+    }
+
+    @Override
+    public void closeConnection() {
+        if (conn != null) {
+            try {
+                if (!conn.isClosed()) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public boolean isConnected() {
+        try {
+            return conn != null && !conn.isClosed();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 

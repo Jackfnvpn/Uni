@@ -20,17 +20,25 @@ public class LoginAmministrazione extends HttpServlet {
 
         System.out.print("SendGoServlet. Opening DB connection...");
 
-        try {
-            dao = new SendGoDaoOperatorImpl(ip,port,dbName,dbUser,dbPass);
-            System.out.println("Connessione riuscita");
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ServletException("Errore durante l'inizializzazione", e);
+
+        dao = new SendGoDaoOperatorImpl(ip,port,dbName,dbUser,dbPass);
+
+        if (dao == null || !dao.isConnected()) {
+            throw new ServletException("Errore nella connessione al db");
         }
+
+        System.out.println("Connessione riuscita");
+
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        if (dao == null || !dao.isConnected()) {
+            response.setStatus(500);
+            return;
+        }
+
         Customer customer;
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");
@@ -48,21 +56,16 @@ public class LoginAmministrazione extends HttpServlet {
             response.getWriter().write("Formato email non valido");
             return;
         }
+        customer = dao.checkCustomer(email,password);
 
-        try {
-            customer = dao.checkCustomer(email,password);
-
-            if (customer != null){
-                response.setStatus(200);
-                String customerJson = customer.toJson();
-                response.getWriter().append(customerJson);
-            }
-            else{
-                response.setStatus(401);
-            }
-        } catch (Exception e){
-            response.setStatus(500);
-            return;
+        if (customer != null){
+            response.setStatus(200);
+            String customerJson = customer.toJson();
+            response.getWriter().append(customerJson);
         }
+        else{
+            response.setStatus(401);
+        }
+        return;
     }
 }

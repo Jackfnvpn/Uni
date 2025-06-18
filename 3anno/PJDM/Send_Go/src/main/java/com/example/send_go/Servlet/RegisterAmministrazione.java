@@ -23,16 +23,23 @@ public class RegisterAmministrazione extends HttpServlet {
 
         System.out.print("SendGoServlet. Opening DB connection...");
 
-        try {
-            dao = new SendGoDaoOperatorImpl(ip,port,dbName,dbUser,dbPass);
-            System.out.println("Connessione riuscita");
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ServletException("Errore durante l'inizializzazione", e);
+        dao = new SendGoDaoOperatorImpl(ip,port,dbName,dbUser,dbPass);
+
+        if (dao==null || !dao.isConnected()){
+            throw new ServletException("Errore nella connessione col db");
         }
+
+        System.out.println("Connessione riuscita");
+
     }
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        if (dao==null || !dao.isConnected()){
+            response.setStatus(500);
+            return;
+        }
+
         response.setContentType("text/plain");
         Customer customer;
         String jsonReq=request.getParameter("json");

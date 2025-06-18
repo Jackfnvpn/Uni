@@ -29,6 +29,31 @@ public class SendGoDaoTicketImpl implements SendGoDaoTicket {
         }
     }
 
+    @Override
+    public boolean isConnected() {
+        try {
+            return conn != null && !conn.isClosed();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public void closeConnection() {
+        if (conn != null) {
+            try {
+                if (!conn.isClosed()) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    @Override
     public Ticket getTicket(int ticketId){
         Ticket ticket = null;
         ArrayList<Messaggio> messaggi = new ArrayList<>();
@@ -171,23 +196,4 @@ public class SendGoDaoTicketImpl implements SendGoDaoTicket {
             return -1;
         }
     }
-
-    public void closeConnection() {
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            Enumeration<Driver> enumDrivers = DriverManager.getDrivers();
-            while (enumDrivers.hasMoreElements()) {
-                Driver driver = enumDrivers.nextElement();
-                DriverManager.deregisterDriver(driver);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

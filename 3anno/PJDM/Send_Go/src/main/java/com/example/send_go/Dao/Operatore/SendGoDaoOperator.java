@@ -5,4 +5,6 @@ public interface SendGoDaoOperator {
     public Customer checkCustomer(String email, String password);
     public void closeConnection();
     public int insertCustomer(Customer customer);
+    public boolean isConnected();
+
 }

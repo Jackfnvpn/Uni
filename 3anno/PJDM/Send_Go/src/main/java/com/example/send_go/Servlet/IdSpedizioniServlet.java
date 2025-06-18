@@ -23,17 +23,23 @@ public class IdSpedizioniServlet extends HttpServlet {
 
         System.out.print("SendGoServlet. Opening DB connection...");
 
-        try {
-            daoSped = new SendGoDaoSpedImpl(ip,port,dbName,dbUser,dbPass);
-            System.out.println("Connessione riuscita");
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ServletException("Errore durante l'inizializzazione", e);
+
+        daoSped = new SendGoDaoSpedImpl(ip,port,dbName,dbUser,dbPass);
+        if (daoSped == null||!daoSped.isConnected()){
+            throw new ServletException("Errore nella connessione al db");
         }
+        System.out.println("Connessione riuscita");
+
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        if (daoSped == null||!daoSped.isConnected()){
+            resp.setStatus(500);
+            return;
+        }
+
         listCoppieId coppieId;
         PrintWriter out = resp.getWriter();
         resp.setContentType("text/plain");

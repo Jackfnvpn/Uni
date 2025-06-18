@@ -8,19 +8,16 @@ import java.util.Enumeration;
 public class SendGoDaoCustomerImpl implements SendGoDaoCustomer {
     private Connection conn;
 
-    public SendGoDaoCustomerImpl(String ip, String port, String dbName, String userName, String pwd){
+    public SendGoDaoCustomerImpl(String ip, String port, String dbName, String userName, String pwd) throws Exception {
         try {
 
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-//			conn = DriverManager.getConnection("jdbc:mysql://" + ip + ":" + port + "/" + dbName, userName, pwd);
-
-            // IT COULD BE NECESSARY TO USE THIS FORM
             conn = DriverManager.getConnection("jdbc:mysql://" + ip + ":" + port + "/" + dbName
                             + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
                     userName, pwd);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new Exception("Errore nella connessione al database", e);
         }
     }
 
@@ -88,21 +85,26 @@ public class SendGoDaoCustomerImpl implements SendGoDaoCustomer {
         }
     }
 
-    public void closeConnection() {
+    @Override
+    public boolean isConnected() {
         try {
-            conn.close();
+            return conn != null && !conn.isClosed();
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
+    }
 
-        try {
-            Enumeration<Driver> enumDrivers = DriverManager.getDrivers();
-            while (enumDrivers.hasMoreElements()) {
-                Driver driver = enumDrivers.nextElement();
-                DriverManager.deregisterDriver(driver);
+    @Override
+    public void closeConnection() {
+        if (conn != null) {
+            try {
+                if (!conn.isClosed()) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 }

@@ -46,6 +46,11 @@ public class Spedizione {
         Pacco dimensioniPacco = Pacco.fromJSON(json.getJSONObject("dimensioni"));
         Corriere corriere = Corriere.fromJSON(json.getJSONObject("corriere"));
         LocalDate dataRitiro = LocalDate.parse(json.getString("data_ritiro"));
+
+        if (!dataRitiro.isAfter(LocalDate.now())) {
+            throw new JSONException("La data di ritiro deve essere successiva alla data odierna");
+        }
+
         Indirizzo partenza = Indirizzo.fromJSON(json.getJSONObject("partenza"));
         Indirizzo destinazione = Indirizzo.fromJSON(json.getJSONObject("destinazione"));
 

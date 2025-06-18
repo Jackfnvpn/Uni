@@ -38,19 +38,27 @@ public class OrdiniServlet extends HttpServlet {
 
         System.out.print("SendGoServlet. Opening DB connection...");
 
-        try {
-            daoOrder = new SendGoDaoOrderImpl(ip,port,dbName,dbUser,dbPass);
-            daoSped  = new SendGoDaoSpedImpl(ip,port,dbName,dbUser,dbPass);
-            daoCart  = new SendGoDaoVociCartImpl(ip,port,dbName,dbUser,dbPass);
-            System.out.println("Connessione riuscita");
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ServletException("Errore durante l'inizializzazione", e);
+        daoOrder = new SendGoDaoOrderImpl(ip,port,dbName,dbUser,dbPass);
+        daoSped  = new SendGoDaoSpedImpl(ip,port,dbName,dbUser,dbPass);
+        daoCart  = new SendGoDaoVociCartImpl(ip,port,dbName,dbUser,dbPass);
+
+        if (daoCart==null || daoOrder==null || daoSped==null || !daoCart.isConnected()||!daoOrder.isConnected()||!daoSped.isConnected()) {
+            throw new ServletException("Errore nella connessione col db");
         }
+
+        System.out.println("Connessione riuscita");
+
+
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        if (daoCart==null || daoOrder==null || daoSped==null || !daoCart.isConnected()||!daoOrder.isConnected()||!daoSped.isConnected()) {
+            response.setStatus(500);
+            return;
+        }
+
         PrintWriter out = response.getWriter();
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");
@@ -97,6 +105,12 @@ public class OrdiniServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        if (daoCart==null || daoOrder==null || daoSped==null || !daoCart.isConnected()||!daoOrder.isConnected()||!daoSped.isConnected()) {
+            resp.setStatus(500);
+            return;
+        }
+
         PrintWriter out = resp.getWriter();
         resp.setContentType("text/plain");
         resp.setCharacterEncoding("UTF-8");

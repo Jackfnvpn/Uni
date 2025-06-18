@@ -22,6 +22,29 @@ public class SendGoDaoMessaggioImpl implements SendGoDaoMessaggio{
         }
     }
 
+    @Override
+    public boolean isConnected() {
+        try {
+            return conn != null && !conn.isClosed();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public void closeConnection() {
+        if (conn != null) {
+            try {
+                if (!conn.isClosed()) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public int insertMessaggio(Messaggio msg, int ticketId) {
         String sql = "INSERT INTO messaggio(N_ticket, testo, Data, mittente_tipo) VALUES (?, ?, ?, ?)";
         try {

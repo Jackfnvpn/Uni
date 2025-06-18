@@ -22,13 +22,14 @@ public class SpedizioniServlet extends HttpServlet {
 
         System.out.print("SendGoServlet. Opening DB connection...");
 
-        try {
-            daoSped = new SendGoDaoSpedImpl(ip,port,dbName,dbUser,dbPass);
-            System.out.println("Connessione riuscita");
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ServletException("Errore durante l'inizializzazione", e);
+        daoSped = new SendGoDaoSpedImpl(ip,port,dbName,dbUser,dbPass);
+
+        if (daoSped == null || !daoSped.isConnected()) {
+            throw new ServletException("Errore nella connessione col db");
         }
+
+        System.out.println("Connessione riuscita");
+
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -6,4 +6,6 @@ import com.example.send_go.Entity.Ordine.Ordine;
 public interface SendGoDaoOrder {
     public ListOrder getListOrder(int idCliente);
     public int insertOrdine(Ordine ordine,int idCliente);
+    public void closeConnection();
+    public boolean isConnected();
 }

@@ -24,15 +24,26 @@ public class Register extends HttpServlet {
         System.out.print("SendGoServlet. Opening DB connection...");
 
         try {
-            dao = new SendGoDaoCustomerImpl(ip,port,dbName,dbUser,dbPass);
-            System.out.println("Connessione riuscita");
+            dao = new SendGoDaoCustomerImpl(ip, port, dbName, dbUser, dbPass);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ServletException("Errore durante l'inizializzazione", e);
+            throw new ServletException("Errore nella connessione al db", e);
         }
+        if (dao==null || !dao.isConnected()) {
+            throw new ServletException("Errore nella connessione col db");
+        }
+
+        System.out.println("Connessione riuscita");
+
     }
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        if (dao==null || !dao.isConnected()) {
+            response.setStatus(500);
+            return;
+        }
+
         response.setContentType("text/plain");
         Customer customer;
         String jsonReq=request.getParameter("json");

@@ -18,7 +18,7 @@ public class SendGoDaoSpedImpl implements SendGoDaoSped {
 
     private Connection conn;
 
-    public SendGoDaoSpedImpl(String ip, String port, String dbName, String userName, String pwd) throws SQLException {
+    public SendGoDaoSpedImpl(String ip, String port, String dbName, String userName, String pwd) {
         try {
 
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -26,17 +26,9 @@ public class SendGoDaoSpedImpl implements SendGoDaoSped {
             conn = DriverManager.getConnection("jdbc:mysql://" + ip + ":" + port + "/" + dbName
                             + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
                     userName, pwd);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new SQLException("Errore nella connessione al database", e);
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Driver MySQL non trovato", e);
         }
         catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Errore generico", e);
         }
     }
 
@@ -105,6 +97,29 @@ public class SendGoDaoSpedImpl implements SendGoDaoSped {
 
         return lista;
 
+    }
+
+    @Override
+    public boolean isConnected() {
+        try {
+            return conn != null && !conn.isClosed();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public void closeConnection() {
+        if (conn != null) {
+            try {
+                if (!conn.isClosed()) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

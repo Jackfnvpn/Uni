@@ -22,18 +22,23 @@ public class CorriereServlet extends HttpServlet {
         String dbPass = getInitParameter("password");
 
         System.out.print("SendGoServlet. Opening DB connection...");
+        dao = new SendGoDaoCorriereImpl(ip,port,dbName,dbUser,dbPass);
 
-        try {
-            dao = new SendGoDaoCorriereImpl(ip,port,dbName,dbUser,dbPass);
-            System.out.println("Connessione riuscita");
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ServletException("Errore durante l'inizializzazione", e);
+        if (dao == null || !dao.isConnected()) {
+            throw new ServletException("Errore nella connessione col db");
         }
+
+        System.out.println("Connessione riuscita");
+
     }
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        if (dao == null || !dao.isConnected()) {
+            resp.setStatus(500);
+            return;
+        }
 
         PrintWriter out = resp.getWriter();
         resp.setContentType("text/plain");

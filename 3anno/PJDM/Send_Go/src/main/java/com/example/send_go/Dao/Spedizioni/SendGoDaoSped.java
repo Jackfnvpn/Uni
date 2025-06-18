@@ -10,4 +10,6 @@ public interface SendGoDaoSped {
     public int insertSpedizioni(Spedizione spedizione);
     public listCoppieId selectIdOrdineSpedizione(int idCliente);
     public ListSpedizione getListSpedizioni(int idCliente);
+    public void closeConnection();
+    public boolean isConnected();
 }

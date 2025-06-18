@@ -24,7 +24,29 @@ public class SendGoDaoOrderImpl implements SendGoDaoOrder{
         }
         catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Errore generico", e);
+        }
+    }
+
+    @Override
+    public boolean isConnected() {
+        try {
+            return conn != null && !conn.isClosed();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public void closeConnection() {
+        if (conn != null) {
+            try {
+                if (!conn.isClosed()) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 

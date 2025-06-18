@@ -32,18 +32,25 @@ public class CarrelloServlet extends HttpServlet {
 
         System.out.print("SendGoServlet. Opening DB connection...");
 
-        try {
-            daoCarrello = new SendGoDaoVociCartImpl(ip,port,dbName,dbUser,dbPass);
-            System.out.println("Connessione riuscita");
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ServletException("Errore durante l'inizializzazione", e);
+
+        daoCarrello = new SendGoDaoVociCartImpl(ip,port,dbName,dbUser,dbPass);
+
+        if (daoCarrello == null || !daoCarrello.isConnected()) {
+            throw new ServletException("Impossibile connettersi al database");
         }
+
+        System.out.println("Connessione riuscita");
     }
 
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+        if (daoCarrello == null || !daoCarrello.isConnected()) {
+            resp.setStatus(500);
+            return;
+        }
+
         PrintWriter out = resp.getWriter();
         resp.setContentType("text/plain");
         resp.setCharacterEncoding("UTF-8");
@@ -111,6 +118,11 @@ public class CarrelloServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        if (daoCarrello == null || !daoCarrello.isConnected()) {
+            resp.setStatus(500);
+            return;
+        }
+
         ListCarello listCarello;
         PrintWriter out = resp.getWriter();
         resp.setContentType("text/plain");
@@ -140,7 +152,7 @@ public class CarrelloServlet extends HttpServlet {
         }
 
         if (listCarello.isEmpty()) {
-            resp.setStatus(204);
+            resp.setStatus(404);
             out.close();
         } else if (listCarello==null) {
             resp.setStatus(500);

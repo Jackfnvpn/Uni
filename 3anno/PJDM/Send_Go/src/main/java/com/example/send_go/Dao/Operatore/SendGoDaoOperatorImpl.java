@@ -84,21 +84,26 @@ public class SendGoDaoOperatorImpl implements SendGoDaoOperator{
         }
     }
 
-    public void closeConnection() {
+    @Override
+    public boolean isConnected() {
         try {
-            conn.close();
+            return conn != null && !conn.isClosed();
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
+    }
 
-        try {
-            Enumeration<Driver> enumDrivers = DriverManager.getDrivers();
-            while (enumDrivers.hasMoreElements()) {
-                Driver driver = enumDrivers.nextElement();
-                DriverManager.deregisterDriver(driver);
+    @Override
+    public void closeConnection() {
+        if (conn != null) {
+            try {
+                if (!conn.isClosed()) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 }

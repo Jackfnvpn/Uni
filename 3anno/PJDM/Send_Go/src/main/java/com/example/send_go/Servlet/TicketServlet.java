@@ -31,26 +31,32 @@ public class TicketServlet extends HttpServlet {
         String dbName = getInitParameter("dbName");
         String dbUser = getInitParameter("userName");
         String dbPass = getInitParameter("password");
-
         System.out.print("SendGoServlet. Opening DB connection...");
 
-        try {
-            dao = new SendGoDaoTicketImpl(ip,port,dbName,dbUser,dbPass);
-            daoMessaggio= new SendGoDaoMessaggioImpl(ip,port,dbName,dbUser,dbPass);
 
-            System.out.println("Connessione riuscita");
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ServletException("Errore durante l'inizializzazione", e);
+        dao = new SendGoDaoTicketImpl(ip,port,dbName,dbUser,dbPass);
+        daoMessaggio= new SendGoDaoMessaggioImpl(ip,port,dbName,dbUser,dbPass);
+        System.out.println("Connessione riuscita");
+
+        if (dao == null || !dao.isConnected() || daoMessaggio == null || !daoMessaggio.isConnected()) {
+            throw new ServletException("Impossibile connettersi al database");
         }
+
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("application/json");
+
+        if (dao == null || !dao.isConnected() ||  daoMessaggio == null || !daoMessaggio.isConnected()) {
+            resp.setStatus(500);
+            return;
+        }
+
+        resp.setContentType("text/plain");
         Ticket ticket;
         Messaggio messaggio;
         String json;
+
         if (req.getParameter("json")!=null && req.getParameter("idTicket")==null) {
             json = req.getParameter("json");
             System.out.println(json);
@@ -126,76 +132,85 @@ public class TicketServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        if (dao == null || !dao.isConnected()) {
+            resp.setStatus(500);
+            return;
+        }
+
         PrintWriter out = resp.getWriter();
-        resp.setContentType("application/json");
+        resp.setContentType("text/plain");
         resp.setCharacterEncoding("UTF-8");
         ListTicket listTicket;
         int id,idTicket;
-        try {
-            if (req.getParameter("idTicket") == null && req.getParameter("id") != null) {
-                try {
-                    id = Integer.parseInt(req.getParameter("id"));
-                } catch (NumberFormatException e) {
-                    resp.setStatus(400);
-                    out.write("Id cliente deve essere un valore intero");
-                    out.flush();
-                    out.close();
-                    return;
-                }
 
-                listTicket = dao.getListTicket(id);
-
-                if (listTicket == null) {
-                    resp.setStatus(500);
-                    return;
-                }
-
-                if (listTicket.isEmpty()) {
-                    resp.setStatus(204);
-                    return;
-                }
-
-                resp.setStatus(200);
-                out.print(listTicket.toJSONString());
-                out.flush();
-                return;
-            } else if (req.getParameter("idTicket") != null) {
-                try {
-                    idTicket = Integer.parseInt(req.getParameter("idTicket"));
-                } catch (NumberFormatException e) {
-                    resp.setStatus(400);
-                    out.write("Id cliente deve essere un valore intero");
-                    out.flush();
-                    out.close();
-                    return;
-                }
-
-                Ticket ticket = dao.getTicket(idTicket);
-
-                if (ticket != null) {
-                    resp.setStatus(200);
-                    out.print(ticket.toJSONString());
-                    out.flush();
-                } else {
-                    resp.setStatus(404);
-                }
-            } else if (req.getParameter("idTicket") == null && req.getParameter("id") == null) {
-                listTicket = dao.getListAllTicket();
-                if (listTicket == null) {
-                    resp.setStatus(204);
-                    return;
-                }
-                resp.setStatus(200);
-                out.print(listTicket.toJSONString());
-                out.flush();
-            } else {
+        if (req.getParameter("idTicket") == null && req.getParameter("id") != null) {
+            try {
+                id = Integer.parseInt(req.getParameter("id"));
+            } catch (NumberFormatException e) {
                 resp.setStatus(400);
+                out.write("Id cliente deve essere un valore intero");
+                out.flush();
+                out.close();
                 return;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            resp.setStatus(500);
+
+            listTicket = dao.getListTicket(id);
+
+            if (listTicket == null) {
+                resp.setStatus(500);
+                return;
+            }
+
+            if (listTicket.isEmpty()) {
+                resp.setStatus(404);
+                return;
+            }
+
+            resp.setStatus(200);
+            out.print(listTicket.toJSONString());
+            out.flush();
+            return;
+        } else if (req.getParameter("idTicket") != null) {
+            try {
+                idTicket = Integer.parseInt(req.getParameter("idTicket"));
+            } catch (NumberFormatException e) {
+                resp.setStatus(400);
+                out.write("Id cliente deve essere un valore intero");
+                out.flush();
+                out.close();
+                return;
+            }
+
+            Ticket ticket = dao.getTicket(idTicket);
+
+            if (ticket != null) {
+                resp.setStatus(200);
+                out.print(ticket.toJSONString());
+                out.flush();
+            } else {
+                resp.setStatus(404);
+            }
+        } else if (req.getParameter("idTicket") == null && req.getParameter("id") == null) {
+            listTicket = dao.getListAllTicket();
+            if (listTicket == null) {
+                resp.setStatus(500);
+                return;
+            }
+
+            else if (listTicket.isEmpty()) {
+                resp.setStatus(404);
+                return;
+            }
+
+            resp.setStatus(200);
+            out.print(listTicket.toJSONString());
+            out.flush();
+            return;
+
+        } else {
+            resp.setStatus(400);
             return;
         }
     }
 }
+
