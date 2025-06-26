@@ -1,0 +1,27 @@
+[
+	{
+		"nome": "pierpaolo loreti",
+		"crediti": 6,
+		"corso":"PW",
+        "studenti": ["012344","012354","052424"]
+
+	},
+	{
+		"nome": "giuseppe bianchi",
+		"crediti": 6,
+		"corso":"IS",
+        "studenti": ["012344","987633"]
+	},
+	{
+		"nome": "lorenzo bracciale",
+		"crediti": 9,
+		"corso":"PW",
+        "studenti": ["01244","987633"]
+	},
+	{
+		"nome": "danilo croce",
+		"crediti": 6,
+		"corso":"PJDM",
+        "studenti": ["012333","424223"]
+	}
+]

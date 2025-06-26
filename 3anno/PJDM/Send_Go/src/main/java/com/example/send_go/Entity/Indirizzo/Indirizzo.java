@@ -1,5 +1,6 @@
 package com.example.send_go.Entity.Indirizzo;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Indirizzo {
@@ -63,12 +64,41 @@ public class Indirizzo {
     }
 
     public static Indirizzo fromJSON(JSONObject json) {
+
+        if (!json.has("nome") || !json.has("cognome") || !json.has("indirizzo")||
+        !json.has("citta") || !json.has("cap") || !json.has("provincia")){
+            throw new JSONException("mancano dei campi nei dati mittenza o destinazione");
+        }
+
         String nome  = json.getString("nome");
         String cognome  = json.getString("cognome");
         String indirizzo = json.getString("indirizzo");
         String citta = json.getString("citta");
         String cap = json.getString("cap");
         String provincia = json.getString("provincia");
+
+        String regexLettere = "^[A-Za-zÀ-ÖØ-öø-ÿ]+( [A-Za-zÀ-ÖØ-öø-ÿ]+)*$";
+
+        if (!nome.matches(regexLettere)) {
+            throw new JSONException("Il campo nome contiene caratteri non validi");
+        }
+
+        if (!cognome.matches(regexLettere)) {
+            throw new JSONException("Il campo cognome contiene caratteri non validi");
+        }
+
+        if (!citta.matches(regexLettere)) {
+            throw new JSONException("Il campo città contiene caratteri non validi");
+        }
+
+        if (!provincia.matches(regexLettere)) {
+            throw new JSONException("Il campo provincia contiene caratteri non validi");
+        }
+
+        if (!cap.matches("\\d{5}")) {
+            throw new JSONException("Il campo cap deve contenere esattamente 5 cifre numeriche");
+        }
+
         return new Indirizzo(nome,cognome,indirizzo, citta, cap, provincia);
     }
 }

@@ -44,6 +44,12 @@ CREATE TABLE corriere (
                           Tariffa DECIMAL(10,2)
 );
 
+CREATE TABLE provincia (
+                           id INT PRIMARY KEY AUTO_INCREMENT,
+                           nome VARCHAR(100) NOT NULL
+);
+
+
 CREATE TABLE voci_carrello (
                                ID INT PRIMARY KEY AUTO_INCREMENT,
                                N_cliente INT,
@@ -65,6 +71,7 @@ CREATE TABLE voci_carrello (
                                Lunghezza DECIMAL(10,2),
                                Larghezza DECIMAL(10,2),
                                N_corriere INT,
+                               Tariffa_dedicata DECIMAL(10,2),
                                FOREIGN KEY (N_cliente) REFERENCES customer(N_cliente),
                                FOREIGN KEY (N_corriere) REFERENCES corriere(ID)
 );
@@ -88,6 +95,7 @@ CREATE TABLE spedizione (
                             Altezza DECIMAL(10,2),
                             Lunghezza DECIMAL(10,2),
                             Larghezza DECIMAL(10,2),
+                            Tariffa_dedicata DECIMAL(10,2),
                             N_ordine INT,
                             FOREIGN KEY (N_ordine) REFERENCES ordine(N_ordine)
 );
@@ -108,4 +116,13 @@ CREATE TABLE messaggio (
                            testo TEXT,
                            mittente_tipo BOOLEAN,
                            FOREIGN KEY (N_ticket) REFERENCES ticket(ID)
+);
+
+CREATE TABLE tariffa (
+                         id INT PRIMARY KEY AUTO_INCREMENT,
+                         corriere_id INT,
+                         peso_min DOUBLE,
+                         peso_max DOUBLE,
+                         moltiplicatore DOUBLE,
+                         FOREIGN KEY (corriere_id) REFERENCES corriere(ID)
 );

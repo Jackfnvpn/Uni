@@ -14,6 +14,17 @@ public class VociCarrello {
     private LocalDate   dataRitiro;
     private Indirizzo   partenza;
     private Indirizzo   destinazione;
+    private int id;
+
+    public VociCarrello(Pacco dimensioni, Corriere corriere, LocalDate dataRitiro,
+                        Indirizzo partenza, Indirizzo destinazione,int id) {
+        this.id=id;
+        this.dimensioniPacco = dimensioni;
+        this.dataRitiro = dataRitiro;
+        this.partenza = partenza;
+        this.destinazione = destinazione;
+        this.corriere = corriere;
+    }
 
     public VociCarrello(Pacco dimensioni, Corriere corriere, LocalDate dataRitiro,
                         Indirizzo partenza, Indirizzo destinazione) {
@@ -23,6 +34,8 @@ public class VociCarrello {
         this.destinazione = destinazione;
         this.corriere = corriere;
     }
+
+
 
     public static VociCarrello fromJSON(JSONObject json) throws JSONException {
 
@@ -50,6 +63,13 @@ public class VociCarrello {
         return new VociCarrello(dimensioniPacco,corriere,dataRitiro,partenza,destinazione);
     }
 
+    public int getIdCart() {
+        return id;
+    }
+
+    public void setIdCart(int id) {
+        this.id = id;
+    }
 
     public Pacco getDimensioniPacco() {
         return dimensioniPacco;

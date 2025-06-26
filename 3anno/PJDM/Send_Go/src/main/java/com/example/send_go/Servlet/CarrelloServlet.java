@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,18 +59,20 @@ public class CarrelloServlet extends HttpServlet {
         VociCarrello carrello;
         int idCliente;
         String jsonString = req.getParameter("json");
+        String strIdCliente = req.getParameter("idCliente");
 
         System.out.println(jsonString);
 
-        if (req.getParameter("idCliente") == null) {
-            resp.setStatus(401);
-            out.write("Accedi o registrati per aggiunegere al carrello la spedizione");
-            out.flush();
-            out.close();
-            return;
-        }
+        if (jsonString != null && strIdCliente != null) {
 
-        if (jsonString != null) {
+            if (strIdCliente.equals("-1")) {
+                resp.setStatus(401);
+                out.write("Accedi o registrati per aggiunegere al carrello la spedizione");
+                out.flush();
+                out.close();
+                return;
+            }
+
             JSONObject jsonCarrello = new JSONObject(jsonString);
             try {
                 idCliente = Integer.parseInt(req.getParameter("idCliente"));
@@ -116,6 +119,48 @@ public class CarrelloServlet extends HttpServlet {
     }
 
     @Override
+    public void destroy() {
+        System.out.print("MusicianServlet. Closing DB connection...");
+        daoCarrello.closeConnection();
+        System.out.println("DONE.");
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (daoCarrello == null || !daoCarrello.isConnected()) {
+            resp.setStatus(500);
+            return;
+        }
+
+        System.out.print("SendGoServlet. Deleting Carrello...");
+
+        String idVoceStr = req.getParameter("idVoce");
+        int id;
+
+        if (idVoceStr == null) {
+            resp.setStatus(400);
+            return;
+        }
+
+        try {
+            id = Integer.parseInt(idVoceStr);
+        } catch (NumberFormatException e) {
+            resp.setStatus(400);
+            return;
+        }
+
+        boolean res = daoCarrello.deleteVoce(id);
+
+        if (res){
+            resp.setStatus(200);
+        }else {
+            resp.setStatus(500);
+        }
+        return;
+
+    }
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         if (daoCarrello == null || !daoCarrello.isConnected()) {
@@ -159,9 +204,19 @@ public class CarrelloServlet extends HttpServlet {
             out.close();
 
         } else {
+
+            double Totale=0;
+
+            for (VociCarrello c: listCarello){
+                Totale+= c.getCorriere().getCorriere_tariffa();
+            }
+
+            JSONObject responseJson = new JSONObject();
+            responseJson.put("totale", Totale);
+            responseJson.put("carrello", listCarello.toJSON());
+
             resp.setStatus(200);
-            System.out.println(listCarello.toJSONString());
-            out.print(listCarello.toJSONString());
+            out.print(responseJson.toString());
             out.flush();
             out.close();
         }

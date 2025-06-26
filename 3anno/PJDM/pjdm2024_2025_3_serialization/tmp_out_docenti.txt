@@ -1,0 +1,4 @@
+Docente [nome=pierpaolo loreti, corso=PW, crediti=6, array=[12344, 12354, 52424]]
+Docente [nome=giuseppe bianchi, corso=IS, crediti=6, array=[12344, 987633]]
+Docente [nome=lorenzo bracciale, corso=PW, crediti=9, array=[1244, 987633]]
+Docente [nome=danilo croce, corso=PJDM, crediti=6, array=[12333, 424223]]

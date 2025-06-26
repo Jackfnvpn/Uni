@@ -8,7 +8,7 @@ import java.util.Enumeration;
 public class SendGoDaoCustomerImpl implements SendGoDaoCustomer {
     private Connection conn;
 
-    public SendGoDaoCustomerImpl(String ip, String port, String dbName, String userName, String pwd) throws Exception {
+    public SendGoDaoCustomerImpl(String ip, String port, String dbName, String userName, String pwd) {
         try {
 
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -17,7 +17,7 @@ public class SendGoDaoCustomerImpl implements SendGoDaoCustomer {
                             + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
                     userName, pwd);
         } catch (Exception e) {
-            throw new Exception("Errore nella connessione al database", e);
+            e.printStackTrace();
         }
     }
 

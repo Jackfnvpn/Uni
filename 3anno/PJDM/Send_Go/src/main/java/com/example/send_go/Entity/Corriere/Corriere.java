@@ -8,6 +8,11 @@ public class Corriere {
     private double corriere_tariffa;
     private int idCorriere;
 
+    public Corriere(int idCorriere,String nome) {
+        this.corriere_nome = nome;
+        this.idCorriere = idCorriere;
+    }
+
     public Corriere(String nome, double tariffa) {
         this.corriere_nome = nome;
         this.corriere_tariffa = tariffa;

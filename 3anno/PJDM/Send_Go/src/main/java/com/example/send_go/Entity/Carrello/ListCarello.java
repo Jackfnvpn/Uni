@@ -5,7 +5,7 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 
 public class ListCarello extends ArrayList<VociCarrello> {
-    public String toJSONString() {
-        return new JSONArray(this).toString();
+    public JSONArray toJSON() {
+        return new JSONArray(this);
     }
 }

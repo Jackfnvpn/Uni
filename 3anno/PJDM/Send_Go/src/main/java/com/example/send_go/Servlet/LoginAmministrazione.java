@@ -32,6 +32,13 @@ public class LoginAmministrazione extends HttpServlet {
     }
 
     @Override
+    public void destroy() {
+        System.out.print("MusicianServlet. Closing DB connection...");
+        dao.closeConnection();
+        System.out.println("DONE.");
+    }
+
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         if (dao == null || !dao.isConnected()) {

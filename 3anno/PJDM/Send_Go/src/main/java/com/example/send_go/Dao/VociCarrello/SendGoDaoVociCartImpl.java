@@ -3,6 +3,7 @@ package com.example.send_go.Dao.VociCarrello;
 import com.example.send_go.Entity.Carrello.ListCarello;
 import com.example.send_go.Entity.Carrello.VociCarrello;
 import com.example.send_go.Entity.Corriere.Corriere;
+import com.example.send_go.Entity.Corriere.ListCorriere;
 import com.example.send_go.Entity.Indirizzo.Indirizzo;
 import com.example.send_go.Entity.Pacco.Pacco;
 import com.example.send_go.Entity.Ticket.ListTicket;
@@ -29,7 +30,7 @@ public class SendGoDaoVociCartImpl implements SendGoDaoVociCart {
 
     @Override
     public ListCarello getListCarrello(int idCliente) {
-        String sql = "SELECT vc.*, c.ID, c.nome AS nome_corriere ,c.tariffa AS tariffa_corriere FROM voci_carrello vc JOIN corriere c ON vc.N_corriere=c.ID WHERE N_cliente = ?";
+        String sql = "SELECT vc.*, c.nome AS nome_corriere FROM voci_carrello vc JOIN corriere c ON vc.N_corriere=c.ID WHERE vc.N_cliente = ?";
         ListCarello list = new ListCarello();
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -45,18 +46,18 @@ public class SendGoDaoVociCartImpl implements SendGoDaoVociCart {
 
                 int idCorriere = rs.getInt("N_corriere");
                 String nome = rs.getString("nome_corriere");
-                double tariffa = rs.getDouble("tariffa_corriere");
+                double tariffa = rs.getDouble("tariffa_applicata");
                 Corriere corriere = new Corriere(idCorriere,nome,tariffa);
 
                 LocalDate dataRitiro = rs.getDate("data_ritiro").toLocalDate();
-
+                int id = rs.getInt("ID");
                 Indirizzo partenza = new Indirizzo(
                         rs.getString("Nome_Partenza"),
                         rs.getString("Cognome_Partenza"),
                         rs.getString("Indirizzo_Mittenza"),
                         rs.getString("Località_Mittenza"),
-                        rs.getString("Provincia_Mittenza"),
-                        rs.getString("Cap_Mittenza")
+                        rs.getString("Cap_Mittenza"),
+                        rs.getString("Provincia_Mittenza")
                 );
 
                 Indirizzo destinazione = new Indirizzo(
@@ -64,11 +65,11 @@ public class SendGoDaoVociCartImpl implements SendGoDaoVociCart {
                         rs.getString("Cognome_Destinazione"),
                         rs.getString("Indirizzo_Destinazione"),
                         rs.getString("Località_Destinazione"),
-                        rs.getString("Provincia_Destinazione"),
-                        rs.getString("Cap_Destinazione")
+                        rs.getString("Cap_Destinazione"),
+                        rs.getString("Provincia_Destinazione")
                 );
 
-                VociCarrello voce = new VociCarrello(pacco, corriere, dataRitiro, partenza, destinazione);
+                VociCarrello voce = new VociCarrello(pacco, corriere, dataRitiro, partenza, destinazione,id);
                 list.add(voce);
             }
             rs.close();
@@ -78,21 +79,6 @@ public class SendGoDaoVociCartImpl implements SendGoDaoVociCart {
             return null;
         }
 
-    }
-
-    @Override
-    public int clearCart(int idCliente) {
-        int result = 0;
-        String query = "DELETE FROM voci_carrello WHERE N_cliente = ?";
-        try {
-             PreparedStatement ps = conn.prepareStatement(query);
-            ps.setInt(1, idCliente);
-            result = ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return -1;
-        }
-        return result;
     }
 
     @Override
@@ -126,8 +112,8 @@ public class SendGoDaoVociCartImpl implements SendGoDaoVociCart {
                 N_cliente, Nome_Partenza, Cognome_Partenza, Nome_Destinazione, Cognome_Destinazione,
                 data_ritiro, Cap_Mittenza, Località_Mittenza, Provincia_Mittenza, Indirizzo_Mittenza,
                 Cap_Destinazione, Località_Destinazione,Provincia_Destinazione, Indirizzo_Destinazione,
-                Peso, Altezza, Lunghezza, Larghezza, N_corriere)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                Peso, Altezza, Lunghezza, Larghezza, N_corriere,tariffa_applicata)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
             """;
 
         try {
@@ -157,6 +143,7 @@ public class SendGoDaoVociCartImpl implements SendGoDaoVociCart {
             stmt.setDouble(18, vociCarrello.getDimensioniPacco().getLarghezza());
 
             stmt.setInt(19, vociCarrello.getCorriere().getIdCorriere());
+            stmt.setDouble(20, vociCarrello.getCorriere().getCorriere_tariffa());
 
             return stmt.executeUpdate();
         } catch (SQLException e) {
@@ -165,5 +152,25 @@ public class SendGoDaoVociCartImpl implements SendGoDaoVociCart {
         }
     }
 
+    public boolean deleteVoce(int id){
+        String sql = "DELETE FROM voci_carrello WHERE ID = ?";
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            int rows = ps.executeUpdate();
+            ps.close();
+
+            if (rows > 0) {
+                return true;
+            }else {
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
 
 }

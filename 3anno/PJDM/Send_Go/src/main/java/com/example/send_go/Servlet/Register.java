@@ -23,12 +23,8 @@ public class Register extends HttpServlet {
 
         System.out.print("SendGoServlet. Opening DB connection...");
 
-        try {
-            dao = new SendGoDaoCustomerImpl(ip, port, dbName, dbUser, dbPass);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ServletException("Errore nella connessione al db", e);
-        }
+        dao = new SendGoDaoCustomerImpl(ip, port, dbName, dbUser, dbPass);
+
         if (dao==null || !dao.isConnected()) {
             throw new ServletException("Errore nella connessione col db");
         }
@@ -74,4 +70,12 @@ public class Register extends HttpServlet {
 
         return;
     }
+
+    @Override
+    public void destroy() {
+        System.out.print("MusicianServlet. Closing DB connection...");
+        dao.closeConnection();
+        System.out.println("DONE.");
+    }
+
 }

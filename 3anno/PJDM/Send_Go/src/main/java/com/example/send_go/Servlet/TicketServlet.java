@@ -130,6 +130,14 @@ public class TicketServlet extends HttpServlet {
     }
 
     @Override
+    public void destroy() {
+        System.out.print("MusicianServlet. Closing DB connection...");
+        dao.closeConnection();
+        daoMessaggio.closeConnection();
+        System.out.println("DONE.");
+    }
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         if (dao == null || !dao.isConnected()) {

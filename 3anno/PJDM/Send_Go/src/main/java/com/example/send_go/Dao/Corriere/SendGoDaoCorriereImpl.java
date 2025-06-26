@@ -16,12 +16,11 @@ public class SendGoDaoCorriereImpl implements SendGoDaoCorriere {
             conn = DriverManager.getConnection("jdbc:mysql://" + ip + ":" + port + "/" + dbName
                             + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
                     userName, pwd);
+            System.out.println("Connected to database");
 
         }
         catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Errore generico", e);
-
         }
     }
 
@@ -48,24 +47,76 @@ public class SendGoDaoCorriereImpl implements SendGoDaoCorriere {
         }
     }
 
-    public ListCorriere getCorrieres(){
-        String sql = "SELECT * FROM corriere ORDER BY Tariffa ASC";
+    public int insertCorriere(String nome) {
+        String sql = "INSERT INTO corriere (Nome) VALUES (?)";
 
         try {
-            Statement stmt = conn.createStatement();
-            ResultSet rset = stmt.executeQuery(sql);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, nome);
+
+            int affectedRows = pstmt.executeUpdate();
+
+            return affectedRows;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public ListCorriere getCorrieres() {
+        String sql = "SELECT * FROM corriere ORDER BY Nome";
+
+        try {
+            PreparedStatement  pstmt = conn.prepareStatement(sql);
+            ResultSet rset = pstmt.executeQuery();
             ListCorriere res = new ListCorriere();
 
             while (rset.next()) {
                 int id = rset.getInt("ID");
-                String nome = rset.getString(2);
-                double tariffa = rset.getDouble(3);
+                String nome = rset.getString("Nome");
+                Corriere corriere = new Corriere(id,nome);
+                res.add(corriere);
+            }
+            rset.close();
+            pstmt.close();
+            return res;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+
+
+        public ListCorriere getCorrieres(double pesoTassabile){
+        String sql = """
+                        SELECT c.*, t.valore_tariffa AS Valore_Tariffa 
+                        FROM corriere c 
+                        JOIN tariffa t ON t.corriere_id = c.ID
+                        WHERE t.peso = ?
+                        ORDER BY Valore_Tariffa ASC
+                    """;
+
+        try {
+            PreparedStatement  pstmt = conn.prepareStatement(sql);
+            pstmt.setDouble(1, pesoTassabile);
+            ResultSet rset = pstmt.executeQuery();
+            ListCorriere res = new ListCorriere();
+
+            while (rset.next()) {
+                int id = rset.getInt("ID");
+                String nome = rset.getString("Nome");
+                double tariffa = rset.getDouble("Valore_Tariffa");
 
                 Corriere corriere = new Corriere(id,nome, tariffa);
                 res.add(corriere);
             }
+
             rset.close();
-            stmt.close();
+            pstmt.close();
             return res;
 
         } catch (SQLException e) {

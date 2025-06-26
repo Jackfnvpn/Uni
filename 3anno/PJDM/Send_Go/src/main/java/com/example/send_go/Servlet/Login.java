@@ -22,12 +22,9 @@ public class Login extends  HttpServlet{
         System.out.print("SendGoServlet. Opening DB connection...");
 
 
-        try {
-            dao = new SendGoDaoCustomerImpl(ip, port, dbName, dbUser, dbPass);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ServletException("Errore nella connessione al db", e);
-        }
+
+        dao = new SendGoDaoCustomerImpl(ip, port, dbName, dbUser, dbPass);
+
 
         if (dao==null || !dao.isConnected()){
             throw new ServletException("Errore nella connessione al db");
@@ -35,6 +32,12 @@ public class Login extends  HttpServlet{
 
         System.out.println("Connessione riuscita");
 
+    }
+
+    @Override
+    public void destroy() {
+        dao.closeConnection();
+        System.out.println("DONE.");
     }
 
     @Override

@@ -239,6 +239,58 @@
     </servlet>
 
     <servlet>
+        <display-name>Provincia</display-name>
+        <servlet-name>Provincia</servlet-name>
+        <servlet-class>com.example.send_go.Servlet.ProvinciaServlet</servlet-class>
+        <init-param>
+            <param-name>ip</param-name>
+            <param-value>127.0.0.1</param-value>
+        </init-param>
+        <init-param>
+            <param-name>port</param-name>
+            <param-value>3306</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dbName</param-name>
+            <param-value>Send_Go</param-value>
+        </init-param>
+        <init-param>
+            <param-name>userName</param-name>
+            <param-value>root</param-value>
+        </init-param>
+        <init-param>
+            <param-name>password</param-name>
+            <param-value>Napoli1926!</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet>
+        <display-name>Tariffa</display-name>
+        <servlet-name>Tariffa</servlet-name>
+        <servlet-class>com.example.send_go.Servlet.TariffaServlet</servlet-class>
+        <init-param>
+            <param-name>ip</param-name>
+            <param-value>127.0.0.1</param-value>
+        </init-param>
+        <init-param>
+            <param-name>port</param-name>
+            <param-value>3306</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dbName</param-name>
+            <param-value>Send_Go</param-value>
+        </init-param>
+        <init-param>
+            <param-name>userName</param-name>
+            <param-value>root</param-value>
+        </init-param>
+        <init-param>
+            <param-name>password</param-name>
+            <param-value>Napoli1926!</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet>
         <display-name>CartServlet</display-name>
         <servlet-name>CartServlet</servlet-name>
         <servlet-class>com.example.send_go.Servlet.CarrelloServlet</servlet-class>
@@ -293,6 +345,11 @@
         <url-pattern>/Spedizioni</url-pattern>
     </servlet-mapping>
 
+    <servlet-mapping>
+        <servlet-name>Tariffa</servlet-name>
+        <url-pattern>/Tariffa</url-pattern>
+    </servlet-mapping>
+
 
     <servlet-mapping>
         <servlet-name>TicketServlet</servlet-name>
@@ -312,6 +369,11 @@
     <servlet-mapping>
         <servlet-name>LoginOperatorServlet</servlet-name>
         <url-pattern>/LoginOperator</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Provincia</servlet-name>
+        <url-pattern>/Prov</url-pattern>
     </servlet-mapping>
 
 

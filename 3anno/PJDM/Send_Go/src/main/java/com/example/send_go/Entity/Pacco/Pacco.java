@@ -82,4 +82,9 @@ public class Pacco {
         json.put("altezza", altezza);
         return json;
     }
+
+    public double getPesoTassabile(){
+        double pesoVolumetrico = (lunghezza*larghezza*altezza)/(4950);
+        return Math.max(peso,pesoVolumetrico);
+    }
 }

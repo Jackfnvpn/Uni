@@ -14,7 +14,8 @@ public class Spedizione {
     private LocalDate   dataRitiro;
     private Indirizzo   partenza;
     private Indirizzo   destinazione;
-    private int idOrdine;
+    private int         idOrdine;
+    private double      tariffa_applicata;
 
 
     public Spedizione(Pacco dimensioni, Corriere corriere, LocalDate dataRitiro,
@@ -24,6 +25,7 @@ public class Spedizione {
         this.partenza = partenza;
         this.destinazione = destinazione;
         this.corriere = corriere;
+        //this.tariffa_applicata = tariffa_applicata;
     }
 
     public Spedizione(Pacco dimensioni, Corriere corriere, LocalDate dataRitiro,
@@ -34,7 +36,9 @@ public class Spedizione {
         this.destinazione = destinazione;
         this.corriere = corriere;
         this.idOrdine = idOrdine;
+        //this.tariffa_applicata = tariffa_applicata;
     }
+
 
     public static Spedizione fromJSON(JSONObject json) throws JSONException {
 

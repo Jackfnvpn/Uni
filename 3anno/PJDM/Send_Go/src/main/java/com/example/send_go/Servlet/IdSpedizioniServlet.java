@@ -33,6 +33,14 @@ public class IdSpedizioniServlet extends HttpServlet {
     }
 
     @Override
+    public void destroy() {
+        System.out.print("MusicianServlet. Closing DB connection...");
+        daoSped.closeConnection();
+        
+        System.out.println("DONE.");
+    }
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         if (daoSped == null||!daoSped.isConnected()){
@@ -46,7 +54,18 @@ public class IdSpedizioniServlet extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         int id;
 
-        if (req.getParameter("idCliente")!=null) {
+        String strIdCliente = req.getParameter("idCliente");
+
+        if (strIdCliente!=null) {
+
+            if (strIdCliente.equals("-1")) {
+                resp.setStatus(401);
+                out.write("Accedi o registrati per aggiunegere al carrello la spedizione");
+                out.flush();
+                out.close();
+                return;
+            }
+
             try {
                 id = Integer.parseInt(req.getParameter("idCliente"));
             } catch (NumberFormatException e) {
@@ -59,13 +78,13 @@ public class IdSpedizioniServlet extends HttpServlet {
             coppieId = daoSped.selectIdOrdineSpedizione(id);
 
             if (coppieId==null) {
-                resp.setStatus(500);
+                resp.setStatus(404);
                 out.close();
                 return;
             }
 
             if (coppieId.isEmpty()){
-                resp.setStatus(204);
+                resp.setStatus(404);
                 out.close();
                 return;
             }

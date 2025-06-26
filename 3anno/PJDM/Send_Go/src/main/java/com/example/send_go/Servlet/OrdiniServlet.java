@@ -25,9 +25,7 @@ import java.util.ArrayList;
 
 public class OrdiniServlet extends HttpServlet {
 
-    private SendGoDaoVociCart daoCart;
     private SendGoDaoOrder daoOrder;
-    private SendGoDaoSped daoSped;
 
     public void init() throws ServletException {
         String ip = getInitParameter("ip");
@@ -39,22 +37,20 @@ public class OrdiniServlet extends HttpServlet {
         System.out.print("SendGoServlet. Opening DB connection...");
 
         daoOrder = new SendGoDaoOrderImpl(ip,port,dbName,dbUser,dbPass);
-        daoSped  = new SendGoDaoSpedImpl(ip,port,dbName,dbUser,dbPass);
-        daoCart  = new SendGoDaoVociCartImpl(ip,port,dbName,dbUser,dbPass);
 
-        if (daoCart==null || daoOrder==null || daoSped==null || !daoCart.isConnected()||!daoOrder.isConnected()||!daoSped.isConnected()) {
-            throw new ServletException("Errore nella connessione col db");
+        if (daoOrder == null || !daoOrder.isConnected()) {
+
+            throw new ServletException("connessione al db fallita") ;
         }
 
         System.out.println("Connessione riuscita");
-
 
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        if (daoCart==null || daoOrder==null || daoSped==null || !daoCart.isConnected()||!daoOrder.isConnected()||!daoSped.isConnected()) {
+        if (daoOrder == null || !daoOrder.isConnected()) {
             response.setStatus(500);
             return;
         }
@@ -79,7 +75,7 @@ public class OrdiniServlet extends HttpServlet {
             order = daoOrder.getListOrder(id);
 
             if (order == null) {
-                response.setStatus(500);
+                response.setStatus(404);
                 return;
             } else if (order.isEmpty()) {
                 response.setStatus(404);
@@ -104,9 +100,18 @@ public class OrdiniServlet extends HttpServlet {
     }
 
     @Override
+    public void destroy() {
+        System.out.print("MusicianServlet. Closing DB connection...");
+        daoOrder.closeConnection();
+
+
+        System.out.println("DONE.");
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        if (daoCart==null || daoOrder==null || daoSped==null || !daoCart.isConnected()||!daoOrder.isConnected()||!daoSped.isConnected()) {
+        if (daoOrder == null || !daoOrder.isConnected()) {
             resp.setStatus(500);
             return;
         }
@@ -114,78 +119,60 @@ public class OrdiniServlet extends HttpServlet {
         PrintWriter out = resp.getWriter();
         resp.setContentType("text/plain");
         resp.setCharacterEncoding("UTF-8");
-        ListSpedizione spedizioni;
-        int idCliente;
-        String jsonString = req.getParameter("json");
+
         try {
-            if (jsonString != null && req.getParameter("idCliente") != null) {
+            String jsonString = req.getParameter("json");
+            String idClienteStr = req.getParameter("idCliente");
 
-                System.out.println(jsonString);
-
-                JSONObject jsonObj = new JSONObject(jsonString);
-                try {
-                    idCliente = Integer.parseInt(req.getParameter("idCliente"));
-                } catch (NumberFormatException e) {
-                    resp.setStatus(400);
-                    out.write("L'id del cliente deve essere un intero");
-                    out.flush();
-                    out.close();
-                    return;
-                }
-
-                double totale = jsonObj.getInt("totale");
-                JSONArray array = jsonObj.getJSONArray("spedizioni");
-
-                try {
-                    spedizioni = ListSpedizione.fromJSONArray(array);
-                } catch (JSONException e) {
-                    resp.setStatus(400);
-                    out.write(e.getMessage());
-                    out.flush();
-                    out.close();
-                    return;
-                }
-
-                Ordine ordine = new Ordine(totale, idCliente);
-                int idOrdineGenerato = daoOrder.insertOrdine(ordine, idCliente);
-
-                if (idOrdineGenerato <= 0) {
-                    resp.setStatus(500);
-                    return;
-                }
-
-                for (Spedizione s : spedizioni) {
-                    s.setIdOrdine(idOrdineGenerato);
-                    int resSped = daoSped.insertSpedizioni(s);
-                    if (resSped <= 0) {
-                        resp.setStatus(500);
-                        return;
-                    }
-                }
-
-                int resEl = daoCart.clearCart(idCliente);
-
-                if (resEl < 0) {
-                    resp.setStatus(500);
-                    return;
-                }
-                resp.setStatus(200);
-                out.flush();
-            } else {
+            if (jsonString == null || idClienteStr == null) {
                 resp.setStatus(400);
                 out.write("Campi mancanti");
-                out.flush();
-                out.close();
                 return;
             }
-        }
-        catch (JSONException e) {
+
+            int idCliente;
+            try {
+                idCliente = Integer.parseInt(idClienteStr);
+            } catch (NumberFormatException e) {
+                resp.setStatus(400);
+                out.write("L'id del cliente deve essere un intero");
+                return;
+            }
+
+            JSONObject jsonObj = new JSONObject(jsonString);
+
+            System.out.println(jsonObj);
+
+            double totale = jsonObj.getDouble("totale");
+            JSONArray array = jsonObj.getJSONArray("spedizioni");
+
+            ArrayList<Spedizione> spedizioni;
+            try {
+                spedizioni = ListSpedizione.fromJSONArray(array);
+            } catch (JSONException e) {
+                resp.setStatus(400);
+                out.write("Errore nel parsing delle spedizioni: " + e.getMessage());
+                return;
+            }
+
+            Ordine ordine = new Ordine(totale, idCliente);
+
+            boolean success = daoOrder.creaOrdineCompleto(ordine, spedizioni, idCliente);
+
+            if (success) {
+                resp.setStatus(200);
+            } else {
+                resp.setStatus(500);
+            }
+
+        } catch (JSONException e) {
             e.printStackTrace();
             resp.setStatus(400);
-            out.write(e.getMessage());
+            out.write("Errore JSON: " + e.getMessage());
+        } finally {
             out.flush();
             out.close();
-            return;
         }
     }
+
 }

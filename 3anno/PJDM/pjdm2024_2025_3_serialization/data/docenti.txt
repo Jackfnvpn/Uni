@@ -1,0 +1,4 @@
+pierpaolo loreti,PW,6
+danilo croce,PJDM,6
+lorenzo bracciale,FINF,9
+giuseppe bianchi,IS,9

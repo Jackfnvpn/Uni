@@ -69,6 +69,8 @@ public class Customer {
         return itemJson.toString();
     }
 
+
+
     public static Customer fromJson(JSONObject jsonObject) throws JSONException {
 
         if (!jsonObject.has("nome") || !jsonObject.has("cognome") || !jsonObject.has("telefono")
@@ -79,6 +81,18 @@ public class Customer {
 
         String email = jsonObject.getString("email");
         String telefono = jsonObject.getString("telefono");
+        String nome = jsonObject.getString("nome");
+        String cognome = jsonObject.getString("cognome");
+
+        String regex = "^[A-Za-zÀ-ÖØ-öø-ÿ]+( [A-Za-zÀ-ÖØ-öø-ÿ]+)*$";
+        if (!nome.matches(regex)) {
+            throw new JSONException("Il nome contiene caratteri non validi");
+        }
+
+        if (!cognome.matches(regex)) {
+            throw new JSONException("Il cognome contiene caratteri non validi");
+        }
+
 
         if (!email.contains("@")){
             throw new JSONException("Formato email non valido");

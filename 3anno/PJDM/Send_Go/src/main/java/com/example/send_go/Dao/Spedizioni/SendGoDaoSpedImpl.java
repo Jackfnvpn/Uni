@@ -37,7 +37,7 @@ public class SendGoDaoSpedImpl implements SendGoDaoSped {
         ListSpedizione lista = new ListSpedizione();
         String sql =
                 """
-                    SELECT s.*,c.Nome AS Nome_corriere, c.Tariffa AS Tariffa_corriere 
+                    SELECT s.*,c.Nome AS Nome_corriere
                     FROM spedizione s 
                     JOIN ordine o ON o.N_ordine=s.N_ordine 
                     JOIN corriere c ON s.N_corriere=c.ID
@@ -78,7 +78,7 @@ public class SendGoDaoSpedImpl implements SendGoDaoSped {
                 Corriere corriere = new Corriere(
                         rs.getInt("N_corriere"),
                         rs.getString("Nome_corriere"),
-                        rs.getDouble("Tariffa_corriere")
+                        rs.getDouble("Tariffa_applicata")
                 );
 
                 LocalDate dataRitiro = rs.getDate("data_ritiro").toLocalDate();
@@ -147,59 +147,6 @@ public class SendGoDaoSpedImpl implements SendGoDaoSped {
         }
 
         return listaCoppie;
-    }
-
-    @Override
-    public int insertSpedizioni(Spedizione s) {
-        String sql = """
-            INSERT INTO spedizione (
-                Nome_Partenza, Cognome_Partenza,
-                Nome_Destinazione, Cognome_Destinazione,
-                data_ritiro,
-                Cap_Mittenza, Località_Mittenza, Provincia_Mittenza, Indirizzo_Mittenza,
-                Cap_Destinazione, Località_Destinazione, Provincia_Destinazione, Indirizzo_Destinazione,
-                Peso, Altezza, Lunghezza, Larghezza,
-                N_ordine, N_corriere
-            )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-         """;
-
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-
-            ps.setString(1, s.getPartenza().getNome());
-            ps.setString(2, s.getPartenza().getCognome());
-
-            ps.setString(3, s.getDestinazione().getNome());
-            ps.setString(4, s.getDestinazione().getCognome());
-
-            ps.setDate(5, java.sql.Date.valueOf(s.getDataRitiro()));
-
-            ps.setString(6, s.getPartenza().getCap());
-            ps.setString(7, s.getPartenza().getCitta());
-            ps.setString(8, s.getPartenza().getProvincia());
-            ps.setString(9, s.getPartenza().getIndirizzo());
-
-            ps.setString(10, s.getDestinazione().getCap());
-            ps.setString(11, s.getDestinazione().getCitta());
-            ps.setString(12, s.getDestinazione().getProvincia());
-            ps.setString(13, s.getDestinazione().getIndirizzo());
-
-            ps.setDouble(14, s.getDimensioniPacco().getPeso());
-            ps.setDouble(15, s.getDimensioniPacco().getAltezza());
-            ps.setDouble(16, s.getDimensioniPacco().getLunghezza());
-            ps.setDouble(17, s.getDimensioniPacco().getLarghezza());
-
-            ps.setInt(18, s.getIdOrdine());
-            ps.setInt(19, s.getCorriere().getIdCorriere());
-
-
-            return ps.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return -1;
-        }
     }
 }
 

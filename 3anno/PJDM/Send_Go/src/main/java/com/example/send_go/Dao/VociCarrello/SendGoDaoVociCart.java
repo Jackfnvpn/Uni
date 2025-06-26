@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public interface SendGoDaoVociCart {
     public int insertVociCart(VociCarrello vociCarrello,int idCliente);
     public ListCarello getListCarrello(int idCliente);
-    public int clearCart(int idCliente);
     public void closeConnection();
     public boolean isConnected();
+    public boolean deleteVoce(int id);
 }

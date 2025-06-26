@@ -55,15 +55,15 @@ public class SendGoDaoOperatorImpl implements SendGoDaoOperator{
 
     @Override
     public int insertCustomer(Customer customer) {
-        String sql = "INSERT INTO operatore(Nome,Cognome,Numero_Telefono,Email,Password) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO operatore(Nome,Cognome,Email,Password,Telefono) VALUES(?,?,?,?,?)";
 
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, customer.getNome());
             pstmt.setString(2, customer.getCognome());
-            pstmt.setString(3, customer.getNumeroTelefono());
-            pstmt.setString(4,customer.getEmail());
-            pstmt.setString(5, customer.getPassword());
+            pstmt.setString(5, customer.getNumeroTelefono());
+            pstmt.setString(3,customer.getEmail());
+            pstmt.setString(4, customer.getPassword());
 
             int affectedRows = pstmt.executeUpdate();
 

@@ -31,6 +31,14 @@ public class SpedizioniServlet extends HttpServlet {
         System.out.println("Connessione riuscita");
 
     }
+
+    @Override
+    public void destroy() {
+        System.out.print("MusicianServlet. Closing DB connection...");
+        daoSped.closeConnection();
+        System.out.println("DONE.");
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ListSpedizione listaSpedizioni;
@@ -53,13 +61,13 @@ public class SpedizioniServlet extends HttpServlet {
             listaSpedizioni=daoSped.getListSpedizioni(id);
 
             if (listaSpedizioni==null){
-                response.setStatus(500);
+                response.setStatus(404);
                 out.close();
                 return;
             }
 
             if (listaSpedizioni.isEmpty()){
-                response.setStatus(204);
+                response.setStatus(404);
                 out.close();
                 return;
             }
